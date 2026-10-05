@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De 100 niños uruguayos</title>
+<meta name="description" content="Pobreza infantil en Uruguay con microdatos de la Encuesta Continua de Hogares (INE), 2024–2025.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Pobreza infantil en Uruguay · ECH 2024–2025</p>
+  <h1>De 100 niños de <span id="hero-tramo">0 a 5 años</span>, <span class="hero-num" id="hero-num">32</span> viven en hogares pobres.</h1>
+  <p class="lede">Uruguay tiene uno de los niveles de pobreza más bajos de América Latina, pero está muy concentrada en los más chicos. Cuanto más joven sos, más probable es que vivas bajo la línea de pobreza.</p>
+
+  <div class="controls" role="group" aria-label="Filtros">
+    <div class="seg" id="tramo-seg" role="radiogroup" aria-label="Tramo de edad"></div>
+    <div class="seg" id="anio-seg-hero" role="radiogroup" aria-label="Año"></div>
+  </div>
+
+  <div class="dots-wrap">
+    <svg id="dots" role="img" aria-label="Grilla de 100 personas"></svg>
+    <ul class="legend">
+      <li><span class="sw sw-pobre"></span>En hogar pobre</li>
+      <li><span class="sw sw-no"></span>No pobre</li>
+    </ul>
+  </div>
+</header>
+
+<main>
+
+<section>
+  <h2>Cinco veces más que un jubilado</h2>
+  <p>Un niño de 0 a 5 años tiene unas <strong id="ratio">5</strong> veces más probabilidad de ser pobre que una persona de 65 años o más. Una de las razones: casi todos los mayores tienen ingresos fijos por jubilaciones y pensiones, mientras que los niños dependen de lo que ganen sus familias.</p>
+  <div class="card">
+    <div class="card-head">
+      <h3>% de personas en hogares pobres, por tramo de edad</h3>
+      <ul class="legend" id="legend-tramo"></ul>
+    </div>
+    <div id="chart-tramo" class="chart"></div>
+  </div>
+</section>
+
+<section>
+  <h2>La pobreza baja con cada año de vida</h2>
+  <p>Edad por edad, la curva cae casi sin interrupciones: arranca cerca del 40% en el primer año de vida y baja a menos del 5% a los 80.</p>
+  <div class="card">
+    <div class="card-head">
+      <h3>% de personas en hogares pobres, por edad simple</h3>
+      <ul class="legend" id="legend-edad"></ul>
+    </div>
+    <div id="chart-edad" class="chart"></div>
+    <p class="note">Promedio móvil de 3 años de edad, para suavizar el ruido de muestra.</p>
+  </div>
+</section>
+
+<section>
+  <h2>El norte, más golpeado</h2>
+  <p>La pobreza infantil (0 a 17 años) varía mucho entre departamentos. Los departamentos de frontera con Brasil, como Artigas, Rivera y Cerro Largo, están entre los más altos.</p>
+  <div class="card">
+    <div class="card-head">
+      <h3>% de niños y adolescentes (0–17) en hogares pobres</h3>
+      <div class="seg" id="anio-seg-mapa" role="radiogroup" aria-label="Año"></div>
+    </div>
+    <div class="map-grid">
+      <div id="map" class="chart"></div>
+      <div id="ranking" class="ranking"></div>
+    </div>
+    <div id="map-legend" class="map-legend"></div>
+    <p class="note">Las muestras por departamento son chicas (entre 100 y 400 niños en la mayoría), así que los cambios de un año a otro dentro de un mismo departamento hay que leerlos con cuidado. Los marcados con <span class="warn">*</span> tienen menos de 250 casos.</p>
+  </div>
+</section>
+
+<section class="method">
+  <h2>Cómo se hizo</h2>
+  <ul>
+    <li><strong>Fuente:</strong> microdatos de la Encuesta Continua de Hogares (ECH) del INE, años 2024 y 2025 (implantación). Son unas 55.000 personas por año.</li>
+    <li><strong>Pobreza:</strong> variable <code>pobre17</code>, pobreza por ingresos con la metodología INE 2017.</li>
+    <li><strong>Ponderación:</strong> todas las tasas usan el ponderador anual <code>W_ANO</code>, para que la muestra represente a la población del país.</li>
+    <li><strong>Pipeline:</strong> Databricks con arquitectura medallion (bronze → silver → gold). Los notebooks están en el repositorio.</li>
+    <li><strong>Ojo:</strong> la ECH 2025 corresponde a una etapa de implantación. La comparación entre 2024 y 2025 es indicativa, no definitiva.</li>
+  </ul>
+  <p><a href="https://github.com/FacuGeisinger2003/pobreza-infantil-uy">Ver el código en GitHub →</a></p>
+</section>
+
+</main>
+
+<footer>Proyecto de Facundo Geisinger · Datos: INE Uruguay</footer>
+
+<div id="tip" class="tip" role="tooltip" hidden></div>
+
+<script src="assets/d3.min.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
