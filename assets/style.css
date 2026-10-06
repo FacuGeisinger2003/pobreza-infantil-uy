@@ -175,3 +175,33 @@ details.sources li { margin-bottom: 6px; }
 .legend-left { justify-content: flex-start; margin: 0 0 8px; }
 .sw-dash { width: 16px; height: 0; border-top: 2px dashed; border-radius: 0; vertical-align: 3px; background: none !important; }
 .stat .d { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+/* ---- semáforo ---- */
+:root { --good: #0ca30c; --warn-s: #fab219; --bad: #d03b3b; --good-bg: rgba(12,163,12,.10); --warn-bg: rgba(250,178,25,.16); --bad-bg: rgba(208,59,59,.10); }
+.pill { display: inline-block; font-size: 13px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.pill-good { background: var(--good-bg); color: var(--good); }
+.pill-warn { background: var(--warn-bg); color: #9a6a00; }
+.pill-bad  { background: var(--bad-bg); color: var(--bad); }
+:root[data-theme="dark"] .pill-warn { color: var(--warn-s); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pill-warn { color: var(--warn-s); } }
+.score { font-size: 20px; font-weight: 600; color: var(--ink) !important; margin: 4px 0 16px !important; }
+.score .pill { font-size: 18px; padding: 2px 12px; }
+.semaforo { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin-bottom: 40px; }
+.sema-card {
+  all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; gap: 8px;
+  background: var(--surface); border: 1px solid var(--border); border-left: 6px solid var(--c); border-radius: 14px; padding: 14px 16px;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.sema-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+.sema-card:focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; }
+.sema-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.sema-name { font-size: 15px; font-weight: 600; color: var(--ink); }
+.sema-badge { font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--bg); color: var(--c); white-space: nowrap; }
+.sema-val { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); line-height: 1.1; }
+.sema-val small { font-size: 13px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+.sema-dots { display: flex; gap: 4px; align-items: center; }
+.sema-dots span { width: 100%; height: 6px; border-radius: 3px; background: var(--grid); }
+.sema-dots span.on { background: var(--c); }
+.sema-vs { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 13px; color: var(--ink-2); }
+.sema-vs b { font-weight: 600; }
+.sema-vs .ok { color: var(--good); } .sema-vs .no { color: var(--bad); }

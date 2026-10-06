@@ -41,21 +41,6 @@
   }
   const hideTip = () => (tip.hidden = true);
 
-  // ---------- stat tiles economía ----------
-  function tile(indId, label) {
-    const ind = IND.find((i) => i.id === indId);
-    const u = ultimo(indId, "URY"), l = ultimo(indId, "LCN"), o = ultimo(indId, "OED");
-    const f = fmtOf(ind);
-    const refs = [l && `Am. Latina ${f(l.valor)}`, o && `OCDE ${f(o.valor)}`].filter(Boolean).join(" · ");
-    return `<div class="stat"><div class="v">${f(u.valor)}</div><div class="l">${label} (${u.anio})</div><div class="d">${refs}</div></div>`;
-  }
-  document.getElementById("eco-stats").innerHTML = [
-    tile("NY.GDP.PCAP.PP.KD", "PIB per cápita, PPA"),
-    tile("NY.GDP.MKTP.KD.ZG", "Crecimiento del PIB"),
-    tile("FP.CPI.TOTL.ZG", "Inflación"),
-    tile("SL.UEM.TOTL.ZS", "Desempleo"),
-  ].join("");
-
   // ---------- picker de indicador ----------
   const picker = document.getElementById("ind-picker");
   ["Economía", "Social"].forEach((g) => {
@@ -79,6 +64,68 @@
     paisSeg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.id === state.vs)));
   }
 
+
+  // ---------- semáforo ----------
+  function rankingPaises(ind) {
+    const maxAnio = d3.max(rows.filter((r) => r.indicador === ind.id), (r) => r.anio);
+    const list = PAISES.map((iso) => ({ iso3: iso, ...ultimo(ind.id, iso) }))
+      .filter((r) => r.valor !== undefined && r.anio >= maxAnio - MAX_ANTIG);
+    list.sort((a, b) => (ind.better === "high" ? b.valor - a.valor : a.valor - b.valor));
+    return list;
+  }
+  function estado(pos, n) {
+    if (pos <= 2) return { k: "good", label: "Bien", icon: "✓" };
+    if (pos > n - 2) return { k: "bad", label: "Mal", icon: "✗" };
+    return { k: "warn", label: "Regular", icon: "!" };
+  }
+  const isDark = () => document.documentElement.dataset.theme === "dark" ||
+    (document.documentElement.dataset.theme !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+  function colores(k) {
+    if (k === "good") return { c: "#0ca30c", t: isDark() ? "#0ca30c" : "#0a7d0a", bg: "rgba(12,163,12,.12)" };
+    if (k === "bad") return { c: "#d03b3b", t: isDark() ? "#e66767" : "#c03030", bg: "rgba(208,59,59,.12)" };
+    return { c: "#fab219", t: isDark() ? "#fab219" : "#8a5d00", bg: "rgba(250,178,25,.18)" };
+  }
+  function renderSemaforo() {
+    const cards = IND.map((ind) => {
+      const list = rankingPaises(ind);
+      const pos = list.findIndex((r) => r.iso3 === "URY") + 1;
+      const u = list[pos - 1];
+      const e = estado(pos, list.length);
+      const mejor = (a, b) => (ind.better === "high" ? a > b : a < b);
+      const refs = REFS.map((iso) => {
+        const r = ultimo(ind.id, iso);
+        const maxAnio = d3.max(rows.filter((x) => x.indicador === ind.id), (x) => x.anio);
+        if (!r || r.anio < maxAnio - MAX_ANTIG) return "";
+        const ok = mejor(u.valor, r.valor);
+        return `<span>vs ${NOMBRE[iso]}: <b class="${ok ? "ok" : "no"}">${ok ? "✓ mejor" : "✗ peor"}</b></span>`;
+      }).join("");
+      return { ind, pos, n: list.length, u, e, refs };
+    });
+    const cuenta = (k) => cards.filter((c) => c.e.k === k).length;
+    document.getElementById("score").innerHTML =
+      `De ${cards.length} indicadores, Uruguay está <span class="pill pill-good">${cuenta("good")} en verde</span> ` +
+      `<span class="pill pill-warn">${cuenta("warn")} en amarillo</span> <span class="pill pill-bad">${cuenta("bad")} en rojo</span>`;
+
+    const host = document.getElementById("semaforo");
+    host.innerHTML = cards.map(({ ind, pos, n, u, e, refs }) => {
+      const col = colores(e.k);
+      const dots = Array.from({ length: n }, (_, i) => `<span class="${i + 1 === pos ? "on" : ""}"></span>`).join("");
+      return `<button type="button" class="sema-card" data-id="${ind.id}" style="--c:${col.c};--bg:${col.bg}"
+          aria-label="${ind.label}: Uruguay ${pos}º de ${n}, ${e.label}">
+        <div class="sema-top"><span class="sema-name">${ind.label}</span>
+          <span class="sema-badge" style="color:${col.t}">${e.icon} ${pos}º de ${n}</span></div>
+        <div class="sema-val">${fmtOf(ind)(u.valor)} <small>${u.anio}</small></div>
+        <div class="sema-dots" title="Puesto de Uruguay: ${pos}º de ${n} (izquierda = mejor)">${dots}</div>
+        <div class="sema-vs">${refs}</div>
+      </button>`;
+    }).join("");
+    host.querySelectorAll(".sema-card").forEach((b) => b.addEventListener("click", () => {
+      state.ind = b.dataset.id; syncButtons(); render();
+      document.getElementById("detalle").scrollIntoView({ behavior: "smooth", block: "start" });
+    }));
+    return cards;
+  }
+
   // ---------- veredicto automático ----------
   function veredicto(ind, ranking) {
     const f = fmtOf(ind);
@@ -87,8 +134,9 @@
     const n = paises.length;
     const u = paises.find((r) => r.iso3 === "URY");
     const mejor = (a, b) => (ind.better === "high" ? a > b : a < b);
+    const col = colores(estado(pos, n).k).t;
     let txt = `En <b>${ind.label.toLowerCase()}</b>, Uruguay (${f(u.valor)}) está `;
-    txt += pos === 1 ? "<b>primero</b>" : pos === n ? `<b>último</b>` : `<b>${pos}º</b>`;
+    txt += `<b style="color:${col}">${pos === 1 ? "primero" : pos === n ? "último" : pos + "º"}</b>`;
     txt += ` entre los ${n} países del grupo.`;
     const l = ranking.find((r) => r.iso3 === "LCN"), o = ranking.find((r) => r.iso3 === "OED");
     if (l) txt += ` ${mejor(u.valor, l.valor) ? "Mejor" : "Peor"} que el promedio de América Latina (${f(l.valor)})`;
@@ -118,7 +166,8 @@
     const vmin = Math.min(0, d3.min(list, (d) => d.valor));
     const x = d3.scaleLinear().domain([vmin, vmax]).nice().range([m.l, W - m.r]);
     const y = d3.scaleBand().domain(list.map((d) => d.iso3)).range([m.t, H - m.b]).paddingInner(0.3);
-    const color = (iso) => (iso === "URY" ? css("--s2") : REFS.includes(iso) ? css("--ref") : css("--s1"));
+    const est = estado(list.filter((r) => PAISES.includes(r.iso3)).findIndex((r) => r.iso3 === "URY") + 1, list.filter((r) => PAISES.includes(r.iso3)).length);
+    const color = (iso) => (iso === "URY" ? colores(est.k).c : REFS.includes(iso) ? css("--ref") : css("--s1"));
 
     const g = svg.selectAll("g").data(list).join("g").attr("transform", (d) => `translate(0,${y(d.iso3)})`);
     g.append("text").attr("class", "lbl").attr("x", m.l - 8).attr("y", y.bandwidth() / 2).attr("dy", "0.35em")
@@ -220,7 +269,7 @@
       .on("pointerleave", () => { cross.attr("opacity", 0); dots.attr("opacity", 0); hideTip(); });
   }
 
-  function render() { renderRank(); renderEvo(); }
+  function render() { renderSemaforo(); renderRank(); renderEvo(); }
   syncButtons();
   render();
   let raf;
