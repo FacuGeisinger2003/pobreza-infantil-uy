@@ -13,6 +13,7 @@
   --pobre: #eb6834;
   --no-pobre: #e1e0d9;
   --warn: #d03b3b;
+  --ref: #b5b3ab;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -30,6 +31,7 @@
     --pobre: #d95926;
     --no-pobre: #383835;
     --warn: #e66767;
+    --ref: #6f6e68;
   }
 }
 :root[data-theme="dark"] {
@@ -37,7 +39,7 @@
   --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7;
   --muted: #898781; --grid: #2c2c2a; --axis: #383835;
   --border: rgba(255, 255, 255, 0.10);
-  --s1: #3987e5; --s2: #d95926; --pobre: #d95926; --no-pobre: #383835; --warn: #e66767;
+  --s1: #3987e5; --s2: #d95926; --pobre: #d95926; --no-pobre: #383835; --warn: #e66767; --ref: #6f6e68;
 }
 
 * { box-sizing: border-box; }
@@ -154,3 +156,22 @@ details.sources { margin-top: 24px; font-size: 14px; color: var(--ink-2); }
 details.sources summary { cursor: pointer; color: var(--ink); font-weight: 600; }
 details.sources ul { padding-left: 20px; margin: 10px 0 0; }
 details.sources li { margin-bottom: 6px; }
+
+/* ---- comparador regional ---- */
+.picker { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 16px; }
+.picker button {
+  font: inherit; font-size: 14px; color: var(--ink-2); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; cursor: pointer; min-height: 32px;
+}
+.picker button:hover { border-color: var(--ink-2); }
+.picker button[aria-checked="true"] { background: var(--ink); color: var(--page); border-color: var(--ink); }
+.picker .grp { width: 100%; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 4px; }
+.verdict { font-size: 17px; color: var(--ink) !important; max-width: 760px; min-height: 2.6em; }
+.verdict b { color: var(--s2); }
+.cmp-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: 16px; align-items: start; }
+@media (max-width: 760px) { .cmp-grid { grid-template-columns: 1fr; } }
+.seg-wrap { margin-bottom: 10px; }
+.seg-wrap button { padding: 4px 10px; font-size: 13px; min-height: 28px; }
+.legend-left { justify-content: flex-start; margin: 0 0 8px; }
+.sw-dash { width: 16px; height: 0; border-top: 2px dashed; border-radius: 0; vertical-align: 3px; background: none !important; }
+.stat .d { font-size: 13px; color: var(--muted); margin-top: 6px; }

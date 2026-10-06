@@ -11,6 +11,7 @@ Investigación personal con **datos oficiales** sobre problemas de Uruguay, proc
 | 01 | Pobreza infantil | ECH 2024–2025 (INE), microdatos | `01_ingesta`, `02_silver`, `03_gold` |
 | 02 | Homicidios y cárceles | Ministerio del Interior, datos abiertos | `04_seguridad` |
 | 03 | Natalidad | MSP, estadísticas vitales | `06_demografia` |
+| 04 | Uruguay frente a la región | Banco Mundial (WDI): FMI, OIT, UNODC, UNESCO | `07_comparacion_regional` |
 
 ## Hallazgos
 
@@ -18,6 +19,8 @@ Investigación personal con **datos oficiales** sobre problemas de Uruguay, proc
 - Los homicidios por **conflictos entre criminales** pasaron de 77 (2013) a 215 (2025). Hoy son el 57% del total.
 - La población presa pasó de **6.757** (2003) a **16.107** (2024).
 - Los nacimientos cayeron **39%** entre 2015 y 2024.
+- El desempleo juvenil uruguayo (**25,2%**, 2025) es el más alto entre Argentina, Brasil, Chile, Paraguay, Costa Rica y México, y duplica al de la OCDE.
+- Solo el **35%** de los uruguayos de 25+ años terminó la secundaria, el valor más bajo del grupo.
 
 ## Pipeline
 

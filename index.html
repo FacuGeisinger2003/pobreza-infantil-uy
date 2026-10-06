@@ -17,6 +17,7 @@
     <a href="#pobreza"><span>01</span>Pobreza infantil</a>
     <a href="#seguridad"><span>02</span>Homicidios y cárceles</a>
     <a href="#natalidad"><span>03</span>Natalidad</a>
+    <a href="#region"><span>04</span>Uruguay frente a la región</a>
   </nav>
 </header>
 
@@ -161,6 +162,49 @@
   </details>
 </article>
 
+<!-- ============ 04 COMPARACION REGIONAL ============ -->
+<article id="region" class="chapter">
+  <p class="chapter-num">04 · Uruguay frente a la región</p>
+  <h2 class="chapter-title">Mejor que la región no es lo mismo que estar bien.</h2>
+  <p class="lede">Uruguay suele compararse con América Latina, y en varios indicadores sale primero. Pero al medir a todos los países con la misma fuente, aparecen indicadores donde Uruguay está último del grupo. Y en cuatro de los cinco indicadores que tienen dato de la OCDE, queda por detrás.</p>
+
+  <h3 class="sec-title">La economía uruguaya hoy</h3>
+  <div class="stats" id="eco-stats"></div>
+
+  <section>
+    <h3 class="sec-title">Compará indicador por indicador</h3>
+    <p>Elegí un indicador. A la izquierda está el último dato de cada país y a la derecha la evolución desde el año 2000. Elegí también un país para compararlo directo con Uruguay.</p>
+    <div class="picker" id="ind-picker" role="radiogroup" aria-label="Indicador"></div>
+    <p class="verdict" id="verdict"></p>
+    <div class="cmp-grid">
+      <div class="card">
+        <div class="card-head"><h4 id="rank-title">Último dato</h4></div>
+        <div id="chart-rank" class="chart"></div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h4 id="evo-title">Evolución</h4>
+        </div>
+        <div class="seg seg-wrap" id="pais-seg" role="radiogroup" aria-label="Comparar con"></div>
+        <ul class="legend legend-left" id="legend-evo"></ul>
+        <div id="chart-evo" class="chart"></div>
+        <p class="note" id="evo-note"></p>
+      </div>
+    </div>
+    <p class="note" id="ind-source"></p>
+  </section>
+
+  <details class="sources">
+    <summary>Fuente y metodología</summary>
+    <ul>
+      <li>Todos los indicadores salen de la API del Banco Mundial (World Development Indicators). Así todos los países se miden con la misma definición. Las fuentes originales son el FMI, la OIT, la UNODC, la UNESCO y la Poverty and Inequality Platform del Banco Mundial.</li>
+      <li>El desempleo es la estimación modelada de la OIT, que puede diferir unas décimas del dato del INE. La pobreza usa la línea internacional de US$ 8,30 por día (PPA 2021), que no es la línea oficial uruguaya.</li>
+      <li>La OCDE no tiene dato reciente de homicidios en esta base, por eso no aparece en ese indicador. Argentina no tiene inflación oficial informada antes de 2018.</li>
+      <li>Notebook: <code>07_comparacion_regional</code>.</li>
+    </ul>
+  </details>
+</article>
+
 <section class="method">
   <h2>Cómo se hizo</h2>
   <p>Cada tema tiene su notebook en Databricks, con arquitectura medallion: los datos crudos se guardan en <strong>bronze</strong>, se limpian en <strong>silver</strong> y se agregan en <strong>gold</strong>. Las tablas gold se exportan a JSON y esta página las dibuja con D3.js.</p>
@@ -169,12 +213,13 @@
 
 </main>
 
-<footer>Proyecto de Facundo Geisinger · Datos: INE, Ministerio del Interior, MSP</footer>
+<footer>Proyecto de Facundo Geisinger · Datos: INE, Ministerio del Interior, MSP, Banco Mundial</footer>
 
 <div id="tip" class="tip" role="tooltip" hidden></div>
 
 <script src="assets/d3.min.js"></script>
 <script src="assets/app.js"></script>
 <script src="assets/temas.js"></script>
+<script src="assets/comparador.js"></script>
 </body>
 </html>
