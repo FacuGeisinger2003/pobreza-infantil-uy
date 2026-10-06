@@ -62,7 +62,7 @@
     document.getElementById("hero-num").textContent = n;
     document.getElementById("hero-tramo").textContent = state.tramo === "18-64" || state.tramo === "65+"
       ? "personas de " + TRAMO_LABEL[state.tramo] : TRAMO_LABEL[state.tramo];
-    document.querySelector("h1").firstChild.textContent = (state.tramo === "18-64" || state.tramo === "65+") ? "De 100 " : "De 100 niños de ";
+    document.getElementById("pobreza-title").firstChild.textContent = (state.tramo === "18-64" || state.tramo === "65+") ? "De 100 " : "De 100 niños de ";
     dots.attr("fill", (i) => (i < n ? css("--pobre") : css("--no-pobre")));
     dotsSvg.attr("aria-label", `${n} de cada 100 ${TRAMO_LABEL[state.tramo]} viven en hogares pobres (${state.anioHero}). Valor exacto: ${fmt(row.pct_pobreza)}.`);
   }
