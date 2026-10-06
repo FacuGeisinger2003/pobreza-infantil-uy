@@ -27,15 +27,13 @@ uruguay-en-datos/
 ├── index.html              # sitio web (estático)
 ├── assets/                 # JS (D3.js), CSS
 ├── data/                   # tablas gold exportadas a JSON + fuentes.json
-├── notebooks/              # pipeline en Databricks
-│   ├── 00_setup            # schema y volume en Unity Catalog
-│   ├── 01_pobreza_bronze   # carga de la ECH
-│   ├── 02_pobreza_silver   # limpieza y selección de variables
-│   ├── 03_pobreza_gold     # tasas de pobreza por edad y departamento
-│   ├── 04_seguridad        # homicidios y cárceles (Ministerio del Interior)
-│   ├── 05_educacion        # egreso, ni estudian ni trabajan, desempleo (ECH)
-│   ├── 06_demografia       # nacimientos (MSP)
-│   └── 07_comparacion_regional  # 9 indicadores del Banco Mundial
+├── notebooks/              # pipeline en Databricks (uno por capítulo)
+│   ├── 00_setup                 # schema y volume en Unity Catalog
+│   ├── 01_pobreza               # ECH: pobreza por edad y departamento
+│   ├── 02_educacion             # ECH: egreso, ni estudian ni trabajan, desempleo
+│   ├── 03_seguridad             # Ministerio del Interior: homicidios y cárceles
+│   ├── 04_demografia            # MSP: nacimientos
+│   └── 05_comparacion_regional  # Banco Mundial: 9 indicadores, 7 países
 └── docs/                   # capturas
 ```
 
