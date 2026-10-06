@@ -1,0 +1,37 @@
+{
+  "ech2024": {
+    "institucion": "INE",
+    "nombre": "Encuesta Continua de Hogares 2024, microdatos",
+    "url": "https://www.gub.uy/instituto-nacional-estadistica/comunicacion/publicaciones/microdatos-encuesta-continua-hogares-ech-2024"
+  },
+  "ech2025": {
+    "institucion": "INE",
+    "nombre": "Encuesta Continua de Hogares 2025 (implantación), microdatos",
+    "url": "https://www.gub.uy/instituto-nacional-estadistica/politicas-y-gestion/microdatos-metadatos-cuestionarios-manuales-ech-edicion"
+  },
+  "mi_homicidios": {
+    "institucion": "Ministerio del Interior",
+    "nombre": "Homicidios dolosos consumados (datos abiertos)",
+    "url": "https://catalogodatos.gub.uy/dataset/ministerio-del-interior-delitos_denunciados_en_el_uruguay"
+  },
+  "mi_carceles": {
+    "institucion": "Ministerio del Interior",
+    "nombre": "Población privada de libertad por año, mes y sexo (datos abiertos)",
+    "url": "https://catalogodatos.gub.uy/dataset/ministerio-del-interior-sistema-carcelario"
+  },
+  "msp_nacimientos": {
+    "institucion": "MSP",
+    "nombre": "Natalidad y mortalidad infantil 2023 (informe preliminar) y estadísticas vitales 2024",
+    "url": "https://www.gub.uy/ministerio-salud-publica/sites/ministerio-salud-publica/files/documentos/publicaciones/Informe%20DIGESA_N%20y%20M%202023_final%20al%2020_03_2024_0.pdf"
+  },
+  "bm_wdi": {
+    "institucion": "Banco Mundial",
+    "nombre": "World Development Indicators (API)",
+    "url": "https://data.worldbank.org/"
+  },
+  "ineed": {
+    "institucion": "INEEd",
+    "nombre": "Mirador Educativo: egreso de educación media superior, 21 a 23 años",
+    "url": "https://mirador.ineed.edu.uy/metas/tasa-de-egreso-de-educacion-media-superior-entre-jovenes-de-21-a-23-anos-8-2.html"
+  }
+}

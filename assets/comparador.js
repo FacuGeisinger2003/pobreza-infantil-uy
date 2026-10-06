@@ -244,7 +244,7 @@
     const faltan = [...PAISES, ...REFS].filter((p) => !visibles.find((l) => l.iso === p));
     if (faltan.length) notas.push(`Sin datos recientes: ${faltan.map((p) => NOMBRE[p]).join(", ")}.`);
     document.getElementById("evo-note").textContent = notas.join(" ");
-    document.getElementById("ind-source").textContent = "Fuente: " + ind.src + ".";
+    document.getElementById("ind-source").innerHTML = `<span class="f-lbl">Fuente</span> <b>Banco Mundial</b> – ${ind.src} <a href="https://data.worldbank.org/indicator/${ind.id}" target="_blank" rel="noopener">ver indicador ↗</a>`;
 
     // crosshair
     const foco = visibles.filter((l) => l.rol !== "otro");
