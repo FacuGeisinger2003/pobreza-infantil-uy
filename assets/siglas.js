@@ -7,6 +7,7 @@
     "INEEd": ["Instituto Nacional de Evaluación Educativa", "Organismo público uruguayo que evalúa la educación y publica sus datos."],
     "INE": ["Instituto Nacional de Estadística", "Organismo oficial que produce las estadísticas de Uruguay: pobreza, empleo, población, precios."],
     "ECH": ["Encuesta Continua de Hogares", "Encuesta que el INE hace todo el año a miles de hogares. De ella salen los datos oficiales de pobreza, empleo y educación."],
+    "MIEM": ["Ministerio de Industria, Energía y Minería", "Ministerio que define la política energética del país."],
     "MSP": ["Ministerio de Salud Pública", "Registra todos los nacimientos y defunciones del país."],
     "UTU": ["Universidad del Trabajo del Uruguay", "La educación técnica y profesional pública (hoy se llama oficialmente DGETP). Es otra forma de terminar la educación media, además del liceo."],
     "PPA": ["Paridad de poder adquisitivo", "Ajuste que convierte los dólares según lo que cuestan las cosas en cada país, para que las comparaciones sean justas."],

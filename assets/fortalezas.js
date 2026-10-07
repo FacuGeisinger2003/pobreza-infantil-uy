@@ -88,7 +88,7 @@
       svg.append("path").datum(s.rows).attr("fill", "none").attr("stroke", s.c).attr("stroke-width", s.sw)
         .attr("stroke-dasharray", s.dash).attr("stroke-linecap", "round").attr("d", line);
       const l = s.rows[s.rows.length - 1];
-      svg.append("text").attr("x", x(l.anio) + 6).attr("y", y(l.valor)).attr("dy", "0.35em")
+      svg.append("text").attr("x", x(l.anio) + 6).attr("y", y(l.valor) + (s.iso === "LCN" ? 7 : s.iso === "OED" ? -5 : 0)).attr("dy", "0.35em")
         .style("font-size", "13px").style("font-weight", s.iso === "URY" ? 700 : 500).style("fill", s.iso === "URY" ? s.c : css("--ink-2"))
         .text(Math.round(l.valor) + "%");
     });

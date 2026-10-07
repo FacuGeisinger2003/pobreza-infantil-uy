@@ -38,5 +38,10 @@
     "institucion": "Banco Mundial",
     "nombre": "Worldwide Governance Indicators (WGI)",
     "url": "https://www.worldbank.org/en/publication/worldwide-governance-indicators"
+  },
+  "miem_energia": {
+    "institucion": "MIEM",
+    "nombre": "Política Energética 2005–2030 y acuerdo multipartidario de 2010",
+    "url": "https://www.gub.uy/ministerio-industria-energia-mineria/politicas-y-gestion/politica-energetica"
   }
 }
