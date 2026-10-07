@@ -18,8 +18,8 @@
 | Homicidios | Los homicidios por conflictos entre criminales pasaron de **77** (2013) a **215** (2025) | Ministerio del Interior |
 | Cárceles | La población presa pasó de **6.757** (2003) a **16.107** (2024) | Ministerio del Interior |
 | Natalidad | Los nacimientos cayeron **39%** entre 2015 y 2024 | MSP |
-| Lo que sí funciona | Uruguay es **1º de 7** en control de la corrupción, estado de derecho, libertades, estabilidad política, electricidad renovable sin hidro (**51%**, OCDE 17%) e internet fijo | Banco Mundial (WGI y WDI) |
-| Región | Uruguay tiene el desempleo juvenil más alto (**25,2%**) y la menor proporción de adultos con secundaria completa (**35%**) entre Argentina, Brasil, Chile, Paraguay, Costa Rica y México | Banco Mundial |
+| Lo que sí funciona | Uruguay es **1º de 12** (Sudamérica, Costa Rica y México) en control de la corrupción, estado de derecho, libertades, estabilidad política, electricidad renovable sin hidro (**51%**, OCDE 17%) e internet fijo | Banco Mundial (WGI y WDI) |
+| Región | Uruguay tiene el desempleo juvenil más alto (**25,2%**) y la menor proporción de adultos con secundaria completa (**35%**) entre 12 países (toda Sudamérica, Costa Rica y México) | Banco Mundial |
 
 ## Estructura del repositorio
 
@@ -34,7 +34,7 @@ uruguay-en-datos/
 │   ├── 02_educacion             # ECH: egreso, ni estudian ni trabajan, desempleo
 │   ├── 03_seguridad             # Ministerio del Interior: homicidios y cárceles
 │   ├── 04_demografia            # MSP: nacimientos
-│   ├── 05_comparacion_regional  # Banco Mundial: 9 indicadores, 7 países
+│   ├── 05_comparacion_regional  # Banco Mundial: 9 indicadores, 12 países
 │   └── 06_fortalezas            # Banco Mundial: instituciones (WGI), energía e internet
 └── docs/                   # capturas
 ```

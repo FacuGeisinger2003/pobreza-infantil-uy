@@ -3,7 +3,7 @@
   const data = await d3.json("data/fortalezas_paises.json");
   const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
   const f1 = (v) => v.toLocaleString("es-UY", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-  const PAISES = ["URY", "ARG", "BRA", "CHL", "PRY", "CRI", "MEX"];
+  const PAISES = ["URY", "ARG", "BOL", "BRA", "CHL", "COL", "ECU", "PRY", "PER", "VEN", "CRI", "MEX"];
 
   const IND = [
     { id: "CC.SC", nombre: "Control de la corrupción", unidad: "/100", max: 100,
@@ -37,7 +37,7 @@
   function renderCards() {
     const grid = document.getElementById("fort-grid");
     grid.innerHTML = IND.map((ind) => {
-      const rows = PAISES.map((iso) => ultimo(ind.id, iso)).filter(Boolean).sort((a, b) => b.valor - a.valor);
+      const rows = PAISES.map((iso) => ultimo(ind.id, iso)).filter((r) => r && r.valor >= 0) // valores negativos = artefacto de la fuente.sort((a, b) => b.valor - a.valor);
       const u = rows.find((r) => r.iso3 === "URY");
       const puesto = rows.indexOf(u) + 1;
       const oc = ultimo(ind.id, "OED");

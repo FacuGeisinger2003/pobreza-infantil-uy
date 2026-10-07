@@ -13,9 +13,9 @@
     { id: "VC.IHR.PSRC.P5", que: "Asesinatos por cada 100.000 habitantes", explica: "Cantidad de homicidios intencionales en un año por cada 100.000 habitantes. Usar una tasa permite comparar países de distinto tamaño. Más bajo es mejor. El promedio mundial ronda los 6.", grp: "Social", label: "Homicidios", unit: "c/100 mil", better: "low", fmt: (v) => v.toLocaleString("es-UY", { maximumFractionDigits: 1 }), src: "UNODC vía Banco Mundial · Homicidios intencionales cada 100.000 habitantes" },
     { id: "SE.SEC.CUAT.UP.ZS", que: "Adultos de 25 años o más que terminaron el liceo", explica: "Porcentaje de personas de 25 años o más que terminaron la educación media superior (en Uruguay, bachillerato de liceo o UTU). Mide a toda la población adulta, no solo a los jóvenes. Más alto es mejor.", grp: "Social", label: "Secundaria completa", unit: "%", better: "high", src: "UNESCO vía Banco Mundial · % de la población de 25 años o más con al menos secundaria superior completa" },
   ];
-  const PAISES = ["URY", "ARG", "BRA", "CHL", "PRY", "CRI", "MEX"];
+  const PAISES = ["URY", "ARG", "BOL", "BRA", "CHL", "COL", "ECU", "PRY", "PER", "VEN", "CRI", "MEX"];
   const REFS = ["LCN", "OED"];
-  const NOMBRE = { URY: "Uruguay", ARG: "Argentina", BRA: "Brasil", CHL: "Chile", PRY: "Paraguay", CRI: "Costa Rica", MEX: "México", LCN: "América Latina", OED: "OCDE" };
+  const NOMBRE = { URY: "Uruguay", ARG: "Argentina", BRA: "Brasil", CHL: "Chile", PRY: "Paraguay", CRI: "Costa Rica", MEX: "México", BOL: "Bolivia", COL: "Colombia", ECU: "Ecuador", PER: "Perú", VEN: "Venezuela", LCN: "América Latina", OED: "OCDE" };
   const MAX_ANTIG = 5; // un dato con más de 5 años de atraso no entra al ranking
 
   const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
@@ -74,8 +74,9 @@
     return list;
   }
   function estado(pos, n) {
-    if (pos <= 2) return { k: "good", label: "Bien", icon: "✓" };
-    if (pos > n - 2) return { k: "bad", label: "Mal", icon: "✗" };
+    const k = n >= 10 ? 3 : 2;
+    if (pos <= k) return { k: "good", label: "Bien", icon: "✓" };
+    if (pos > n - k) return { k: "bad", label: "Mal", icon: "✗" };
     return { k: "warn", label: "Regular", icon: "!" };
   }
   const isDark = () => document.documentElement.dataset.theme === "dark" ||

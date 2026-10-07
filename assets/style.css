@@ -410,3 +410,50 @@ abbr.sigla:focus-visible { outline: 2px solid var(--s1); outline-radius: 3px; }
 .fort-oc { font-size: 12px; color: var(--muted); margin: 10px 0 0; display: flex; align-items: center; gap: 6px; }
 .fb-ref-key { display: inline-block; width: 0; height: 12px; border-left: 2px dashed var(--ink-2); }
 .cierre { font-size: 18px; line-height: 1.6; font-weight: 500; color: var(--ink); max-width: 720px; margin-top: 28px; padding-left: 14px; border-left: 3px solid var(--good); }
+
+/* ---------- botón PDF ---------- */
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn-pdf { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: var(--page);
+  text-decoration: none; font-weight: 600; font-size: 15px; }
+.btn-pdf::before { content: ""; width: 14px; height: 14px; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1v9m0 0L4.5 6.5M8 10l3.5-3.5M2 12v2h12v-2' stroke='black' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1v9m0 0L4.5 6.5M8 10l3.5-3.5M2 12v2h12v-2' stroke='black' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat; }
+.btn-pdf:hover { opacity: .85; }
+.print-only { display: none; }
+
+/* ---------- glosario de siglas ---------- */
+.glossary-siglas dt { font-variant-numeric: tabular-nums; }
+
+/* ---------- versión para imprimir / PDF ---------- */
+@media print {
+  @page { size: A4; margin: 16mm 14mm 18mm; }
+  :root { --page: #ffffff; --surface: #ffffff; --ink: #0b0b0b; --ink-2: #3f3e3b; --muted: #6f6e68; --grid: #e6e5df; --axis: #c3c2b7;
+    --border: rgba(11,11,11,.14); --s1: #2a78d6; --s2: #eb6834; --pobre: #eb6834; --no-pobre: #e1e0d9; --ref: #b5b3ab; }
+  html, body { background: #fff !important; }
+  body { font-size: 11pt; }
+  .topbar, .progress, .aviso-fondo, .hero-actions, #tip, .seg, .picker, #pais-seg, .picker-group, .scroll-cue { display: none !important; }
+  .print-only { display: block; }
+  .print-meta { font-size: 10pt; color: var(--muted); margin-top: 18px; border-top: 1px solid var(--border); padding-top: 10px; }
+  .print-note { font-size: 9.5pt; color: var(--muted); font-style: italic; }
+  .js .reveal, .js .reveal .chart svg { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
+  .hero { min-height: 0 !important; padding-top: 0 !important; background: none !important; }
+  .chapter, #metodologia { break-before: page; }
+  .card, .fort-card, .sema-card, .hstat, .mot-cell, .nini-stat, tr, .glossary > div, .pipeline li, .sigla-notas { break-inside: avoid; }
+  h2, h3, h4, .chapter-num { break-after: avoid; }
+  .card, .fort-card, .hstat, .sema-card { box-shadow: none !important; }
+  a { color: inherit !important; text-decoration: none !important; }
+  .fuente a { display: none; }
+  abbr.sigla { text-decoration: none; }
+  footer { border-top: 1px solid var(--border); }
+  .pipeline { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 6px; }
+  .pipeline li { padding: 10px; }
+  .pipeline li:not(:last-child)::after { content: "→" !important; right: -9px !important; left: auto !important; top: 50% !important; bottom: auto !important; }
+  .pipeline b { font-size: 10pt; } .pipeline li > span:last-child { font-size: 8.5pt; }
+  .mtable { font-size: 8pt; } .mtable td, .mtable th { padding: 5px 6px; }
+  .table-wrap { overflow: visible !important; }
+}
+
+/* bloques dentro de un capítulo (ej. violencia / sistema penitenciario) */
+.bloque { display: flex; align-items: center; gap: 10px; margin: 48px 0 18px; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.bloque span { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); color: var(--page); font-size: 12px; letter-spacing: 0; }
+.bloque::after { content: ""; flex: 1; height: 1px; background: var(--border); }

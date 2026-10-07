@@ -74,7 +74,11 @@
         <span class="hs">MSP</span>
       </a>
     </div>
-    <a href="#pobreza" class="scroll-cue" aria-label="Empezar a leer">Empezar ↓</a>
+    <div class="hero-actions">
+      <a href="#pobreza" class="scroll-cue" aria-label="Empezar a leer">Empezar ↓</a>
+      <a href="docs/informe.pdf" class="btn-pdf" download="El-relato-de-la-estabilidad-informe.pdf">Descargar informe en PDF</a>
+    </div>
+    <p class="print-only print-meta">Informe de Facundo Geisinger · versión interactiva en datos-criticos-uy.vercel.app · Datos oficiales: INE, Ministerio del Interior, MSP y Banco Mundial.</p>
   </div>
 </section>
 
@@ -196,6 +200,13 @@
       <div id="chart-desempleo-educ" class="chart"></div>
       <p class="fuente" data-fuente="ech2024" data-detalle="desocupados / (ocupados + desocupados), según la variable de condición de actividad POBPCOAC, ponderado con W_ANO"></p>
     </div>
+    <div class="card" id="card-actividad" hidden style="margin-top:16px">
+      <div class="card-head"><h4>Qué hacen todos los jóvenes de 18 a 29 años (no solo los que buscan trabajo)</h4></div>
+      <ul class="legend" id="legend-actividad"></ul>
+      <div id="chart-actividad" class="chart"></div>
+      <p class="note">El desempleo solo cuenta a quienes buscan trabajo. Este gráfico reparte a todos los jóvenes: los que trabajan, los que buscan y no consiguen, y los inactivos (no trabajan ni buscan, por ejemplo porque estudian o cuidan a alguien).</p>
+      <p class="fuente" data-fuente="ech2024" data-detalle="condición de actividad (variable POBPCOAC), ponderado con W_ANO"></p>
+    </div>
   </section>
 
   <section class="reveal" id="natalidad">
@@ -216,11 +227,12 @@
   <header class="chapter-cover reveal">
     <p class="chapter-num">03 · Homicidios y cárceles</p>
     <h2 class="chapter-title">Más de la mitad de los homicidios son ajustes de cuentas entre criminales.</h2>
-    <p class="lede">Entre 2013 y 2017 hubo entre 260 y 295 homicidios por año. Desde 2022 son más de 370 por año. Lo que más creció son los asesinatos entre grupos criminales, y entre 2013 y 2024 la cantidad de presos creció un 70%.</p>
+    <p class="lede">Entre 2013 y 2017 hubo entre 260 y 295 homicidios por año. Desde 2022 son más de 370 por año, y lo que más creció son los asesinatos entre grupos criminales. Este capítulo mira por separado dos cosas distintas: la violencia y el sistema penitenciario.</p>
   </header>
 
+  <p class="bloque reveal"><span>A</span>Violencia</p>
   <div class="stats reveal" id="seg-stats"></div>
-  <p class="fuente" data-fuente="mi_homicidios,mi_carceles"></p>
+  <p class="fuente" data-fuente="mi_homicidios"></p>
 
   <section class="reveal">
     <h3 class="sec-title">El motivo que casi se triplicó</h3>
@@ -236,9 +248,11 @@
     </div>
   </section>
 
+  <p class="bloque reveal"><span>B</span>Sistema penitenciario</p>
   <section class="reveal">
     <h3 class="sec-title">Cárceles cada vez más llenas</h3>
-    <p>En diciembre de 2003 había 6.757 personas presas y en diciembre de 2024 había 16.107. El crecimiento se aceleró desde 2019, y en el mismo período la cantidad de mujeres presas se multiplicó por cuatro.</p>
+    <p>En diciembre de 2003 había 6.757 personas presas y en diciembre de 2024 había 16.107: un 70% más que en 2013. El crecimiento se aceleró desde 2019, y en el mismo período la cantidad de mujeres presas se multiplicó por cuatro.</p>
+    <p class="note">Son dos medidas de naturaleza distinta: los homicidios se cuentan año a año, mientras que la población presa se acumula. Que ambas suban no alcanza para concluir que una explica a la otra.</p>
     <div class="card">
       <div class="card-head">
         <h4>Personas privadas de libertad (dato de diciembre de cada año)</h4>
@@ -262,12 +276,12 @@
     <div class="sema-head">
       <div>
         <h3 class="sec-title">El semáforo de Uruguay</h3>
-        <p>Cada tarjeta compara a Uruguay con 6 países de la región: Argentina, Brasil, Chile, Paraguay, Costa Rica y México. Tocá una tarjeta para ver el detalle.</p>
+        <p>Cada tarjeta compara a Uruguay con 11 países: toda Sudamérica (Argentina, Bolivia, Brasil, Chile, Colombia, Ecuador, Paraguay, Perú y Venezuela) más Costa Rica y México. Un país entra al ranking solo si tiene un dato de los últimos 5 años. Tocá una tarjeta para ver el detalle.</p>
       </div>
       <ul class="sema-legend" aria-label="Qué significa cada color">
-        <li><span class="dot dot-good"></span><b>Verde</b><span>Entre los 2 mejores de 7</span></li>
-        <li><span class="dot dot-warn"></span><b>Amarillo</b><span>En el medio (3º a 5º)</span></li>
-        <li><span class="dot dot-bad"></span><b>Rojo</b><span>Entre los 2 peores de 7</span></li>
+        <li><span class="dot dot-good"></span><b>Verde</b><span>Entre los 3 mejores</span></li>
+        <li><span class="dot dot-warn"></span><b>Amarillo</b><span>En el medio</span></li>
+        <li><span class="dot dot-bad"></span><b>Rojo</b><span>Entre los 3 peores</span></li>
       </ul>
     </div>
     <p class="score" id="score"></p>
@@ -278,6 +292,7 @@
   <section class="reveal">
     <h3 class="sec-title" id="detalle">Compará indicador por indicador</h3>
     <p>Elegí un indicador. A la izquierda está el último dato de cada país y a la derecha la evolución desde el año 2000. Elegí también un país para compararlo directo con Uruguay.</p>
+    <p class="print-only print-note">En la versión web se puede elegir cada uno de los 9 indicadores; acá se muestra uno como ejemplo.</p>
     <div class="picker" id="ind-picker" role="radiogroup" aria-label="Indicador"></div>
     <p class="verdict" id="verdict"></p>
     <div class="que-mide" id="que-mide"></div>
@@ -305,19 +320,19 @@
   <header class="chapter-cover reveal">
     <p class="chapter-num">05 · Lo que sí funciona</p>
     <h2 class="chapter-title">No todo está perdido.</h2>
-    <p class="lede">Con la misma fuente y los mismos países, Uruguay queda primero en la región en la calidad de sus instituciones: menos corrupción, más respeto por las reglas, más libertades y más estabilidad política. También en energía limpia y en conexión a internet. No es poco: son justamente las herramientas para atacar lo que está en rojo. El problema no es que no se pueda, sino de qué se habla.</p>
+    <p class="lede">Con la misma fuente y los mismos países, Uruguay queda primero en la región en la calidad de sus instituciones: menos corrupción, más respeto por las reglas, más libertades y más estabilidad política. También en electricidad renovable y en conexión a internet. No es poco: son justamente las herramientas para atacar lo que está en rojo. El problema no es que no se pueda, sino de qué se habla.</p>
   </header>
 
   <section class="reveal">
     <h3 class="sec-title">Seis indicadores en los que Uruguay es primero</h3>
-    <p>Cada tarjeta muestra el último dato de los 7 países. Uruguay está resaltado; cuando hay dato, la línea punteada marca el promedio de la OCDE.</p>
+    <p>Cada tarjeta muestra el último dato de los 12 países (Sudamérica, Costa Rica y México). Uruguay está resaltado; cuando hay dato, la línea punteada marca el promedio de la OCDE.</p>
     <div class="fort-grid" id="fort-grid"></div>
     <p class="fuente" data-fuente="bm_wgi,bm_wdi" data-detalle="instituciones: puntajes 2025; electricidad: 2021; internet: 2024"></p>
   </section>
 
   <section class="reveal">
-    <h3 class="sec-title">De 13% a 51% en nueve años</h3>
-    <p>En 2012, el 13% de la electricidad uruguaya salía del viento, el sol o la biomasa. En 2021 era el 51%, tres veces el promedio de la OCDE (17%). Ningún país de la comparación se le acerca. Es la prueba de que, cuando un tema entra en la agenda y se sostiene en el tiempo, el país puede cambiar rápido.</p>
+    <h3 class="sec-title">De 13% a 51% de la electricidad en nueve años</h3>
+    <p>En 2012, el 13% de la electricidad uruguaya salía del viento, el sol o la biomasa. En 2021 era el 51%, tres veces el promedio de la OCDE (17%). Ningún país de la comparación se le acerca. Ojo: esto mide la <b>matriz eléctrica</b> (cómo se genera la electricidad), no la matriz energética total, que también incluye el combustible del transporte y la industria. Es la prueba de que, cuando un tema entra en la agenda y se sostiene en el tiempo, el país puede cambiar rápido.</p>
     <div class="card">
       <div class="card-head"><h4>Electricidad generada con viento, sol y biomasa (% del total, sin contar las represas)</h4></div>
       <ul class="legend" id="legend-ren"></ul>
@@ -352,8 +367,8 @@
         <tr><td>Educación</td><td>INE, ECH 2024</td><td>Egreso de media superior (bachillerato en liceo o UTU, o terciaria), jóvenes que no estudian ni trabajan, desempleo según educación</td><td>Validado contra el INEEd (51,6% en 2023; acá 53,2% en 2024). Departamentos con muestra chica.</td><td><code>02_educacion</code></td></tr>
         <tr><td>Homicidios y cárceles</td><td>Ministerio del Interior, datos abiertos</td><td>Homicidios por año y motivo aparente (una fila por víctima); personas presas en diciembre de cada año</td><td>El Ministerio reclasifica casos, así que puede haber diferencias de pocas unidades con los informes anuales.</td><td><code>03_seguridad</code></td></tr>
         <tr><td>Educación: natalidad</td><td>MSP, informes de estadísticas vitales</td><td>Nacimientos por año, 2015–2024</td><td>No hay un dataset abierto actualizado: las cifras se transcribieron del informe oficial, con la fuente en cada fila. 2024 es preliminar.</td><td><code>04_demografia</code></td></tr>
-        <tr><td>Región</td><td>Banco Mundial (WDI), con datos del FMI, la OIT, la UNODC y la UNESCO</td><td>9 indicadores comparables para 7 países, América Latina y la OCDE; semáforo según el puesto</td><td>El desempleo es la estimación modelada de la OIT. Para poder comparar países, la pobreza de este capítulo usa la línea internacional de US$ 8,30 por día; la del capítulo 01 usa la línea oficial del INE, por eso los porcentajes no coinciden.</td><td><code>05_comparacion_regional</code></td></tr>
-        <tr><td>Lo que sí funciona</td><td>Banco Mundial: WGI (instituciones) y WDI (energía e internet)</td><td>Último dato de 6 indicadores en los que Uruguay es primero entre los 7 países; evolución de la electricidad renovable sin hidro</td><td>Los puntajes del WGI combinan encuestas y evaluaciones de expertos: miden percepciones, no hechos contados uno por uno. El dato de energía llega hasta 2021.</td><td><code>06_fortalezas</code></td></tr>
+        <tr><td>Región</td><td>Banco Mundial (WDI), con datos del FMI, la OIT, la UNODC y la UNESCO</td><td>9 indicadores comparables para 12 países (Sudamérica, Costa Rica y México), América Latina y la OCDE; semáforo según el puesto</td><td>El desempleo es la estimación modelada de la OIT. Para poder comparar países, la pobreza de este capítulo usa la línea internacional de US$ 8,30 por día; la del capítulo 01 usa la línea oficial del INE, por eso los porcentajes no coinciden.</td><td><code>05_comparacion_regional</code></td></tr>
+        <tr><td>Lo que sí funciona</td><td>Banco Mundial: WGI (instituciones) y WDI (energía e internet)</td><td>Último dato de 6 indicadores en los que Uruguay es primero entre los 12 países; evolución de la electricidad renovable sin hidro</td><td>Los puntajes del WGI combinan encuestas y evaluaciones de expertos: miden percepciones, no hechos contados uno por uno. El dato de energía llega hasta 2021.</td><td><code>06_fortalezas</code></td></tr>
       </tbody>
     </table>
   </div>
@@ -367,6 +382,10 @@
     <div><dt>Índice de Gini</dt><dd>Mide la desigualdad del ingreso. 0 es igualdad total y 100 es que una persona tiene todo.</dd></div>
     <div><dt>Ni estudian ni trabajan</dt><dd>Jóvenes que no asisten a ningún centro educativo y no tienen trabajo, aunque lo busquen.</dd></div>
   </dl>
+
+  <h3 class="sec-title">Siglas</h3>
+  <p>Todas las siglas que aparecen en la página, en un solo lugar. En el resto del sitio, cada una lleva un asterisco y su explicación la primera vez que aparece en cada capítulo.</p>
+  <dl class="glossary glossary-siglas" id="glosario-siglas"></dl>
 
   <h3 class="sec-title">Reproducirlo</h3>
   <p>El código está en <a href="https://github.com/FacuGeisinger2003/uruguay-en-datos">GitHub</a>. Los notebooks de Databricks descargan los datos de cada fuente, generan las tablas y exportan los JSON que usa esta página. Si encontrás un error, podés abrir un issue en el repositorio.</p>

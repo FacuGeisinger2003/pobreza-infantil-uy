@@ -26,8 +26,8 @@
   window.SIGLAS = S;
   const keys = Object.keys(S).sort((a, b) => b.length - a.length).map((k) => k.replace(/\$/g, "\\$"));
   const RE = new RegExp(`(^|[^\\wÁÉÍÓÚáéíóúñ])(${keys.join("|")})(?![\\wÁÉÍÓÚáéíóúñ])`, "g");
-  const SKIP = "script,style,svg,abbr.sigla,.sigla-notas,.sigla-nota,.topbar,h1,h2,.chapter-num,.tip,button,.aviso-btn";
-  const SCOPES = "#inicio,article.chapter,#metodologia,#autor,.aviso,footer";
+  const SKIP = "script,style,svg,abbr.sigla,.sigla-notas,.sigla-nota,#glosario-siglas,.print-meta,.print-note,.topbar,h1,h2,.chapter-num,.tip,button,.aviso-btn";
+  const SCOPES = "#inicio,article.chapter,#metodologia,#autor,.aviso";
   const BLOCK = "p,li,dd,td,figcaption,.lede";
 
   function textNodes(root, skip) {
@@ -64,9 +64,20 @@
         if (notes && !seen.has(k)) {
           seen.add(k);
           ab.innerHTML = `${k}<sup aria-hidden="true">*</sup>`;
-          const blk = notes === "inside" ? container : (node.parentElement.closest(BLOCK) || node.parentElement);
-          if (!pend.has(blk)) pend.set(blk, []);
-          pend.get(blk).push(k);
+          if (notes !== "link") {
+            let blk;
+            if (notes === "inside") blk = container;
+            else {
+              const b = node.parentElement.closest(BLOCK);
+              // párrafos de texto: nota debajo; fuentes: nota dentro; listas, tablas y tarjetas: nota al final de la sección
+              if (b && b.matches(".fuente")) blk = b;
+              else if (b && b.matches("p,.lede") && !b.closest(".card,.fort-card,li,td,dd")) blk = b;
+              else blk = node.parentElement.closest(".card,.fort-grid,section,header,article") || root;
+              if (blk.matches(".fort-grid")) blk = blk.parentElement;
+            }
+            if (!pend.has(blk)) pend.set(blk, []);
+            pend.get(blk).push(k);
+          }
         }
         frag.append(ab);
         last = start + k.length;
@@ -75,24 +86,37 @@
       node.replaceWith(frag);
     });
     pend.forEach((ks, blk) => {
-      const box = document.createElement(blk.matches("p,.lede") && notes === "after" ? "div" : "span");
+      const inline = blk.matches("p") || blk.matches(".fuente");
+      const box = document.createElement(inline ? "span" : "div");
       box.className = "sigla-notas";
       ks.forEach((k) => box.append(nota(k)));
       if (notes === "after" && blk.matches("p,.lede") && !blk.matches(".fuente")) blk.after(box);
-      else blk.append(box);
+      else {
+        const prev = blk.querySelector(":scope > .sigla-notas");
+        if (prev && !inline) ks.forEach((k) => prev.append(nota(k))); else blk.append(box);
+      }
     });
+  }
+
+  // glosario de siglas en Metodología (se arma solo con el diccionario)
+  function glosario() {
+    const host = document.getElementById("glosario-siglas");
+    if (!host) return;
+    host.innerHTML = Object.keys(S).sort((a, b) => a.localeCompare(b, "es")).map((k) =>
+      `<div id="sg-${k.replace(/\W/g, "")}"><dt>${k}</dt><dd><b>${S[k][0]}.</b> ${S[k][1]}</dd></div>`).join("");
   }
 
   // contenedores que se redibujan al interactuar (comparador)
   const DYN = [[".hero-stats", false], ["#que-mide", "inside"], ["#ind-source", "inside"], ["#verdict", false], ["#score", false], ["#semaforo", false]];
 
   function run() {
+    glosario();
     document.querySelectorAll(SCOPES).forEach((sc) => {
       const seen = new Set();
       // los contenedores dinámicos se manejan aparte
       const dyn = DYN.map(([s]) => sc.querySelector(s)).filter(Boolean);
       dyn.forEach((d) => d.setAttribute("data-sigla-skip", ""));
-      annotate(sc, seen, "after");
+      annotate(sc, seen, sc.id === "metodologia" ? "link" : "after");
     });
     DYN.forEach(([sel, mode]) => {
       const el = document.querySelector(sel);

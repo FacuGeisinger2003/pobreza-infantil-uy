@@ -150,6 +150,9 @@
     svg.append("text").attr("class", "val").attr("x", x(8.75)).attr("y", m.t + 14).attr("text-anchor", "middle").text("Niñez (0–17)");
 
     const line = d3.line().x((d) => x(d.edad)).y((d) => y(d.v)).curve(d3.curveMonotoneX);
+    // dato real de cada edad (puntos) debajo de la línea suavizada
+    series.forEach((s) => svg.append("g").selectAll("circle").data(s.values).join("circle")
+      .attr("cx", (d) => x(d.edad)).attr("cy", (d) => y(d.raw)).attr("r", 2).attr("fill", yearColor(s.anio)).attr("opacity", 0.35));
     svg.append("g").selectAll("path").data(series).join("path")
       .attr("fill", "none").attr("stroke-width", 2).attr("stroke-linejoin", "round").attr("stroke-linecap", "round")
       .attr("stroke", (s) => yearColor(s.anio)).attr("d", (s) => line(s.values));
@@ -173,7 +176,7 @@
         marks.attr("cx", x(e)).attr("cy", (s) => y(s.values.find((v) => v.edad === e).v)).attr("opacity", 1);
         showTip(`<b>${e} ${e === 1 ? "año" : "años"}</b>` + series.map((s) => {
           const v = s.values.find((p) => p.edad === e);
-          return `<div class="row"><span class="sw sw-line" style="background:${yearColor(s.anio)}"></span>${s.anio}<strong>${fmt(v.v)}</strong></div>`;
+          return `<div class="row"><span class="sw sw-line" style="background:${yearColor(s.anio)}"></span>${s.anio} (dato de esa edad)<strong>${fmt(v.raw)}</strong></div><div class="row" style="opacity:.75"><span class="sw"></span>promedio 3 edades<strong>${fmt(v.v)}</strong></div>`;
         }).join(""), ev);
       })
       .on("pointerleave", () => { cross.attr("opacity", 0); marks.attr("opacity", 0); hideTip(); });

@@ -99,8 +99,37 @@
     });
   }
 
+  // ---------- 4. actividad de todos los jóvenes (aparece cuando existe el JSON) ----------
+  let actividad = null;
+  try { actividad = await d3.json("data/educacion_actividad.json"); } catch (e) { actividad = null; }
+  function renderActividad() {
+    if (!actividad || !actividad.length) return;
+    document.getElementById("card-actividad").hidden = false;
+    const K = [["pct_ocupados", "Trabajan", css("--s1")], ["pct_desocupados", "Buscan y no consiguen", css("--bad")], ["pct_inactivos", "Ni trabajan ni buscan", css("--ref")]];
+    document.getElementById("legend-actividad").innerHTML = K.map(([, l, c]) => `<li>${sw(c)}${l}</li>`).join("");
+    const rows = ["No terminó el liceo", "Terminó el liceo"].map((k) => actividad.find((d) => d.educacion === k)).filter(Boolean);
+    const host = document.getElementById("chart-actividad");
+    const W = host.clientWidth, rowH = 48, m = { t: 4, r: 8, b: 4, l: W < 480 ? 120 : 160 }, H = m.t + m.b + rows.length * rowH;
+    const svg = d3.select(host).html("").append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img").attr("aria-label", "Actividad de los jóvenes de 18 a 29 según educación");
+    const x = d3.scaleLinear().domain([0, 100]).range([m.l, W - m.r]);
+    rows.forEach((d, i) => {
+      const y0 = m.t + i * rowH + 8, bh = rowH - 16;
+      svg.append("text").attr("class", "lbl").attr("x", m.l - 10).attr("y", y0 + bh / 2).attr("dy", "0.35em").attr("text-anchor", "end").text(d.educacion);
+      let acc = 0;
+      K.forEach(([k, l, c]) => {
+        const v = d[k], x0 = x(acc);
+        svg.append("rect").attr("x", x0).attr("y", y0).attr("width", x(acc + v) - x0).attr("height", bh).attr("fill", c)
+          .on("pointermove", (ev) => showTip(`<b>${d.educacion}</b><div class="row">${sw(c)}${l}<strong>${fmt(v)}</strong></div>`, ev)).on("pointerleave", hideTip);
+        if (v >= 8) svg.append("text").attr("x", x0 + (x(acc + v) - x0) / 2).attr("y", y0 + bh / 2).attr("dy", "0.35em").attr("text-anchor", "middle")
+          .style("fill", "#fff").style("font-weight", 700).style("font-size", "13px").style("pointer-events", "none").text(fmt(v));
+        acc += v;
+      });
+    });
+  }
+
   function renderAll() {
     renderEgreso();
+    renderActividad();
     document.getElementById("nini-sexo").innerHTML = ["Mujeres", "Hombres"].map((k) => {
       const d = niniSexo.find((r) => r.sexo === k);
       const c = k === "Hombres" ? css("--s1") : css("--s2");

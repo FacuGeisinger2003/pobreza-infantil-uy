@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uruguay en datos · Informe</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Informe para imprimir en A4. Se genera con scripts/generar_informe.js */
+  @page { size: A4; margin: 20mm 18mm 20mm; }
+  @page :first { margin: 0; }
+  :root {
+    --ink: #111418; --ink-2: #3d4148; --muted: #767b84; --line: #dfe1e5; --soft: #f3f4f6;
+    --acc: #eb6834; --blue: #2a78d6; --gray: #b9bcc2; --good: #0a8a0a; --warn: #c98a00; --bad: #c63434;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; font-family: Inter, system-ui, sans-serif; color: var(--ink); font-size: 9.6pt; line-height: 1.55;
+    font-feature-settings: "tnum" 1, "cv11" 1; background: #fff; }
+  /* en pantalla, simular la hoja */
+  @media screen { body { max-width: 174mm; margin: 24px auto; } }
+
+  p { margin: 0 0 9pt; color: var(--ink-2); text-align: left; hyphens: auto; }
+  b, strong { color: var(--ink); font-weight: 600; }
+  h1, h2, h3, h4 { color: var(--ink); margin: 0; letter-spacing: -0.01em; }
+  h3 { font-size: 12pt; font-weight: 700; margin: 16pt 0 5pt; break-after: avoid; }
+  .page-break { break-before: page; }
+
+  /* ---------- portada ---------- */
+  .cover { height: 297mm; width: 210mm; background: #0f1419; color: #fff; padding: 26mm 22mm 22mm; display: flex; flex-direction: column;
+    position: relative; overflow: hidden; break-after: page; }
+  @media screen { .cover { margin-left: -18mm; } }
+  .cover::before { content: ""; position: absolute; right: -40mm; top: -30mm; width: 150mm; height: 150mm; border-radius: 50%;
+    background: radial-gradient(circle, rgba(235,104,52,.35), rgba(235,104,52,0) 65%); }
+  .cover .brand { font-size: 10pt; font-weight: 700; letter-spacing: .02em; }
+  .cover .brand span { color: var(--acc); }
+  .cover .kind { margin-top: 62mm; font-size: 9pt; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--acc); }
+  .cover h1 { font-size: 40pt; line-height: 1.02; font-weight: 800; letter-spacing: -0.03em; margin-top: 6mm; color: #fff; }
+  .cover .sub { font-size: 15pt; line-height: 1.35; color: #c9ccd1; margin-top: 6mm; max-width: 130mm; font-weight: 500; }
+  .cover .rule { width: 22mm; height: 1.2mm; background: var(--acc); margin: 12mm 0 8mm; }
+  .cover .who { font-size: 11pt; color: #fff; font-weight: 600; }
+  .cover .when { font-size: 10pt; color: #9aa0a8; margin-top: 1.5mm; }
+  .cover .kpis { margin-top: auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid rgba(255,255,255,.18); padding-top: 7mm; }
+  .cover .kpi { padding-right: 5mm; }
+  .cover .kpi + .kpi { padding-left: 5mm; border-left: 1px solid rgba(255,255,255,.12); }
+  .cover .kpi b { display: block; font-size: 21pt; font-weight: 800; color: #fff; letter-spacing: -0.02em; line-height: 1.1; }
+  .cover .kpi span { display: block; font-size: 7.6pt; color: #aab0b8; line-height: 1.4; margin-top: 1.5mm; }
+  .cover .foot { margin-top: 9mm; font-size: 7.6pt; color: #8b9199; display: flex; justify-content: space-between; }
+
+  /* ---------- índice y resumen ---------- */
+  .label { font-size: 7.6pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--acc); margin-bottom: 3mm; }
+  .toc { list-style: none; margin: 0 0 7mm; padding: 0; border-top: 1px solid var(--ink); }
+  .toc li { display: grid; grid-template-columns: 12mm 1fr; padding: 1.4mm 0; border-bottom: 1px solid var(--line); font-size: 10pt; }
+  .toc li span:first-child { color: var(--acc); font-weight: 700; }
+  .toc li em { font-style: normal; color: var(--muted); font-size: 9pt; margin-left: 2mm; }
+  .h-sec { font-size: 18pt; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 3mm; }
+  .findings { counter-reset: f; list-style: none; padding: 0; margin: 0; }
+  .findings li { counter-increment: f; display: grid; grid-template-columns: 9mm 1fr; padding: 1.3mm 0; font-size: 9.2pt; border-bottom: 1px solid var(--line); break-inside: avoid; }
+  .findings li::before { content: counter(f, decimal-leading-zero); color: var(--muted); font-weight: 600; font-size: 8.5pt; padding-top: .5mm; }
+  .findings li p { margin: 0; }
+  .note-box { background: var(--soft); border-radius: 2mm; padding: 3.5mm 5mm; margin-top: 5mm; font-size: 8.2pt; break-inside: avoid; }
+  .note-box p { margin: 0 0 4pt; } .note-box p:last-child { margin: 0; }
+
+  /* ---------- capítulos ---------- */
+  .ch-head { break-before: page; padding-top: 2mm; margin-bottom: 7mm; }
+  .ch-num { display: flex; align-items: baseline; gap: 4mm; border-bottom: 1px solid var(--ink); padding-bottom: 2.5mm; margin-bottom: 6mm; }
+  .ch-num b { font-size: 30pt; font-weight: 800; color: var(--acc); line-height: 1; letter-spacing: -0.03em; }
+  .ch-num span { font-size: 8pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+  .ch-head h2 { font-size: 22pt; line-height: 1.12; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 4mm; }
+  .ch-head .lede { font-size: 11pt; line-height: 1.55; color: var(--ink-2); }
+
+  /* ---------- figuras y tablas ---------- */
+  figure { margin: 4mm 0 7mm; break-inside: avoid; }
+  figcaption.top { font-size: 9pt; color: var(--ink); margin-bottom: 2.5mm; }
+  figcaption.top b { color: var(--acc); font-weight: 700; margin-right: 1.5mm; }
+  figcaption.top em { display: block; font-style: normal; color: var(--muted); font-size: 8pt; margin-top: .5mm; }
+  .src { font-size: 7.4pt; color: var(--muted); margin-top: 2mm; padding-top: 1.6mm; border-top: 1px solid var(--line); line-height: 1.45; }
+  .src b { color: var(--ink-2); font-weight: 600; }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .chart text { font-family: Inter, sans-serif; }
+  .legend { display: flex; flex-wrap: wrap; gap: 4mm; font-size: 8pt; color: var(--ink-2); margin: 0 0 2mm; padding: 0; list-style: none; }
+  .legend i { display: inline-block; width: 3mm; height: 3mm; border-radius: .6mm; margin-right: 1.4mm; vertical-align: -0.3mm; }
+  .legend i.line { height: .7mm; border-radius: 0; vertical-align: .6mm; width: 4.5mm; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 7mm; }
+  .two figure { margin-bottom: 4mm; }
+  table.t { width: 100%; border-collapse: collapse; font-size: 8.4pt; }
+  table.t th { text-align: left; font-size: 7pt; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+    border-bottom: 1px solid var(--ink); padding: 0 2mm 1.6mm; vertical-align: bottom; }
+  table.t td { padding: 1.5mm 2mm; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink-2); }
+  table.t td.n, table.t th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.t td:first-child { color: var(--ink); font-weight: 600; }
+  table.t tr { break-inside: avoid; }
+  .dot { display: inline-block; width: 2.4mm; height: 2.4mm; border-radius: 50%; margin-right: 1.6mm; vertical-align: -0.2mm; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); margin: 3mm 0 6mm; break-inside: avoid; }
+  .stats div { padding: 3mm 3mm 3mm 0; } .stats div + div { padding-left: 3mm; border-left: 1px solid var(--line); }
+  .stats b { display: block; font-size: 17pt; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+  .stats span { display: block; font-size: 7.8pt; color: var(--muted); line-height: 1.35; margin-top: 1mm; }
+  .pull { border-left: 1.2mm solid var(--acc); padding: 1mm 0 1mm 5mm; margin: 7mm 0; font-size: 12pt; line-height: 1.5; color: var(--ink); font-weight: 500; break-inside: avoid; }
+  .small { font-size: 8pt; color: var(--muted); }
+
+  /* ---------- metodología y anexos ---------- */
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-top: 1px solid var(--ink); margin: 2mm 0 7mm; break-inside: avoid; }
+  .steps div { padding: 2.6mm 2.6mm 2.6mm 0; font-size: 8pt; color: var(--ink-2); line-height: 1.45; }
+  .steps div + div { padding-left: 2.6mm; border-left: 1px solid var(--line); }
+  .steps b { display: block; font-size: 9pt; color: var(--ink); margin-bottom: 1mm; }
+  .steps b i { font-style: normal; color: var(--acc); margin-right: 1.2mm; }
+  dl.gl { display: grid; grid-template-columns: 1fr 1fr; column-gap: 8mm; margin: 2mm 0 0; }
+  dl.gl > div { padding: 2.2mm 0; border-bottom: 1px solid var(--line); break-inside: avoid; }
+  dl.gl dt { font-weight: 700; font-size: 9pt; }
+  dl.gl dd { margin: .5mm 0 0; font-size: 8.2pt; color: var(--ink-2); line-height: 1.45; }
+  dl.gl dd b { font-weight: 600; }
+  ul.lim { margin: 0 0 6mm; padding-left: 4.5mm; color: var(--ink-2); }
+  ul.lim li { margin-bottom: 1.6mm; }
+  .contact { display: grid; grid-template-columns: auto 1fr; gap: 1.5mm 5mm; font-size: 9pt; margin-top: 4mm; }
+  .contact span { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- ============ PORTADA ============ -->
+<section class="cover">
+  <div class="brand">Uruguay <span>en datos</span></div>
+  <div class="kind">Informe · <span id="mes"></span></div>
+  <h1>Uruguay: desempeño regional y brechas sociales</h1>
+  <div class="sub">Pobreza infantil, educación, seguridad e instituciones, con datos oficiales.</div>
+  <div class="rule"></div>
+  <div class="who">Facundo Geisinger</div>
+  <div class="when">Datos oficiales de Uruguay y el Banco Mundial, procesados y visualizados con código abierto.</div>
+  <div class="kpis" id="cover-kpis"></div>
+  <div class="foot"><span>Versión interactiva: datos-criticos-uy.vercel.app</span><span>Código: github.com/FacuGeisinger2003/uruguay-en-datos</span></div>
+</section>
+
+<!-- ============ ÍNDICE + RESUMEN ============ -->
+<section>
+  <div class="label">Contenido</div>
+  <ol class="toc">
+    <li><span>01</span><span>Pobreza infantil <em>Concentración de la pobreza en la primera infancia</em></span></li>
+    <li><span>02</span><span>Educación <em>Egreso de media superior, inserción laboral y natalidad</em></span></li>
+    <li><span>03</span><span>Seguridad <em>Homicidios y sistema penitenciario</em></span></li>
+    <li><span>04</span><span>Comparación regional <em>Uruguay frente a 11 países de América Latina</em></span></li>
+    <li><span>05</span><span>Fortalezas <em>Instituciones, matriz eléctrica y conectividad</em></span></li>
+    <li><span>A</span><span>Metodología y fuentes</span></li>
+    <li><span>B</span><span>Siglas y glosario</span></li>
+  </ol>
+
+  <div class="label">Resumen</div>
+  <h2 class="h-sec">Principales hallazgos</h2>
+  <p>Este informe reúne indicadores oficiales sobre pobreza infantil, educación, seguridad y desempeño regional de Uruguay. Busca mostrar en qué dimensiones el país se ubica bien frente a la región y en cuáles persisten brechas relevantes.</p>
+  <ol class="findings">
+    <li><p><b>32,2%</b> de los niños de 0 a 5 años vive en hogares pobres, unas cinco veces más que las personas de 65 años o más (6,3%).</p></li>
+    <li><p>Solo el <b>53,2%</b> de los jóvenes de 21 a 23 años terminó la educación media superior. Las mujeres terminan más que los hombres en todas las generaciones.</p></li>
+    <li><p>Entre los jóvenes de 18 a 29 años que buscan trabajo, el desempleo es de <b>22,8%</b> sin el liceo completo y de <b>17,6%</b> con el liceo completo.</p></li>
+    <li><p>Los nacimientos cayeron <b>39%</b> entre 2015 y 2024: de 48.926 a 29.899 por año.</p></li>
+    <li><p>Los homicidios por conflictos entre criminales pasaron de <b>77</b> en 2013 a <b>215</b> en 2025, y ya son más de la mitad del total (375).</p></li>
+    <li><p>La población presa pasó de <b>6.757</b> personas en 2003 a <b>16.107</b> en 2024.</p></li>
+    <li><p>Entre 12 países de América Latina (Sudamérica, Costa Rica y México), Uruguay tiene el mayor ingreso por persona y la menor desigualdad, pero el <b>mayor desempleo juvenil</b> y la <b>menor proporción de adultos con secundaria completa</b>.</p></li>
+    <li><p>En el mismo grupo, Uruguay ocupa el <b>primer puesto</b> en control de la corrupción, estado de derecho, libertades y estabilidad política, y genera el <b>51%</b> de su electricidad con viento, sol y biomasa (promedio OCDE: 17%).</p></li>
+  </ol>
+  <div class="note-box">
+    <p><b>Sobre este informe.</b> Todas las cifras salen de fuentes oficiales, que se citan debajo de cada gráfico. Las siglas se explican en el anexo B. Los porcentajes que salen de la Encuesta Continua de Hogares están ponderados para representar a toda la población.</p>
+    <p><b>Uso de inteligencia artificial.</b> El proyecto se hizo con ayuda de Claude (Anthropic) para el código, los gráficos y el procesamiento de los datos. La elección de los temas, las ideas y el enfoque son del autor; la redacción se trabajó en conjunto con la IA y cada dato se revisó contra su fuente oficial.</p>
+  </div>
+</section>
+
+<!-- ============ 01 ============ -->
+<header class="ch-head">
+  <div class="ch-num"><b>01</b><span>Pobreza infantil</span></div>
+  <h2>La pobreza se concentra en la primera infancia</h2>
+  <p class="lede">En 2024, el 32,2% de los niños de 0 a 5 años vivía en hogares bajo la línea de pobreza. La incidencia de la pobreza disminuye de forma sostenida con la edad.</p>
+</header>
+
+<h3>Pobreza por tramo de edad</h3>
+<p>La incidencia entre los niños de 0 a 5 años es unas cinco veces la de las personas de 65 años o más (32,2% frente a 6,3%). Una explicación habitual es que la mayoría de los mayores recibe ingresos fijos por jubilaciones y pensiones, mientras que los ingresos de los hogares con niños dependen más del mercado de trabajo.</p>
+<figure>
+  <figcaption class="top"><b>Gráfico 1.</b>Personas en hogares pobres, por tramo de edad (%)</figcaption>
+  <ul class="legend" id="lg-tramo"></ul>
+  <div class="chart" id="g-tramo"></div>
+  <div class="src" data-fuente="ech2024,ech2025" data-det="variable pobre17 (método INE 2017), ponderada con W_ANO. La ECH 2025 es de implantación: la comparación con 2024 es indicativa."></div>
+</figure>
+
+<h3>Pobreza por edad simple</h3>
+<p>Edad por edad, la incidencia desciende casi sin interrupciones: es cercana al 40% en el primer año de vida y menor al 5% a los 80 años. Los puntos muestran el dato de cada edad; la línea, el promedio de tres edades consecutivas.</p>
+<figure>
+  <figcaption class="top"><b>Gráfico 2.</b>Personas en hogares pobres, por edad simple (%)<em>Puntos: dato de cada edad. Línea: promedio móvil de 3 edades, para suavizar la variación de muestra.</em></figcaption>
+  <ul class="legend" id="lg-edad"></ul>
+  <div class="chart" id="g-edad"></div>
+  <div class="src" data-fuente="ech2024,ech2025" data-det="variable pobre17, ponderada con W_ANO."></div>
+</figure>
+
+<h3>Diferencias entre departamentos</h3>
+<p>La pobreza infantil (0 a 17 años) varía de forma marcada entre departamentos. Artigas, Cerro Largo y Rivera, en la frontera con Brasil, registran las incidencias más altas.</p>
+<figure>
+  <figcaption class="top"><b>Gráfico 3.</b>Niños y adolescentes (0 a 17 años) en hogares pobres, por departamento, 2024 (%)<em>Las muestras por departamento son chicas: los marcados con * tienen menos de 250 casos y hay que leerlos con cuidado.</em></figcaption>
+  <div class="chart" id="g-dpto"></div>
+  <div class="src" data-fuente="ech2024" data-det="variable pobre17, ponderada con W_ANO."></div>
+</figure>
+
+<!-- ============ 02 ============ -->
+<header class="ch-head">
+  <div class="ch-num"><b>02</b><span>Educación</span></div>
+  <h2>Egreso de la educación media superior: 53% a los 21–23 años</h2>
+  <p class="lede">En 2024, el 53,2% de los jóvenes de 21 a 23 años había terminado la educación media superior (bachillerato en liceo o UTU). El egreso aumenta generación tras generación, aunque a un ritmo moderado, y quienes no egresan muestran mayor desempleo.</p>
+</header>
+
+<h3>Egreso por generación y sexo</h3>
+<p>Entre los mayores de 65 años, el 22,8% terminó la educación media superior; entre los de 21 a 23, el 53,2%. En todas las generaciones el egreso de las mujeres supera al de los hombres; entre los más jóvenes la diferencia es de 10 puntos.</p>
+<figure>
+  <figcaption class="top"><b>Gráfico 4.</b>Personas que terminaron la educación media superior, por generación y sexo (%)<em>Se cuenta como "terminó" a quien completó bachillerato en liceo o UTU, o tiene estudios terciarios. Validación: el INEEd publicó 51,6% para los de 21 a 23 años en 2023; acá da 53,2% en 2024.</em></figcaption>
+  <ul class="legend" id="lg-egreso"></ul>
+  <div class="chart" id="g-egreso"></div>
+  <div class="src" data-fuente="ech2024,ineed" data-det="variables e201_1c, e201_1d y e51_8 a e51_11, ponderadas con W_ANO."></div>
+</figure>
+
+<h3>Ni estudian ni trabajan</h3>
+<p>Entre los jóvenes de 15 a 24 años, el 13,2% de los hombres y el 17,0% de las mujeres no estudian ni tienen trabajo. Las diferencias entre departamentos son amplias, aunque las muestras son reducidas.</p>
+<figure>
+  <figcaption class="top"><b>Gráfico 5.</b>Jóvenes de 15 a 24 años que no estudian ni trabajan, por departamento, 2024 (%)<em>Marcados con *: menos de 200 jóvenes encuestados; son estimaciones con bastante margen de error.</em></figcaption>
+  <div class="chart" id="g-nini"></div>
+  <div class="src" data-fuente="ech2024" data-det="no asiste a ningún centro educativo (variable e49) y no está ocupado (variable POBPCOAC), ponderado con W_ANO."></div>
+</figure>
+
+<div class="two">
+  <div>
+    <h3>Desempleo según nivel educativo</h3>
+    <p>Entre los jóvenes de 18 a 29 años que buscan trabajo, el desempleo es de 22,8% para quienes no terminaron la media superior y de 17,6% para quienes sí. Aun con el ciclo completo, más de 1 de cada 6 jóvenes que buscan trabajo no lo encuentra.</p>
+    <figure>
+      <figcaption class="top"><b>Gráfico 6.</b>Desempleo de jóvenes de 18 a 29 años, según educación, 2024 (%)</figcaption>
+      <div class="chart" id="g-desemp"></div>
+      <div class="src" data-fuente="ech2024" data-det="desocupados / (ocupados + desocupados), ponderado con W_ANO."></div>
+    </figure>
+  </div>
+  <div>
+    <h3>Nacimientos</h3>
+    <p>Los nacimientos pasaron de 48.926 en 2015 a 29.899 en 2024, una caída de 39% y la cifra más baja desde fines del siglo XIX. Con cohortes cada vez más chicas, el egreso educativo de cada generación gana peso.</p>
+    <figure>
+      <figcaption class="top"><b>Gráfico 7.</b>Nacimientos por año, 2015–2024</figcaption>
+      <div class="chart" id="g-nac"></div>
+      <div class="src" data-fuente="msp_nacimientos" data-det="2024: dato preliminar."></div>
+    </figure>
+  </div>
+</div>
+
+<figure id="fig-actividad" hidden>
+  <figcaption class="top"><b>Gráfico 6b.</b>Situación laboral de todos los jóvenes de 18 a 29 años, según educación, 2024 (%)<em>El desempleo solo cuenta a quienes buscan trabajo; acá se reparte a todos los jóvenes, incluidos los inactivos (no trabajan ni buscan).</em></figcaption>
+  <ul class="legend" id="lg-act"></ul>
+  <div class="chart" id="g-act"></div>
+  <div class="src" data-fuente="ech2024" data-det="condición de actividad (variable POBPCOAC), ponderado con W_ANO."></div>
+</figure>
+
+<!-- ============ 03 ============ -->
+<header class="ch-head">
+  <div class="ch-num"><b>03</b><span>Seguridad</span></div>
+  <h2>Homicidios y sistema penitenciario, 2013–2025</h2>
+  <p class="lede">El capítulo analiza por separado dos dimensiones de naturaleza distinta: la violencia, medida por los homicidios de cada año (un flujo), y la población privada de libertad, que se acumula en el tiempo (un stock). Que ambas aumenten no alcanza para establecer una relación causal entre ellas.</p>
+</header>
+<div class="label" style="margin-top:2mm">A · Violencia</div>
+<p>Entre 2013 y 2017 se registraron entre 261 y 293 homicidios por año; desde 2022, más de 370. El aumento se explica sobre todo por los homicidios vinculados a conflictos entre grupos criminales.</p>
+<div class="stats" id="seg-stats"></div>
+
+<h3>Homicidios por motivo aparente</h3>
+<p>Los homicidios por conflictos entre criminales pasaron de 77 en 2013 a 215 en 2025. En el mismo período, los vinculados a rapiña o hurto disminuyeron.</p>
+<figure>
+  <figcaption class="top"><b>Gráfico 8.</b>Homicidios por motivo aparente, 2013–2025<em>Motivo aparente según la clasificación del Ministerio del Interior. "Otros / sin dato" junta otros motivos y casos sin motivo identificado.</em></figcaption>
+  <ul class="legend" id="lg-mot"></ul>
+  <div class="chart" id="g-mot"></div>
+  <div class="src" data-fuente="mi_homicidios" data-det="una fila por víctima; años completos 2013–2025."></div>
+</figure>
+
+<div class="label" style="margin-top:8mm">B · Sistema penitenciario</div>
+<h3 style="margin-top:2mm">Población privada de libertad</h3>
+<p>En diciembre de 2003 había 6.757 personas privadas de libertad y en diciembre de 2024, 16.107 (70% más que en 2013). El crecimiento se aceleró desde 2019; en el mismo período, la cantidad de mujeres presas se multiplicó por cuatro.</p>
+<figure>
+  <figcaption class="top"><b>Gráfico 9.</b>Personas privadas de libertad, dato de diciembre de cada año</figcaption>
+  <ul class="legend" id="lg-ppl"></ul>
+  <div class="chart" id="g-ppl"></div>
+  <div class="src" data-fuente="mi_carceles" data-det="dato de diciembre de cada año."></div>
+</figure>
+
+<!-- ============ 04 ============ -->
+<header class="ch-head">
+  <div class="ch-num"><b>04</b><span>Comparación regional</span></div>
+  <h2>Liderazgo regional en ingreso e igualdad; rezago en educación y empleo juvenil</h2>
+  <p class="lede">Con una misma fuente para todos los países, Uruguay registra el mayor ingreso por persona y la menor desigualdad entre 12 países de América Latina, pero el mayor desempleo juvenil y la menor proporción de adultos con secundaria completa. Frente al promedio de la OCDE, queda por detrás en la mayoría de los indicadores con dato.</p>
+</header>
+
+<h3>Posición de Uruguay por indicador</h3>
+<p>La comparación incluye a toda Sudamérica (Argentina, Bolivia, Brasil, Chile, Colombia, Ecuador, Paraguay, Perú, Uruguay y Venezuela), Costa Rica y México. Un país entra al ranking solo si tiene un dato de los últimos cinco años, por lo que la cantidad de países varía por indicador. El color indica el puesto: <span class="dot" style="background:var(--good)"></span>entre los 3 mejores, <span class="dot" style="background:var(--warn)"></span>en el medio, <span class="dot" style="background:var(--bad)"></span>entre los 3 peores.</p>
+<figure>
+  <figcaption class="top"><b>Tabla 1.</b>Uruguay frente a 11 países de América Latina, último dato disponible</figcaption>
+  <table class="t" id="t-sema"></table>
+  <div class="src" data-fuente="bm_wdi" data-det="datos originales del FMI (inflación), la OIT (desempleo, estimación modelada), la UNODC (homicidios) y la UNESCO (educación). Pobreza con la línea internacional de US$ 8,30 por día (PPA 2021), distinta de la línea oficial del INE usada en el capítulo 01."></div>
+</figure>
+
+<div class="two">
+  <figure>
+    <figcaption class="top"><b>Gráfico 10.</b>Desempleo juvenil, 15 a 24 años (%)<em>Más bajo es mejor.</em></figcaption>
+    <div class="chart" id="g-rk1"></div>
+    <div class="src" data-fuente="bm_wdi" data-det="estimación modelada de la OIT."></div>
+  </figure>
+  <figure>
+    <figcaption class="top"><b>Gráfico 11.</b>Adultos de 25 años o más con secundaria completa (%)<em>Más alto es mejor.</em></figcaption>
+    <div class="chart" id="g-rk2"></div>
+    <div class="src" data-fuente="bm_wdi" data-det="datos de la UNESCO."></div>
+  </figure>
+</div>
+
+<!-- ============ 05 ============ -->
+<header class="ch-head">
+  <div class="ch-num"><b>05</b><span>Fortalezas</span></div>
+  <h2>Fortalezas institucionales y transformación de la matriz eléctrica</h2>
+  <p class="lede">Con la misma fuente y los mismos 12 países, Uruguay ocupa el primer puesto en cuatro indicadores de calidad institucional (control de la corrupción, estado de derecho, libertades y estabilidad política), en generación eléctrica renovable no hidráulica y en conectividad fija. Son capacidades relevantes para abordar las brechas descritas en los capítulos anteriores.</p>
+</header>
+
+<h3>Indicadores en los que Uruguay ocupa el primer puesto</h3>
+<figure>
+  <figcaption class="top"><b>Tabla 2.</b>Indicadores en los que Uruguay ocupa el 1.<sup>er</sup> puesto entre 12 países<em>Los cuatro primeros son puntajes de 0 a 100 que combinan encuestas y evaluaciones de expertos: miden percepciones, no hechos contados uno por uno.</em></figcaption>
+  <table class="t" id="t-fort"></table>
+  <div class="src" data-fuente="bm_wgi,bm_wdi" data-det="instituciones: puntajes 2025; electricidad: 2021; internet: 2024."></div>
+</figure>
+
+<h3>Generación eléctrica renovable no hidráulica</h3>
+<p>En 2012, el 13% de la electricidad generada en Uruguay provenía del viento, el sol o la biomasa; en 2021, el 51%, tres veces el promedio de la OCDE (17%). Ningún país de la comparación se acerca a ese nivel. El dato corresponde a la <b>matriz eléctrica</b>; la matriz energética total, que incluye el combustible del transporte y la industria, es una medición distinta.</p>
+<figure>
+  <figcaption class="top"><b>Gráfico 12.</b>Electricidad generada con viento, sol y biomasa, sin contar las represas (% del total)</figcaption>
+  <ul class="legend" id="lg-ren"></ul>
+  <div class="chart" id="g-ren"></div>
+  <div class="src" data-fuente="bm_wdi" data-det="código del indicador: EG.ELC.RNWX.ZS, 2012–2021."></div>
+</figure>
+<h3>Conclusión</h3>
+<p class="pull">Uruguay combina instituciones sólidas y una transformación eléctrica sostenida con brechas persistentes en pobreza infantil, egreso educativo, empleo juvenil y seguridad. La experiencia de la matriz eléctrica muestra que un objetivo sostenido en el tiempo puede producir cambios grandes en menos de una década.</p>
+
+<!-- ============ ANEXO A ============ -->
+<header class="ch-head">
+  <div class="ch-num"><b>A</b><span>Anexo</span></div>
+  <h2>Metodología y fuentes</h2>
+  <p class="lede">Todos los números de este informe salen de datos públicos de organismos oficiales. Cada paso, desde la descarga hasta el gráfico, está en código abierto y se puede repetir.</p>
+</header>
+<h3>El recorrido de un dato</h3>
+<div class="steps">
+  <div><b><i>1</i>Fuente oficial</b>INE, Ministerio del Interior, MSP y Banco Mundial. Se descarga el archivo original, sin tocarlo.</div>
+  <div><b><i>2</i>Bronze</b>El archivo crudo se guarda como tabla en Databricks, tal cual vino.</div>
+  <div><b><i>3</i>Silver</b>Se seleccionan variables, se corrigen nombres y formatos y se unen años.</div>
+  <div><b><i>4</i>Gold</b>Se calculan los indicadores (tasas, conteos, rankings) con la ponderación correspondiente.</div>
+  <div><b><i>5</i>Publicación</b>Las tablas gold se exportan y la web y este informe las dibujan con D3.js.</div>
+</div>
+<h3>Fuentes y decisiones por capítulo</h3>
+<table class="t">
+  <thead><tr><th style="width:17%">Capítulo</th><th style="width:22%">Fuente</th><th>Qué se calculó</th><th style="width:16%">Notebook</th></tr></thead>
+  <tbody>
+    <tr><td>01 Pobreza infantil</td><td>INE, ECH 2024 y 2025 (microdatos, ~55.000 personas por año)</td><td>% de personas en hogares bajo la línea de pobreza, por edad y departamento, ponderado con W_ANO.</td><td>01_pobreza</td></tr>
+    <tr><td>02 Educación</td><td>INE, ECH 2024; MSP (nacimientos)</td><td>Egreso de media superior, jóvenes que no estudian ni trabajan, desempleo según educación, nacimientos 2015–2024.</td><td>02_educacion, 04_demografia</td></tr>
+    <tr><td>03 Homicidios y cárceles</td><td>Ministerio del Interior, datos abiertos</td><td>Homicidios por año y motivo aparente (una fila por víctima); personas presas en diciembre de cada año.</td><td>03_seguridad</td></tr>
+    <tr><td>04 Región</td><td>Banco Mundial (WDI), con datos del FMI, la OIT, la UNODC y la UNESCO</td><td>9 indicadores comparables para 12 países (Sudamérica, Costa Rica y México), América Latina y la OCDE; posición según el puesto.</td><td>05_comparacion_regional</td></tr>
+    <tr><td>05 Lo que sí funciona</td><td>Banco Mundial (WGI y WDI)</td><td>Último dato de 6 indicadores para los mismos 12 países y evolución de la electricidad renovable sin hidro.</td><td>06_fortalezas</td></tr>
+  </tbody>
+</table>
+<h3>Limitaciones</h3>
+<ul class="lim">
+  <li>La ECH 2025 es de implantación, así que la comparación con 2024 es indicativa.</li>
+  <li>Las estimaciones por departamento tienen muestras chicas; en los gráficos se marcan con asterisco.</li>
+  <li>El egreso de media superior se validó contra el INEEd: 51,6% publicado para 2023 frente a 53,2% calculado para 2024.</li>
+  <li>El Ministerio del Interior reclasifica casos, así que puede haber diferencias de pocas unidades con sus informes anuales.</li>
+  <li>Nacimientos: no hay un dataset abierto actualizado del MSP; las cifras se transcribieron del informe oficial. 2024 es preliminar.</li>
+  <li>El desempleo del capítulo 04 es la estimación modelada de la OIT y la pobreza usa la línea internacional de US$ 8,30 por día, por eso no coinciden con las cifras del INE.</li>
+  <li>Los puntajes del WGI combinan más de 30 encuestas y evaluaciones: miden percepciones y tienen márgenes de error.</li>
+  <li>La comparación regional incluye toda Sudamérica, Costa Rica y México. Los países sin dato en los últimos cinco años quedan fuera del ranking de ese indicador. Con otra selección de países, los puestos podrían cambiar.</li>
+</ul>
+<h3>Reproducirlo</h3>
+<p>El código está en github.com/FacuGeisinger2003/uruguay-en-datos. Los notebooks de Databricks descargan los datos de cada fuente, generan las tablas y exportan los archivos que usan la web y este informe.</p>
+
+<!-- ============ ANEXO B ============ -->
+<header class="ch-head">
+  <div class="ch-num"><b>B</b><span>Anexo</span></div>
+  <h2>Siglas y glosario</h2>
+</header>
+<h3>Siglas</h3>
+<dl class="gl" id="glosario-siglas"></dl>
+<h3>Glosario</h3>
+<dl class="gl">
+  <div><dt>Microdatos</dt><dd>La base completa de una encuesta, con una fila por persona. Permite calcular indicadores propios.</dd></div>
+  <div><dt>Ponderador</dt><dd>Cada persona encuestada representa a muchas otras. El ponderador dice a cuántas, para que los resultados valgan para todo el país.</dd></div>
+  <div><dt>Arquitectura medallion</dt><dd>Forma de ordenar los datos en tres capas (bronze, silver y gold), de lo crudo a lo listo para usar.</dd></div>
+  <div><dt>Índice de Gini</dt><dd>Mide la desigualdad del ingreso. 0 es igualdad total y 100 es que una persona tiene todo.</dd></div>
+  <div><dt>Ni estudian ni trabajan</dt><dd>Jóvenes que no asisten a ningún centro educativo y no tienen trabajo, aunque lo busquen.</dd></div>
+  <div><dt>Educación media superior</dt><dd>Los últimos tres años del liceo (bachillerato) o su equivalente en UTU.</dd></div>
+</dl>
+
+<h3 style="margin-top:12mm">Sobre el autor</h3>
+<p><b>Facundo Geisinger.</b> Desde chico me interesó la política y sus números. Me acuerdo de mirar las elecciones por televisión, atento a cada porcentaje que se actualizaba: cuánta gente votó, quién subía, quién bajaba. Hoy estudio Ciencia de Datos en la Universidad de Montevideo, y este proyecto es la forma de juntar las dos cosas que me gustan: los datos y los temas que se discuten en el país.</p>
+<div class="contact">
+  <span>Correo</span><b>facugeisinger@gmail.com</b>
+  <span>LinkedIn</span><b>linkedin.com/in/facundo-geisinger-41988421a</b>
+  <span>Web</span><b>datos-criticos-uy.vercel.app</b>
+</div>
+
+<script src="assets/d3.min.js"></script>
+<script src="assets/siglas.js"></script>
+<script src="assets/informe.js"></script>
+</body>
+</html>

@@ -47,7 +47,7 @@
     [num(ult.n), `homicidios en ${ult.anio}`],
     [pct(conflictos / ult.n), `fueron conflictos entre criminales (${ult.anio})`],
     [pct(ult.n_fuego / ult.n), `con arma de fuego (${ult.anio})`],
-    [num(pplUlt.total), `personas presas (dic. ${pplUlt.anio}), contra ${num(ppl0.total)} en ${ppl0.anio}`],
+    [num(porAnio[0].n), `homicidios en ${porAnio[0].anio}, para comparar`],
   ].map(([v, l]) => `<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
 
   // ---------- homicidios por motivo: small multiples ----------
