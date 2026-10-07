@@ -61,22 +61,23 @@
     const host = document.getElementById("chart-motivo");
     host.innerHTML = "";
     const W = host.clientWidth;
-    const cols = W < 560 ? 1 : W < 760 ? 2 : 3;
-    const gap = 16;
-    const cw = (W - gap * (cols - 1)) / cols, ch = 150;
-    const grid = d3.select(host).append("div")
-      .style("display", "grid").style("grid-template-columns", `repeat(${cols}, 1fr)`).style("gap", gap + "px");
+    const gap = 20;
+    const ancho = W >= 620;                 // layout: destacado a la izquierda + 2x2 a la derecha
+    const grid = d3.select(host).append("div").attr("class", ancho ? "mot-grid" : "mot-grid mot-1col");
     const years = d3.extent(porMotivo, (d) => d.anio);
     const yMax = d3.max(porMotivo, (d) => d.n);
+    const smallW = ancho ? (W - gap) / 2 / 2 - gap / 2 : (W - gap) / 2;
+    const bigW = ancho ? (W - gap) / 2 : W;
 
-    MOTIVOS.forEach((mot) => {
+    MOTIVOS.forEach((mot, idx) => {
       const rows = porMotivo.filter((d) => d.motivo === mot).sort((a, b) => a.anio - b.anio);
-      const cell = grid.append("div");
+      const foco = idx === 0;
+      const cell = grid.append("div").attr("class", foco ? "mot-cell mot-foco" : "mot-cell");
       const first = rows[0], last = rows[rows.length - 1];
-      cell.append("div").style("font-size", "13px").style("font-weight", 600).style("margin-bottom", "2px").text(mot);
-      cell.append("div").style("font-size", "12px").style("color", "var(--muted)")
-        .text(`${first.anio}: ${first.n} → ${last.anio}: ${last.n}`);
-      const m = { t: 10, r: 10, b: 22, l: 30 };
+      cell.append("div").attr("class", "mot-name").text(mot);
+      cell.append("div").attr("class", "mot-sub").text(`${first.anio}: ${first.n} → ${last.anio}: ${last.n}`);
+      const cw = foco ? bigW : smallW, ch = foco ? (ancho ? 300 : 170) : (ancho ? 120 : 110);
+      const m = { t: 10, r: 16, b: 22, l: 30 };
       const svg = cell.append("svg").attr("viewBox", `0 0 ${cw} ${ch}`)
         .attr("role", "img").attr("aria-label", `Homicidios por ${mot}: ${first.n} en ${first.anio}, ${last.n} en ${last.anio}`);
       const x = d3.scaleLinear().domain(years).range([m.l, cw - m.r]);

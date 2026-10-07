@@ -3,15 +3,15 @@
   const rows = await d3.json("data/comparacion_paises.json");
 
   const IND = [
-    { id: "NY.GDP.PCAP.PP.KD", grp: "Economía", label: "PIB per cápita", unit: "US$ PPA", better: "high", fmt: (v) => "US$ " + Math.round(v).toLocaleString("es-UY"), src: "Banco Mundial / ICP · PIB per cápita en paridad de poder adquisitivo, US$ internacionales constantes de 2021" },
-    { id: "NY.GDP.MKTP.KD.ZG", grp: "Economía", label: "Crecimiento del PIB", unit: "%", better: "high", src: "Banco Mundial · Crecimiento anual del PIB a precios constantes" },
-    { id: "FP.CPI.TOTL.ZG", grp: "Economía", label: "Inflación", unit: "%", better: "low", cap: 25, src: "FMI vía Banco Mundial · Variación anual del índice de precios al consumidor" },
-    { id: "SL.UEM.TOTL.ZS", grp: "Economía", label: "Desempleo", unit: "%", better: "low", src: "OIT (estimación modelada) vía Banco Mundial · % de la fuerza laboral" },
-    { id: "SL.UEM.1524.ZS", grp: "Economía", label: "Desempleo juvenil", unit: "%", better: "low", src: "OIT (estimación modelada) vía Banco Mundial · % de la fuerza laboral de 15 a 24 años" },
-    { id: "SI.POV.GINI", grp: "Social", label: "Desigualdad (Gini)", unit: "", better: "low", fmt: (v) => v.toLocaleString("es-UY", { maximumFractionDigits: 1 }), src: "Banco Mundial, Poverty and Inequality Platform · Índice de Gini (0 = igualdad total, 100 = desigualdad máxima)" },
-    { id: "SI.POV.UMIC", grp: "Social", label: "Pobreza (US$ 8,30/día)", unit: "%", better: "low", src: "Banco Mundial, Poverty and Inequality Platform · % de la población que vive con menos de US$ 8,30 por día (PPA 2021)" },
-    { id: "VC.IHR.PSRC.P5", grp: "Social", label: "Homicidios", unit: "c/100 mil", better: "low", fmt: (v) => v.toLocaleString("es-UY", { maximumFractionDigits: 1 }), src: "UNODC vía Banco Mundial · Homicidios intencionales cada 100.000 habitantes" },
-    { id: "SE.SEC.CUAT.UP.ZS", grp: "Social", label: "Secundaria completa (25+)", unit: "%", better: "high", src: "UNESCO vía Banco Mundial · % de la población de 25 años o más con al menos secundaria superior completa" },
+    { id: "NY.GDP.PCAP.PP.KD", que: "Cuánto produce el país por persona", explica: "Es el valor de todo lo que produce el país en un año, dividido entre sus habitantes. Está en dólares \"PPA\": se ajusta por lo que cuestan las cosas en cada país, para que un dólar compre lo mismo en todos. Más alto es mejor.", grp: "Economía", label: "PIB per cápita", unit: "US$ PPA", better: "high", fmt: (v) => "US$ " + Math.round(v).toLocaleString("es-UY"), src: "Banco Mundial / ICP · PIB per cápita en paridad de poder adquisitivo, US$ internacionales constantes de 2021" },
+    { id: "NY.GDP.MKTP.KD.ZG", que: "Cuánto creció la economía en el año", explica: "Es cuánto aumentó lo que produce el país respecto al año anterior, descontando la suba de precios. Un 2% quiere decir que se produjo un 2% más que el año anterior. Más alto es mejor.", grp: "Economía", label: "Crecimiento del PIB", unit: "%", better: "high", src: "Banco Mundial · Crecimiento anual del PIB a precios constantes" },
+    { id: "FP.CPI.TOTL.ZG", que: "Cuánto subieron los precios en el año", explica: "Es cuánto aumentaron en un año los precios de lo que compran los hogares. Con inflación alta, el sueldo alcanza para menos. Más bajo es mejor, mientras no sea negativa.", grp: "Economía", label: "Inflación", unit: "%", better: "low", cap: 25, src: "FMI vía Banco Mundial · Variación anual del índice de precios al consumidor" },
+    { id: "SL.UEM.TOTL.ZS", que: "De cada 100 que buscan trabajo, cuántos no lo consiguen", explica: "Porcentaje de personas que quieren trabajar y buscan empleo pero no lo encuentran, sobre el total de quienes trabajan o buscan. No cuenta a quienes no buscan, como estudiantes o jubilados. Es una estimación de la OIT, por lo que puede diferir unas décimas del dato del INE. Más bajo es mejor.", grp: "Economía", label: "Desempleo", unit: "%", better: "low", src: "OIT (estimación modelada) vía Banco Mundial · % de la fuerza laboral" },
+    { id: "SL.UEM.1524.ZS", que: "Lo mismo, pero entre los jóvenes de 15 a 24", explica: "Porcentaje de jóvenes de 15 a 24 años que buscan trabajo y no lo consiguen, sobre el total de jóvenes que trabajan o buscan. Los que solo estudian no cuentan. Más bajo es mejor.", grp: "Economía", label: "Desempleo juvenil", unit: "%", better: "low", src: "OIT (estimación modelada) vía Banco Mundial · % de la fuerza laboral de 15 a 24 años" },
+    { id: "SI.POV.GINI", que: "Qué tan desigual se reparte el ingreso", explica: "Va de 0 a 100: 0 sería que todos ganan lo mismo y 100 que una sola persona se lleva todo. Más bajo es mejor. Como referencia, los países nórdicos están entre 25 y 30.", grp: "Social", label: "Desigualdad (Gini)", unit: "", better: "low", fmt: (v) => v.toLocaleString("es-UY", { maximumFractionDigits: 1 }), src: "Banco Mundial, Poverty and Inequality Platform · Índice de Gini (0 = igualdad total, 100 = desigualdad máxima)" },
+    { id: "SI.POV.UMIC", que: "Personas que viven con menos de US$ 8,30 por día", explica: "Porcentaje de personas que viven con menos de 8,30 dólares por día, ajustados por costo de vida (PPA). Es una línea internacional, igual para todos los países, para poder compararlos. No es la línea oficial de pobreza de Uruguay: la del INE es más exigente y por eso da un porcentaje más alto. Más bajo es mejor.", grp: "Social", label: "Pobreza", unit: "%", better: "low", src: "Banco Mundial, Poverty and Inequality Platform · % de la población que vive con menos de US$ 8,30 por día (PPA 2021)" },
+    { id: "VC.IHR.PSRC.P5", que: "Asesinatos por cada 100.000 habitantes", explica: "Cantidad de homicidios intencionales en un año por cada 100.000 habitantes. Usar una tasa permite comparar países de distinto tamaño. Más bajo es mejor. El promedio mundial ronda los 6.", grp: "Social", label: "Homicidios", unit: "c/100 mil", better: "low", fmt: (v) => v.toLocaleString("es-UY", { maximumFractionDigits: 1 }), src: "UNODC vía Banco Mundial · Homicidios intencionales cada 100.000 habitantes" },
+    { id: "SE.SEC.CUAT.UP.ZS", que: "Adultos de 25 años o más que terminaron el liceo", explica: "Porcentaje de personas de 25 años o más que terminaron la educación media superior (en Uruguay, bachillerato de liceo o UTU). Mide a toda la población adulta, no solo a los jóvenes. Más alto es mejor.", grp: "Social", label: "Secundaria completa", unit: "%", better: "high", src: "UNESCO vía Banco Mundial · % de la población de 25 años o más con al menos secundaria superior completa" },
   ];
   const PAISES = ["URY", "ARG", "BRA", "CHL", "PRY", "CRI", "MEX"];
   const REFS = ["LCN", "OED"];
@@ -114,6 +114,7 @@
           aria-label="${ind.label}: Uruguay ${pos}º de ${n}, ${e.label}">
         <div class="sema-top"><span class="sema-name">${ind.label}</span>
           <span class="sema-badge" style="color:${col.t}">${e.icon} ${pos}º de ${n}</span></div>
+        <div class="sema-que">${ind.que}</div>
         <div class="sema-val">${fmtOf(ind)(u.valor)} <small>${u.anio}</small></div>
         <div class="sema-dots" title="Puesto de Uruguay: ${pos}º de ${n} (izquierda = mejor)">${dots}</div>
         <div class="sema-vs">${refs}</div>
@@ -154,6 +155,7 @@
       .filter((r) => r.valor !== undefined && r.anio >= maxAnio - MAX_ANTIG);
     list.sort((a, b) => (ind.better === "high" ? b.valor - a.valor : a.valor - b.valor));
     document.getElementById("verdict").innerHTML = veredicto(ind, list);
+    document.getElementById("que-mide").innerHTML = `<span class="qm-lbl">¿Qué mide?</span> ${ind.explica}`;
     document.getElementById("rank-title").textContent = `${ind.label}: último dato (${ind.better === "high" ? "mejor arriba" : "más bajo es mejor"})`;
 
     const host = document.getElementById("chart-rank");
@@ -209,7 +211,7 @@
       `<li><span class="sw sw-line" style="background:${cOther}"></span>Resto del grupo</li>`;
 
     const host = document.getElementById("chart-evo");
-    const W = host.clientWidth, H = 280, m = { t: 12, r: 12, b: 26, l: 46 };
+    const W = host.clientWidth, H = 280, m = { t: 12, r: 20, b: 26, l: 46 };
     const svg = d3.select(host).html("").append("svg").attr("viewBox", `0 0 ${W} ${H}`)
       .attr("role", "img").attr("aria-label", `Evolución de ${ind.label}: Uruguay comparado con ${NOMBRE[state.vs]}`);
     const all = visibles.flatMap((l) => l.s.map((p) => p.valor));
