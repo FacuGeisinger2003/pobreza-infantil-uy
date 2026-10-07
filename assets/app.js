@@ -201,7 +201,6 @@
   let geo = null;
   async function loadGeo() {
     const sources = [
-      "data/uruguay_departamentos.geojson",
       "https://cdn.jsdelivr.net/npm/@highcharts/map-collection/countries/uy/uy-all.geo.json",
     ];
     for (const src of sources) {

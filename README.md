@@ -2,7 +2,7 @@
 
 **Por qué estar "mejor que el resto" no es estar bien.** Investigación personal con datos públicos sobre pobreza infantil, educación, seguridad, natalidad y la comparación de Uruguay con la región. Los datos se procesan en Databricks y se muestran en una web interactiva.
 
-🔗 **Sitio:** _(link de Vercel)_
+🔗 **Sitio:** [datos-criticos-uy.vercel.app](https://datos-criticos-uy.vercel.app/)
 
 ![Portada del sitio](docs/portada.png)
 

@@ -226,6 +226,7 @@ details.sources li { margin-bottom: 6px; }
 .progress { height: 3px; background: transparent; }
 .progress-bar { height: 100%; background: linear-gradient(90deg, var(--s1), var(--s2)); transform-origin: 0 50%; transform: scaleX(0); }
 @media (max-width: 760px) { .brand { display: none; } .topnav { margin-left: 0; } }
+@media (min-width: 761px) and (max-width: 1100px) { .topnav a span { display: none; } .topnav a { padding: 6px 8px; font-size: 13.5px; } .topbar-in { gap: 12px; } }
 
 /* portada */
 .hero { min-height: calc(100vh - 59px); display: flex; align-items: center;
