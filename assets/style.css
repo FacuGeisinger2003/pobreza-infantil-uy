@@ -457,3 +457,9 @@ abbr.sigla:focus-visible { outline: 2px solid var(--s1); outline-radius: 3px; }
 .bloque { display: flex; align-items: center; gap: 10px; margin: 48px 0 18px; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
 .bloque span { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); color: var(--page); font-size: 12px; letter-spacing: 0; }
 .bloque::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+/* semáforo como regla de puntos */
+.semaforo { display: block !important; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 16px 18px 10px; }
+.semaforo svg { display: block; width: 100%; height: auto; }
+.regla-row:focus { outline: none; } .regla-row:focus-visible rect:first-child { stroke: var(--s1); stroke-width: 2; }
+.cmp-single { max-width: 720px; }

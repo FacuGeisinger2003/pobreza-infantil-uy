@@ -52,7 +52,7 @@
       picker.appendChild(b);
     });
   });
-  const paisSeg = document.getElementById("pais-seg");
+  const paisSeg = document.getElementById("pais-seg") || document.createElement("div");
   PAISES.filter((p) => p !== "URY").forEach((p) => {
     const b = document.createElement("button");
     b.type = "button"; b.setAttribute("role", "radio"); b.textContent = NOMBRE[p]; b.dataset.id = p;
@@ -107,24 +107,37 @@
       `De ${cards.length} indicadores, Uruguay está <span class="pill pill-good">${cuenta("good")} en verde</span> ` +
       `<span class="pill pill-warn">${cuenta("warn")} en amarillo</span> <span class="pill pill-bad">${cuenta("bad")} en rojo</span>`;
 
+    // regla: una fila por indicador; puntos grises = otros países ordenados de mejor (izq.) a peor (der.)
     const host = document.getElementById("semaforo");
-    host.innerHTML = cards.map(({ ind, pos, n, u, e, refs }) => {
-      const col = colores(e.k);
-      const dots = Array.from({ length: n }, (_, i) => `<span class="${i + 1 === pos ? "on" : ""}"></span>`).join("");
-      return `<button type="button" class="sema-card" data-id="${ind.id}" style="--c:${col.c};--bg:${col.bg}"
-          aria-label="${ind.label}: Uruguay ${pos}º de ${n}, ${e.label}">
-        <div class="sema-top"><span class="sema-name">${ind.label}</span>
-          <span class="sema-badge" style="color:${col.t}">${e.icon} ${pos}º de ${n}</span></div>
-        <div class="sema-que">${ind.que}</div>
-        <div class="sema-val">${fmtOf(ind)(u.valor)} <small>${u.anio}</small></div>
-        <div class="sema-dots" title="Puesto de Uruguay: ${pos}º de ${n} (izquierda = mejor)">${dots}</div>
-        <div class="sema-vs">${refs}</div>
-      </button>`;
-    }).join("");
-    host.querySelectorAll(".sema-card").forEach((b) => b.addEventListener("click", () => {
-      state.ind = b.dataset.id; syncButtons(); render();
-      document.getElementById("detalle").scrollIntoView({ behavior: "smooth", block: "start" });
-    }));
+    const W = host.clientWidth || 800, narrow = W < 560;
+    const rowH = narrow ? 52 : 44, L = narrow ? 14 : 190, Rm = narrow ? 14 : 120, top = 26;
+    const H = top + cards.length * rowH + 6;
+    const svg = d3.select(host).html("").append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img")
+      .attr("aria-label", "Puesto de Uruguay en cada indicador entre los países de la región");
+    const xr = (i, n) => L + (n > 1 ? (i / (n - 1)) : 0) * (W - L - Rm);
+    svg.append("text").attr("x", L).attr("y", 12).attr("class", "val").style("fill", css("--muted")).text("← mejor puesto");
+    svg.append("text").attr("x", W - Rm).attr("y", 12).attr("text-anchor", "end").attr("class", "val").style("fill", css("--muted")).text("peor puesto →");
+    cards.forEach((c, i) => {
+      const y = top + i * rowH + (narrow ? 32 : rowH / 2), col = colores(c.e.k);
+      const g = svg.append("g").attr("class", "regla-row").style("cursor", "pointer").attr("tabindex", 0).attr("role", "button")
+        .attr("aria-label", `${c.ind.label}: Uruguay ${c.pos}º de ${c.n}. Ver detalle`);
+      g.append("rect").attr("x", 0).attr("y", top + i * rowH).attr("width", W).attr("height", rowH)
+        .attr("fill", c.ind.id === state.ind ? css("--grid") : "transparent").attr("opacity", 0.6).attr("rx", 8);
+      if (narrow) g.append("text").attr("x", L).attr("y", y - 16).style("font-size", "13px").style("font-weight", 600).style("fill", css("--ink")).text(`${c.ind.label} · ${fmtOf(c.ind)(c.u.valor)}`);
+      else {
+        g.append("text").attr("x", L - 14).attr("y", y).attr("dy", "0.35em").attr("text-anchor", "end").style("font-size", "14px").style("font-weight", 600).style("fill", css("--ink")).text(c.ind.label);
+        g.append("text").attr("x", W - Rm + 16).attr("y", y).attr("dy", "0.35em").style("font-size", "14px").style("font-weight", 700).style("fill", css("--ink")).text(fmtOf(c.ind)(c.u.valor));
+      }
+      g.append("line").attr("x1", xr(0, c.n)).attr("x2", xr(c.n - 1, c.n)).attr("y1", y).attr("y2", y).attr("stroke", css("--grid")).attr("stroke-width", 2);
+      for (let k = 0; k < c.n; k++) if (k !== c.pos - 1) g.append("circle").attr("cx", xr(k, c.n)).attr("cy", y).attr("r", 4.5).attr("fill", css("--axis"));
+      g.append("circle").attr("cx", xr(c.pos - 1, c.n)).attr("cy", y).attr("r", 11).attr("fill", col.c);
+      g.append("text").attr("x", xr(c.pos - 1, c.n)).attr("y", y).attr("dy", "0.35em").attr("text-anchor", "middle")
+        .style("font-size", "11px").style("font-weight", 800).style("fill", "#fff").text(c.pos);
+      const ir = () => { state.ind = c.ind.id; syncButtons(); render(); document.getElementById("detalle").scrollIntoView({ behavior: "smooth", block: "start" }); };
+      g.on("click", ir).on("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); ir(); } })
+        .on("pointermove", (ev) => showTip(`<b>${c.ind.label}</b><div class="row">Uruguay (${c.u.anio})<strong>${fmtOf(c.ind)(c.u.valor)}</strong></div><div class="row">Puesto<strong>${c.pos}º de ${c.n}</strong></div><div style="opacity:.7;margin-top:4px">${c.ind.que}. Tocá para ver el ranking.</div>`, ev))
+        .on("pointerleave", hideTip);
+    });
     return cards;
   }
 
@@ -193,12 +206,17 @@
   // ---------- evolución ----------
   function renderEvo() {
     const ind = IND.find((i) => i.id === state.ind);
+    if (!document.getElementById("chart-evo")) {
+      document.getElementById("ind-source").innerHTML = `<span class="f-lbl">Fuente</span> <b>Banco Mundial</b> – ${ind.src} <a href="https://data.worldbank.org/indicator/${ind.id}" target="_blank" rel="noopener">ver indicador ↗</a>`;
+      return;
+    }
     const f = fmtOf(ind);
     document.getElementById("evo-title").textContent = `${ind.label}, 2000–2025`;
-    const cU = css("--s2"), cV = css("--s1"), cRef = css("--ink-2"), cOther = css("--axis");
+    const cU = css("--s2"), cV = css("--s1");
+    // solo 4 líneas: Uruguay, el país elegido y las dos referencias (con 12 países juntos no se entendía)
     const lineas = [
-      ...PAISES.filter((p) => p !== "URY" && p !== state.vs).map((p) => ({ iso: p, color: cOther, w: 1.25, dash: null, rol: "otro" })),
-      ...REFS.map((p) => ({ iso: p, color: cRef, w: 1.5, dash: p === "LCN" ? "5 4" : "2 3", rol: "ref" })),
+      { iso: "LCN", color: css("--muted"), w: 2, dash: "2 4", rol: "ref" },
+      { iso: "OED", color: css("--ink"), w: 1.6, dash: "7 5", rol: "ref" },
       { iso: state.vs, color: cV, w: 2, dash: null, rol: "vs" },
       { iso: "URY", color: cU, w: 2.5, dash: null, rol: "uy" },
     ].map((l) => ({ ...l, s: serie(ind.id, l.iso) })).filter((l) => l.s.length);
@@ -207,12 +225,12 @@
     const visibles = lineas.filter((l) => l.s[l.s.length - 1].anio >= maxAnio - MAX_ANTIG);
 
     document.getElementById("legend-evo").innerHTML = visibles.filter((l) => l.rol !== "otro").reverse().map((l) =>
-      l.dash ? `<li><span class="sw sw-dash" style="border-color:${l.color}"></span>${NOMBRE[l.iso]}</li>`
+      l.dash ? `<li><span class="sw sw-dash" style="border-color:${l.color};border-top-style:${l.iso === "LCN" ? "dotted" : "dashed"}"></span>${NOMBRE[l.iso]}</li>`
              : `<li><span class="sw sw-line" style="background:${l.color}"></span>${NOMBRE[l.iso]}</li>`).join("") +
-      `<li><span class="sw sw-line" style="background:${cOther}"></span>Resto del grupo</li>`;
+      "";
 
     const host = document.getElementById("chart-evo");
-    const W = host.clientWidth, H = 280, m = { t: 12, r: 20, b: 26, l: 46 };
+    const W = host.clientWidth, H = 280, m = { t: 12, r: W < 480 ? 70 : 96, b: 26, l: 46 };
     const svg = d3.select(host).html("").append("svg").attr("viewBox", `0 0 ${W} ${H}`)
       .attr("role", "img").attr("aria-label", `Evolución de ${ind.label}: Uruguay comparado con ${NOMBRE[state.vs]}`);
     const all = visibles.flatMap((l) => l.s.map((p) => p.valor));
@@ -238,13 +256,24 @@
       .attr("stroke-dasharray", (l) => l.dash).attr("stroke-linejoin", "round").attr("stroke-linecap", "round")
       .attr("d", (l) => line(l.s));
 
+    // etiqueta al final de cada línea (nombre + último valor), separadas para que no se pisen
+    const fin = visibles.map((l) => { const p = l.s[l.s.length - 1]; return { l, p, y: y(ind.cap ? Math.min(p.valor, ind.cap) : p.valor) }; })
+      .sort((a, b) => a.y - b.y);
+    for (let i = 1; i < fin.length; i++) if (fin[i].y - fin[i - 1].y < 13) fin[i].y = fin[i - 1].y + 13;
+    fin.forEach(({ l, p, y: yy }) => {
+      const nom = l.iso === "LCN" ? "Am. Latina" : NOMBRE[l.iso];
+      svg.append("text").attr("x", x(p.anio) + 6).attr("y", yy).attr("dy", "0.35em")
+        .style("font-size", "11.5px").style("font-weight", l.rol === "uy" ? 700 : 500).style("fill", l.rol === "ref" ? css("--ink-2") : l.color)
+        .text(`${nom} ${f(p.valor)}`);
+    });
+
     // nota de escala / datos faltantes
     const notas = [];
     if (ind.cap && d3.max(all) > ind.cap) {
       const pico = serie(ind.id, "ARG").reduce((a, b) => (b.valor > a.valor ? b : a));
       notas.push(`Escala recortada en ${ind.cap}%: Argentina llegó a ${fmtDef(pico.valor)} en ${pico.anio}.`);
     }
-    const faltan = [...PAISES, ...REFS].filter((p) => !visibles.find((l) => l.iso === p));
+    const faltan = ["URY", state.vs, ...REFS].filter((p) => !visibles.find((l) => l.iso === p));
     if (faltan.length) notas.push(`Sin datos recientes: ${faltan.map((p) => NOMBRE[p]).join(", ")}.`);
     document.getElementById("evo-note").textContent = notas.join(" ");
     document.getElementById("ind-source").innerHTML = `<span class="f-lbl">Fuente</span> <b>Banco Mundial</b> – ${ind.src} <a href="https://data.worldbank.org/indicator/${ind.id}" target="_blank" rel="noopener">ver indicador ↗</a>`;

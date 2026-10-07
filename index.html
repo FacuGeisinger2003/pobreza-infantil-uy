@@ -276,7 +276,7 @@
     <div class="sema-head">
       <div>
         <h3 class="sec-title">El semáforo de Uruguay</h3>
-        <p>Cada tarjeta compara a Uruguay con 11 países: toda Sudamérica (Argentina, Bolivia, Brasil, Chile, Colombia, Ecuador, Paraguay, Perú y Venezuela) más Costa Rica y México. Un país entra al ranking solo si tiene un dato de los últimos 5 años. Tocá una tarjeta para ver el detalle.</p>
+        <p>Cada fila compara a Uruguay con 11 países: toda Sudamérica (Argentina, Bolivia, Brasil, Chile, Colombia, Ecuador, Paraguay, Perú y Venezuela) más Costa Rica y México. Un país entra al ranking solo si tiene un dato de los últimos 5 años. El círculo grande es Uruguay y el número, su puesto. Tocá una fila para ver el ranking completo.</p>
       </div>
       <ul class="sema-legend" aria-label="Qué significa cada color">
         <li><span class="dot dot-good"></span><b>Verde</b><span>Entre los 3 mejores</span></li>
@@ -291,25 +291,14 @@
 
   <section class="reveal">
     <h3 class="sec-title" id="detalle">Compará indicador por indicador</h3>
-    <p>Elegí un indicador. A la izquierda está el último dato de cada país y a la derecha la evolución desde el año 2000. Elegí también un país para compararlo directo con Uruguay.</p>
+    <p>Elegí un indicador para ver el último dato de cada país, junto al promedio de América Latina y el de la OCDE.</p>
     <p class="print-only print-note">En la versión web se puede elegir cada uno de los 9 indicadores; acá se muestra uno como ejemplo.</p>
     <div class="picker" id="ind-picker" role="radiogroup" aria-label="Indicador"></div>
     <p class="verdict" id="verdict"></p>
     <div class="que-mide" id="que-mide"></div>
-    <div class="cmp-grid">
-      <div class="card">
-        <div class="card-head"><h4 id="rank-title">Último dato</h4></div>
-        <div id="chart-rank" class="chart"></div>
-      </div>
-      <div class="card">
-        <div class="card-head">
-          <h4 id="evo-title">Evolución</h4>
-        </div>
-        <div class="seg seg-wrap" id="pais-seg" role="radiogroup" aria-label="Comparar con"></div>
-        <ul class="legend legend-left" id="legend-evo"></ul>
-        <div id="chart-evo" class="chart"></div>
-        <p class="note" id="evo-note"></p>
-      </div>
+    <div class="card cmp-single">
+      <div class="card-head"><h4 id="rank-title">Último dato</h4></div>
+      <div id="chart-rank" class="chart"></div>
     </div>
     <p class="fuente fuente-dyn" id="ind-source"></p>
   </section>
