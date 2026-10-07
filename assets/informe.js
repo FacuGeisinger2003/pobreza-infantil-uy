@@ -18,7 +18,7 @@
   document.getElementById("mes").textContent = new Date().toLocaleDateString("es-UY", { month: "long", year: "numeric" });
   document.getElementById("cover-kpis").innerHTML = [
     ["32%", "de los niños de 0 a 5 años vive en hogares pobres"],
-    ["47%", "de los jóvenes de 21 a 23 años no terminó el liceo"],
+    ["47%", "de los jóvenes de 21 a 23 años no terminó la educación media"],
     ["375", "homicidios en 2025, más de la mitad entre criminales"],
     ["−39%", "nacimientos entre 2015 y 2024"],
   ].map(([v, l]) => `<div class="kpi"><b>${v}</b><span>${l}</span></div>`).join("");
@@ -145,13 +145,13 @@
   // ---------- G6: desempleo según educación ----------
   (() => {
     const ord = ["No terminó el liceo", "Terminó el liceo"];
-    const rows = ord.map((k) => desemp.find((d) => d.educacion === k)).map((d) => ({ label: d.educacion, v: d.pct_desempleo }));
-    hbars("g-desemp", rows, { W: HALF, rowH: 30, max: 30, labelW: 112, color: (d) => (d.label === "Terminó el liceo" ? C.blue : C.bad) });
+    const rows = ord.map((k) => desemp.find((d) => d.educacion === k)).map((d) => ({ label: d.educacion.replace("el liceo", "la media"), v: d.pct_desempleo }));
+    hbars("g-desemp", rows, { W: HALF, rowH: 30, max: 30, labelW: 112, color: (d) => (d.label === "Terminó la media" ? C.blue : C.bad) });
   })();
 
   // ---------- barras verticales por año ----------
   function vbars(id, rows, key, { W, H, color, labels = "ends", fmt = int, yfmt = int }) {
-    const m = { t: 16, r: 2, b: 22, l: 40 };
+    const m = { t: 16, r: 22, b: 22, l: 40 };
     const svg = svgIn(id, W, H, "serie anual");
     const x = d3.scaleBand().domain(rows.map((d) => d.anio)).range([m.l, W - m.r]).paddingInner(0.22);
     const y = d3.scaleLinear().domain([0, d3.max(rows, (d) => d[key])]).nice().range([H - m.b, m.t]);
@@ -179,7 +179,7 @@
       const x = d3.scaleLinear().domain([0, 100]).range([m.l, W - m.r]);
       rows.forEach((d, i) => {
         const y0 = m.t + i * rowH + 5, bh = rowH - 10;
-        T(svg.append("text").attr("x", m.l - 8).attr("y", y0 + bh / 2).attr("dy", "0.33em").attr("text-anchor", "end").attr("fill", C.ink2).text(d.educacion), 10);
+        T(svg.append("text").attr("x", m.l - 8).attr("y", y0 + bh / 2).attr("dy", "0.33em").attr("text-anchor", "end").attr("fill", C.ink2).text(d.educacion.replace("el liceo", "la media")), 10);
         let acc = 0;
         K.forEach(([k, , c]) => {
           const v = d[k];
@@ -300,7 +300,7 @@
       ["VA.SC", "Libertades y rendición de cuentas", (v) => int(v) + "/100"],
       ["PV.SC", "Estabilidad política", (v) => int(v) + "/100"],
       ["EG.ELC.RNWX.ZS", "Electricidad de viento, sol y biomasa", (v) => int(v) + "%"],
-      ["IT.NET.BBND.P2", "Internet fijo (conexiones cada 100 hab.)", (v) => int(v)],
+      ["IT.NET.BBND.P2", "Banda ancha fija (conexiones cada 100 hab.)", (v) => int(v)],
     ];
     const head = `<thead><tr><th>Indicador</th><th class="n">Uruguay</th><th class="n">Año</th><th>Segundo puesto</th><th class="n">América Latina</th><th class="n">OCDE</th></tr></thead>`;
     const body = F5.map(([id, label, f]) => {

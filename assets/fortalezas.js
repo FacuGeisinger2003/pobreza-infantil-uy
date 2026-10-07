@@ -14,9 +14,9 @@
       que: "Si la gente puede elegir a su gobierno y tiene libertad de expresión, de prensa y de asociación." },
     { id: "PV.SC", nombre: "Estabilidad política", unidad: "/100", max: 100,
       que: "Qué tan poco probable es que el gobierno caiga por medios violentos o fuera de la Constitución." },
-    { id: "EG.ELC.RNWX.ZS", nombre: "Electricidad de viento, sol y biomasa", unidad: "%", max: 70,
+    { id: "EG.ELC.RNWX.ZS", nombre: "Electricidad renovable no hidráulica", unidad: "%", max: 70,
       que: "Porcentaje de la electricidad que sale de fuentes renovables, sin contar las represas." },
-    { id: "IT.NET.BBND.P2", nombre: "Internet fijo de alta velocidad", unidad: " cada 100", max: 40,
+    { id: "IT.NET.BBND.P2", nombre: "Banda ancha fija", unidad: " cada 100", max: 40,
       que: "Conexiones fijas de banda ancha cada 100 habitantes." },
   ];
 
@@ -37,7 +37,7 @@
   function renderCards() {
     const grid = document.getElementById("fort-grid");
     grid.innerHTML = IND.map((ind) => {
-      const rows = PAISES.map((iso) => ultimo(ind.id, iso)).filter((r) => r && r.valor >= 0) // valores negativos = artefacto de la fuente.sort((a, b) => b.valor - a.valor);
+      const rows = PAISES.map((iso) => ultimo(ind.id, iso)).filter((r) => r && r.valor >= 0).sort((a, b) => b.valor - a.valor); // valores negativos = error de la fuente
       const u = rows.find((r) => r.iso3 === "URY");
       const puesto = rows.indexOf(u) + 1;
       const oc = ultimo(ind.id, "OED");
@@ -54,7 +54,7 @@
         <div class="fort-big">${f1(u.valor)}<small>${ind.unidad}</small></div>
         <p class="fort-que">${ind.que}</p>
         <div class="fort-bars">${barras}</div>
-        ${oc ? `<p class="fort-oc"><span class="fb-ref-key"></span>Promedio OCDE: ${f1(oc.valor)} (${oc.anio})</p>` : ""}
+        ${oc ? `<p class="fort-oc"><span class="fb-ref-key"></span><span>Promedio OCDE: ${f1(oc.valor)} (${oc.anio})</span></p>` : ""}
       </div>`;
     }).join("");
     grid.querySelectorAll(".fb-row").forEach((el) => {

@@ -8,10 +8,10 @@
     { id: "FP.CPI.TOTL.ZG", que: "Cuánto subieron los precios en el año", explica: "Es cuánto aumentaron en un año los precios de lo que compran los hogares. Con inflación alta, el sueldo alcanza para menos. Más bajo es mejor, mientras no sea negativa.", grp: "Economía", label: "Inflación", unit: "%", better: "low", cap: 25, src: "FMI vía Banco Mundial · Variación anual del índice de precios al consumidor" },
     { id: "SL.UEM.TOTL.ZS", que: "De cada 100 que buscan trabajo, cuántos no lo consiguen", explica: "Porcentaje de personas que quieren trabajar y buscan empleo pero no lo encuentran, sobre el total de quienes trabajan o buscan. No cuenta a quienes no buscan, como estudiantes o jubilados. Es una estimación de la OIT, por lo que puede diferir unas décimas del dato del INE. Más bajo es mejor.", grp: "Economía", label: "Desempleo", unit: "%", better: "low", src: "OIT (estimación modelada) vía Banco Mundial · % de la fuerza laboral" },
     { id: "SL.UEM.1524.ZS", que: "Lo mismo, pero entre los jóvenes de 15 a 24", explica: "Porcentaje de jóvenes de 15 a 24 años que buscan trabajo y no lo consiguen, sobre el total de jóvenes que trabajan o buscan. Los que solo estudian no cuentan. Más bajo es mejor.", grp: "Economía", label: "Desempleo juvenil", unit: "%", better: "low", src: "OIT (estimación modelada) vía Banco Mundial · % de la fuerza laboral de 15 a 24 años" },
-    { id: "SI.POV.GINI", que: "Qué tan desigual se reparte el ingreso", explica: "Va de 0 a 100: 0 sería que todos ganan lo mismo y 100 que una sola persona se lleva todo. Más bajo es mejor. Como referencia, los países nórdicos están entre 25 y 30.", grp: "Social", label: "Desigualdad (Gini)", unit: "", better: "low", fmt: (v) => v.toLocaleString("es-UY", { maximumFractionDigits: 1 }), src: "Banco Mundial, Poverty and Inequality Platform · Índice de Gini (0 = igualdad total, 100 = desigualdad máxima)" },
+    { id: "SI.POV.GINI", que: "Qué tan desigual se reparte el ingreso", explica: "Va de 0 a 100: 0 sería que todos ganan lo mismo y 100 que una sola persona se lleva todo. Más bajo es mejor. Como referencia, los países nórdicos están entre 25 y 30.", grp: "Social", label: "Desigualdad (Gini)", unit: "", better: "low", fmt: (v) => v.toLocaleString("es-UY", { minimumFractionDigits: 1, maximumFractionDigits: 1 }), src: "Banco Mundial, Poverty and Inequality Platform · Índice de Gini (0 = igualdad total, 100 = desigualdad máxima)" },
     { id: "SI.POV.UMIC", que: "Personas que viven con menos de US$ 8,30 por día", explica: "Porcentaje de personas que viven con menos de 8,30 dólares por día, ajustados por costo de vida (PPA). Es una línea internacional, igual para todos los países, para poder compararlos. No es la línea oficial de pobreza de Uruguay: la del INE es más exigente y por eso da un porcentaje más alto. Más bajo es mejor.", grp: "Social", label: "Pobreza", unit: "%", better: "low", src: "Banco Mundial, Poverty and Inequality Platform · % de la población que vive con menos de US$ 8,30 por día (PPA 2021)" },
     { id: "VC.IHR.PSRC.P5", que: "Asesinatos por cada 100.000 habitantes", explica: "Cantidad de homicidios intencionales en un año por cada 100.000 habitantes. Usar una tasa permite comparar países de distinto tamaño. Más bajo es mejor. El promedio mundial ronda los 6.", grp: "Social", label: "Homicidios", unit: "c/100 mil", better: "low", fmt: (v) => v.toLocaleString("es-UY", { maximumFractionDigits: 1 }), src: "UNODC vía Banco Mundial · Homicidios intencionales cada 100.000 habitantes" },
-    { id: "SE.SEC.CUAT.UP.ZS", que: "Adultos de 25 años o más que terminaron el liceo", explica: "Porcentaje de personas de 25 años o más que terminaron la educación media superior (en Uruguay, bachillerato de liceo o UTU). Mide a toda la población adulta, no solo a los jóvenes. Más alto es mejor.", grp: "Social", label: "Secundaria completa", unit: "%", better: "high", src: "UNESCO vía Banco Mundial · % de la población de 25 años o más con al menos secundaria superior completa" },
+    { id: "SE.SEC.CUAT.UP.ZS", que: "Adultos de 25 años o más que terminaron la educación media", explica: "Porcentaje de personas de 25 años o más que terminaron la educación media superior (en Uruguay, bachillerato de liceo o UTU). Mide a toda la población adulta, no solo a los jóvenes. Más alto es mejor.", grp: "Social", label: "Secundaria completa", unit: "%", better: "high", src: "UNESCO vía Banco Mundial · % de la población de 25 años o más con al menos secundaria superior completa" },
   ];
   const PAISES = ["URY", "ARG", "BOL", "BRA", "CHL", "COL", "ECU", "PRY", "PER", "VEN", "CRI", "MEX"];
   const REFS = ["LCN", "OED"];
@@ -197,7 +197,7 @@
       .attr("opacity", (d) => (REFS.includes(d.iso3) ? 0.9 : 1));
     g.append("text").attr("class", "val").attr("y", y.bandwidth() / 2).attr("dy", "0.35em")
       .attr("x", (d) => x(cap ? Math.min(d.valor, cap) : Math.max(d.valor, 0)) + 6)
-      .text((d) => f(d.valor) + (d.anio < maxAnio ? ` (${d.anio})` : "") + (cap && d.valor > cap ? " ▸" : ""));
+      .text((d) => f(d.valor) + ` · ${d.anio}` + (cap && d.valor > cap ? " ▸" : ""));
     g.append("rect").attr("fill", "transparent").attr("x", 0).attr("width", W).attr("height", y.bandwidth())
       .on("pointermove", (ev, d) => showTip(`<b>${NOMBRE[d.iso3]}</b><div class="row">${ind.label} (${d.anio})<strong>${f(d.valor)}</strong></div>`, ev))
       .on("pointerleave", hideTip);
@@ -207,7 +207,7 @@
   function renderEvo() {
     const ind = IND.find((i) => i.id === state.ind);
     if (!document.getElementById("chart-evo")) {
-      document.getElementById("ind-source").innerHTML = `<span class="f-lbl">Fuente</span> <b>Banco Mundial</b> – ${ind.src} <a href="https://data.worldbank.org/indicator/${ind.id}" target="_blank" rel="noopener">ver indicador ↗</a>`;
+      document.getElementById("ind-source").innerHTML = `<span class="f-lbl">Fuente</span> ${ind.src} <a href="https://data.worldbank.org/indicator/${ind.id}" target="_blank" rel="noopener">ver indicador ↗</a>`;
       return;
     }
     const f = fmtOf(ind);
@@ -276,7 +276,7 @@
     const faltan = ["URY", state.vs, ...REFS].filter((p) => !visibles.find((l) => l.iso === p));
     if (faltan.length) notas.push(`Sin datos recientes: ${faltan.map((p) => NOMBRE[p]).join(", ")}.`);
     document.getElementById("evo-note").textContent = notas.join(" ");
-    document.getElementById("ind-source").innerHTML = `<span class="f-lbl">Fuente</span> <b>Banco Mundial</b> – ${ind.src} <a href="https://data.worldbank.org/indicator/${ind.id}" target="_blank" rel="noopener">ver indicador ↗</a>`;
+    document.getElementById("ind-source").innerHTML = `<span class="f-lbl">Fuente</span> ${ind.src} <a href="https://data.worldbank.org/indicator/${ind.id}" target="_blank" rel="noopener">ver indicador ↗</a>`;
 
     // crosshair
     const foco = visibles.filter((l) => l.rol !== "otro");

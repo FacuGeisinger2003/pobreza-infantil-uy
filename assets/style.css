@@ -463,3 +463,4 @@ abbr.sigla:focus-visible { outline: 2px solid var(--s1); outline-radius: 3px; }
 .semaforo svg { display: block; width: 100%; height: auto; }
 .regla-row:focus { outline: none; } .regla-row:focus-visible rect:first-child { stroke: var(--s1); stroke-width: 2; }
 .cmp-single { max-width: 720px; }
+

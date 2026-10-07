@@ -114,7 +114,7 @@
     const x = d3.scaleLinear().domain([0, 100]).range([m.l, W - m.r]);
     rows.forEach((d, i) => {
       const y0 = m.t + i * rowH + 8, bh = rowH - 16;
-      svg.append("text").attr("class", "lbl").attr("x", m.l - 10).attr("y", y0 + bh / 2).attr("dy", "0.35em").attr("text-anchor", "end").text(d.educacion);
+      svg.append("text").attr("class", "lbl").attr("x", m.l - 10).attr("y", y0 + bh / 2).attr("dy", "0.35em").attr("text-anchor", "end").text(d.educacion.replace("el liceo", "la media"));
       let acc = 0;
       K.forEach(([k, l, c]) => {
         const v = d[k], x0 = x(acc);
@@ -138,8 +138,8 @@
     renderNiniDpto();
     const ord = ["No terminó el liceo", "Terminó el liceo"];
     hbars("chart-desempleo-educ", ord.map((k) => desempleo.find((d) => d.educacion === k)).filter(Boolean),
-      (d) => d.educacion, "pct_desempleo", (d) => (d.educacion === "Terminó el liceo" ? css("--s1") : css("--bad")), 30,
-      "Desempleo de jóvenes de 18 a 29 años según si terminaron el liceo");
+      (d) => (d.educacion === "Terminó el liceo" ? "Terminó la media" : "No terminó la media"), "pct_desempleo", (d) => (d.educacion === "Terminó el liceo" ? css("--s1") : css("--bad")), 30,
+      "Desempleo de jóvenes de 18 a 29 años según si terminaron la educación media");
   }
   renderAll();
   let raf;
