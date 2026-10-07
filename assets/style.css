@@ -359,3 +359,22 @@ details.sources li { margin-bottom: 6px; }
 .contacto a:hover, .footer-in a:hover { color: var(--s1); text-decoration: underline; }
 .ai-note { flex-wrap: wrap; } .ai-note .ai-body { flex: 1 1 400px; display: flex; flex-direction: column; gap: 8px; }
 .ai-note .contacto { font-size: 13px; padding-top: 8px; border-top: 1px dashed var(--border); }
+
+/* ---------- aviso al entrar ---------- */
+.aviso-fondo { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px;
+  background: rgba(15, 17, 21, .55); backdrop-filter: blur(3px); animation: avIn .25s ease; }
+.aviso-fondo[hidden] { display: none; }
+.aviso { max-width: 480px; width: 100%; background: var(--surface); color: var(--ink); border-radius: 14px;
+  padding: 24px 24px 20px; box-shadow: 0 20px 60px rgba(0,0,0,.25); border-top: 4px solid var(--s1); }
+.aviso h2 { margin: 6px 0 10px; font-size: 22px; }
+.aviso p { margin: 0 0 18px; font-size: 15px; line-height: 1.55; color: var(--ink-2); }
+.aviso-btn { display: block; margin-left: auto; padding: 10px 22px; border: 0; border-radius: 999px;
+  background: var(--ink); color: var(--surface); font: inherit; font-weight: 600; cursor: pointer; }
+.aviso-btn:hover { opacity: .85; }
+@keyframes avIn { from { opacity: 0; } to { opacity: 1; } }
+body.aviso-abierto { overflow: hidden; }
+
+/* ---------- sobre mí ---------- */
+.autor { max-width: 920px; margin: 0 auto; padding: 56px 16px 24px; }
+.autor p { max-width: 680px; line-height: 1.65; }
+.autor .contacto { margin-top: 18px; }

@@ -24,24 +24,25 @@
       <a href="#seguridad" data-ch="seguridad"><span>03</span> Seguridad</a>
       <a href="#region" data-ch="region"><span>04</span> Región</a>
       <a href="#metodologia" data-ch="metodologia" class="nav-method">Metodología</a>
+      <a href="#autor" data-ch="autor" class="nav-method">Sobre mí</a>
     </nav>
   </div>
   <div class="progress"><div class="progress-bar" id="progress"></div></div>
 </header>
 
+<!-- ============ AVISO AL ENTRAR ============ -->
+<div class="aviso-fondo" id="aviso" hidden>
+  <div class="aviso" role="dialog" aria-modal="true" aria-labelledby="aviso-t">
+    <span class="ai-badge">Antes de empezar</span>
+    <h2 id="aviso-t">Sobre este proyecto</h2>
+    <p>Este proyecto se hizo con ayuda de inteligencia artificial (Claude, de Anthropic) para el código de la web, los gráficos y el procesamiento de los datos. La elección de los temas, las ideas y el enfoque de cada texto son míos; la redacción la trabajé junto a la IA, y revisé cada dato contra su fuente oficial.</p>
+    <button type="button" class="aviso-btn" id="aviso-ok">Entendido</button>
+  </div>
+</div>
+
 <!-- ============ PORTADA ============ -->
 <section class="hero" id="inicio">
   <div class="hero-in">
-    <aside class="ai-note" role="note">
-      <span class="ai-badge">Sobre este proyecto</span>
-      <div class="ai-body">
-      <p>Este proyecto se hizo con ayuda de inteligencia artificial (Claude, de Anthropic) para el código de la web, los gráficos y el procesamiento de los datos. La elección de los temas, las ideas y el enfoque de cada texto son míos; la redacción la trabajé junto a la IA, y revisé cada dato contra su fuente oficial.</p>
-      <p class="contacto">¿Una corrección o una sugerencia? Escribime:
-      <a href="mailto:facugeisinger@gmail.com">✉️ facugeisinger@gmail.com</a>
-      <a href="https://www.linkedin.com/in/facundo-geisinger-41988421a/" target="_blank" rel="noopener">💼 LinkedIn</a>
-      </p>
-      </div>
-    </aside>
     <h1 class="site-title">El relato de la estabilidad</h1>
     <p class="site-sub">Por qué estar "mejor que el resto" no es estar bien.</p>
     <p class="lede">Frente a la región, Uruguay casi siempre queda bien. Ese es justamente el problema: si la referencia son los vecinos, el techo queda bajo. Con datos oficiales y de forma simple, esta página muestra los indicadores que deberían preocuparnos más de lo que nos preocupan.</p>
@@ -334,6 +335,16 @@
 
   <h3 class="sec-title">Reproducirlo</h3>
   <p>El código está en <a href="https://github.com/FacuGeisinger2003/uruguay-en-datos">GitHub</a>. Los notebooks de Databricks descargan los datos de cada fuente, generan las tablas y exportan los JSON que usa esta página. Si encontrás un error, podés abrir un issue en el repositorio.</p>
+</section>
+
+<section class="autor reveal" id="autor">
+  <p class="chapter-num">Sobre mí</p>
+  <h2 class="sec-title">Facundo Geisinger</h2>
+  <p>Desde chico me interesó la política y sus números. Me acuerdo de mirar las elecciones por televisión, atento a cada porcentaje que se actualizaba: cuánta gente votó, quién subía, quién bajaba. Hoy estudio Ciencia de Datos en la Universidad de Montevideo, y este proyecto es la forma de juntar las dos cosas que me gustan: los datos y los temas que se discuten en el país.</p>
+  <p class="contacto">¿Una corrección o una sugerencia? Escribime:
+    <a href="mailto:facugeisinger@gmail.com">✉️ facugeisinger@gmail.com</a>
+    <a href="https://www.linkedin.com/in/facundo-geisinger-41988421a/" target="_blank" rel="noopener">💼 LinkedIn</a>
+  </p>
 </section>
 
 </main>
