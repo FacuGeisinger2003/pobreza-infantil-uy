@@ -306,7 +306,7 @@ details.sources li { margin-bottom: 6px; }
 /* ===== ajustes de publicación ===== */
 .ai-note { display: flex; gap: 12px; align-items: flex-start; max-width: 760px; margin: 0 0 40px; padding: 12px 16px;
   border: 1px solid var(--border); border-left: 4px solid var(--s1); border-radius: 12px; background: var(--surface); }
-.ai-note p { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+.ai-note > div > p, .ai-note p { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
 .ai-badge { flex: none; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--s1);
   padding-top: 2px; white-space: nowrap; }
 @media (max-width: 560px) { .ai-note { flex-direction: column; gap: 4px; } }
@@ -341,3 +341,21 @@ details.sources li { margin-bottom: 6px; }
   .sema-legend li { grid-template-columns: 12px auto; column-gap: 6px; }
   .sema-legend b { font-size: 13px; } .sema-legend li > span:last-child { font-size: 11.5px; line-height: 1.3; }
 }
+
+/* ni estudian ni trabajan: tarjeta única */
+.nini-top { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 4px 0 22px; }
+.nini-stat { display: flex; align-items: baseline; gap: 10px; padding: 14px 16px; border-radius: 12px;
+  background: color-mix(in srgb, var(--c) 9%, var(--surface)); border: 1px solid color-mix(in srgb, var(--c) 25%, transparent); }
+.ns-v { font-size: 34px; font-weight: 800; letter-spacing: -0.03em; color: var(--c); line-height: 1; font-variant-numeric: tabular-nums; }
+.ns-l { font-size: 15px; color: var(--ink-2); }
+.sub-h4 { margin: 0 0 10px; color: var(--ink-2); font-size: 14px; }
+.nini-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; row-gap: 2px; grid-auto-flow: column; grid-template-rows: repeat(10, auto); }
+@media (max-width: 680px) { .nini-cols { grid-template-columns: 1fr; grid-auto-flow: row; grid-template-rows: none; } .ns-v { font-size: 28px; } }
+
+/* contacto */
+.hero-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+.contacto { margin: 0; font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+.contacto a, .footer-in a { color: var(--ink-2); text-decoration: none; font-weight: 500; }
+.contacto a:hover, .footer-in a:hover { color: var(--s1); text-decoration: underline; }
+.ai-note { flex-wrap: wrap; } .ai-note .ai-body { flex: 1 1 400px; display: flex; flex-direction: column; gap: 8px; }
+.ai-note .contacto { font-size: 13px; padding-top: 8px; border-top: 1px dashed var(--border); }

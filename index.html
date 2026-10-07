@@ -34,7 +34,13 @@
   <div class="hero-in">
     <aside class="ai-note" role="note">
       <span class="ai-badge">Sobre este proyecto</span>
+      <div class="ai-body">
       <p>Este proyecto se hizo con ayuda de inteligencia artificial (Claude, de Anthropic) para el código de la web, los gráficos y el procesamiento de los datos. La elección de los temas, las ideas y el enfoque de cada texto son míos; la redacción la trabajé junto a la IA, y revisé cada dato contra su fuente oficial.</p>
+      <p class="contacto">¿Una corrección o una sugerencia? Escribime:
+      <a href="mailto:facugeisinger@gmail.com">✉️ facugeisinger@gmail.com</a>
+      <a href="https://www.linkedin.com/in/facundo-geisinger-41988421a/" target="_blank" rel="noopener">💼 LinkedIn</a>
+      </p>
+      </div>
     </aside>
     <h1 class="site-title">El relato de la estabilidad</h1>
     <p class="site-sub">Por qué estar "mejor que el resto" no es estar bien.</p>
@@ -165,18 +171,13 @@
   <section class="reveal">
     <h3 class="sec-title">Ni estudian ni trabajan</h3>
     <p>Entre los jóvenes de 15 a 24 años, el 13% de los hombres y el 17% de las mujeres no estudian ni tienen trabajo. Hay diferencias grandes entre departamentos, aunque con muestras chicas.</p>
-    <div class="nini-grid">
-      <div class="card">
-        <div class="card-head"><h4>% de jóvenes de 15 a 24 que no estudian ni trabajan</h4></div>
-        <div id="chart-nini-sexo" class="chart"></div>
-        <p class="fuente" data-fuente="ech2024" data-detalle="e49 ≠ 3 y POBPCOAC ≠ 2, ponderado con W_ANO"></p>
-      </div>
-      <div class="card">
-        <div class="card-head"><h4>Por departamento</h4></div>
-        <div id="chart-nini-dpto" class="ranking"></div>
-        <p class="note">Marcados con <span class="warn">*</span>: menos de 200 jóvenes encuestados. Son estimaciones con bastante margen de error.</p>
-        <p class="fuente" data-fuente="ech2024" data-detalle="ponderado con W_ANO"></p>
-      </div>
+    <div class="card">
+      <div class="card-head"><h4>% de jóvenes de 15 a 24 años que no estudian ni trabajan</h4></div>
+      <div class="nini-top" id="nini-sexo"></div>
+      <h4 class="sub-h4">Por departamento</h4>
+      <div id="chart-nini-dpto" class="ranking nini-cols"></div>
+      <p class="note">Marcados con <span class="warn">*</span>: menos de 200 jóvenes encuestados. Son estimaciones con bastante margen de error.</p>
+      <p class="fuente" data-fuente="ech2024" data-detalle="no asiste a educación (e49 ≠ 3) y no está ocupado (POBPCOAC ≠ 2), ponderado con W_ANO"></p>
     </div>
   </section>
 
@@ -339,7 +340,7 @@
 
 <footer>
   <div class="footer-in">
-    <span>Proyecto de Facundo Geisinger</span>
+    <span>Proyecto de Facundo Geisinger · <a href="mailto:facugeisinger@gmail.com">✉️ facugeisinger@gmail.com</a> · <a href="https://www.linkedin.com/in/facundo-geisinger-41988421a/" target="_blank" rel="noopener">💼 LinkedIn</a></span>
     <span>Datos: INE · Ministerio del Interior · MSP · INEEd · Banco Mundial</span>
     <a href="https://github.com/FacuGeisinger2003/uruguay-en-datos">Código en GitHub ↗</a>
   </div>

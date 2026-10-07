@@ -86,7 +86,7 @@
   // ---------- 3. ni estudian ni trabajan por departamento ----------
   function renderNiniDpto() {
     const rows = niniDpto.slice().sort((a, b) => b.pct_nini - a.pct_nini);
-    const max = 30;
+    const max = d3.max(rows, (d) => d.pct_nini);
     const host = document.getElementById("chart-nini-dpto");
     host.innerHTML = rows.map((d) =>
       `<div class="rank-row" data-n="${d.departamento}"><span class="name">${d.departamento}${d.n_muestra < SMALL_N ? ' <span class="warn">*</span>' : ""}</span>` +
@@ -101,9 +101,11 @@
 
   function renderAll() {
     renderEgreso();
-    hbars("chart-nini-sexo", niniSexo, (d) => d.sexo, "pct_nini",
-      (d) => (d.sexo === "Hombres" ? css("--s1") : css("--s2")), 25,
-      "Porcentaje de jóvenes de 15 a 24 que no estudian ni trabajan, por sexo");
+    document.getElementById("nini-sexo").innerHTML = ["Mujeres", "Hombres"].map((k) => {
+      const d = niniSexo.find((r) => r.sexo === k);
+      const c = k === "Hombres" ? css("--s1") : css("--s2");
+      return `<div class="nini-stat" style="--c:${c}"><span class="ns-v">${fmt(d.pct_nini)}</span><span class="ns-l">${k === "Mujeres" ? "de las mujeres" : "de los hombres"}</span></div>`;
+    }).join("");
     renderNiniDpto();
     const ord = ["No terminó el liceo", "Terminó el liceo"];
     hbars("chart-desempleo-educ", ord.map((k) => desempleo.find((d) => d.educacion === k)).filter(Boolean),
