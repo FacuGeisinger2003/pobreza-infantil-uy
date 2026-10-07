@@ -26,12 +26,17 @@
   },
   "bm_wdi": {
     "institucion": "Banco Mundial",
-    "nombre": "World Development Indicators (API)",
+    "nombre": "World Development Indicators (WDI)",
     "url": "https://data.worldbank.org/"
   },
   "ineed": {
     "institucion": "INEEd",
     "nombre": "Mirador Educativo: egreso de educación media superior, 21 a 23 años",
     "url": "https://mirador.ineed.edu.uy/metas/tasa-de-egreso-de-educacion-media-superior-entre-jovenes-de-21-a-23-anos-8-2.html"
+  },
+  "bm_wgi": {
+    "institucion": "Banco Mundial",
+    "nombre": "Worldwide Governance Indicators (WGI)",
+    "url": "https://www.worldbank.org/en/publication/worldwide-governance-indicators"
   }
 }

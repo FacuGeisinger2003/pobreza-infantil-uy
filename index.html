@@ -28,6 +28,7 @@
       <a href="#educacion" data-ch="educacion"><span>02</span> Educación</a>
       <a href="#seguridad" data-ch="seguridad"><span>03</span> Seguridad</a>
       <a href="#region" data-ch="region"><span>04</span> Región</a>
+      <a href="#fortalezas" data-ch="fortalezas"><span>05</span> Fortalezas</a>
       <a href="#metodologia" data-ch="metodologia" class="nav-method">Metodología</a>
       <a href="#autor" data-ch="autor" class="nav-method">Sobre mí</a>
     </nav>
@@ -98,7 +99,7 @@
       <li><span class="sw sw-pobre"></span>En hogar pobre</li>
       <li><span class="sw sw-no"></span>No pobre</li>
     </ul>
-    <p class="fuente" data-fuente="ech2024,ech2025" data-detalle="variable pobre17, ponderada con W_ANO"></p>
+    <p class="fuente" data-fuente="ech2024,ech2025" data-detalle="variable pobre17 (pobreza según el método INE 2017), ponderada con W_ANO"></p>
   </div>
 
   <section class="reveal">
@@ -110,7 +111,7 @@
         <ul class="legend" id="legend-tramo"></ul>
       </div>
       <div id="chart-tramo" class="chart"></div>
-      <p class="fuente" data-fuente="ech2024,ech2025" data-detalle="variable pobre17, ponderada con W_ANO"></p>
+      <p class="fuente" data-fuente="ech2024,ech2025" data-detalle="variable pobre17 (pobreza según el método INE 2017), ponderada con W_ANO"></p>
     </div>
   </section>
 
@@ -124,7 +125,7 @@
       </div>
       <div id="chart-edad" class="chart"></div>
       <p class="note">Promedio móvil de 3 años de edad, para suavizar el ruido de muestra.</p>
-      <p class="fuente" data-fuente="ech2024,ech2025" data-detalle="variable pobre17, ponderada con W_ANO"></p>
+      <p class="fuente" data-fuente="ech2024,ech2025" data-detalle="variable pobre17 (pobreza según el método INE 2017), ponderada con W_ANO"></p>
     </div>
   </section>
 
@@ -142,7 +143,7 @@
       </div>
       <div id="map-legend" class="map-legend"></div>
       <p class="note">Las muestras por departamento son chicas (entre 100 y 400 niños en la mayoría), así que los cambios de un año a otro dentro de un mismo departamento hay que leerlos con cuidado. Los marcados con <span class="warn">*</span> tienen menos de 250 casos.</p>
-      <p class="fuente" data-fuente="ech2024,ech2025" data-detalle="variable pobre17, ponderada con W_ANO"></p>
+      <p class="fuente" data-fuente="ech2024,ech2025" data-detalle="variable pobre17 (pobreza según el método INE 2017), ponderada con W_ANO"></p>
     </div>
   </section>
 </article>
@@ -157,7 +158,7 @@
       <span class="cs-v"><span data-countup="53.2" data-dec="1">53,2</span>%</span>
       <span class="cs-l">terminó el liceo<br>(21 a 23 años)</span>
     </div>
-    <p class="fuente" data-fuente="ech2024" data-detalle="variables e201_1c, e201_1d y e51_8 a e51_11, ponderadas con W_ANO"></p>
+    <p class="fuente" data-fuente="ech2024" data-detalle="bachillerato completo en liceo o UTU, o estudios terciarios (variables e201_1c, e201_1d y e51_8 a e51_11), ponderado con W_ANO"></p>
   </header>
 
   <section class="reveal">
@@ -183,7 +184,7 @@
       <h4 class="sub-h4">Por departamento</h4>
       <div id="chart-nini-dpto" class="ranking nini-cols"></div>
       <p class="note">Marcados con <span class="warn">*</span>: menos de 200 jóvenes encuestados. Son estimaciones con bastante margen de error.</p>
-      <p class="fuente" data-fuente="ech2024" data-detalle="no asiste a educación (e49 ≠ 3) y no está ocupado (POBPCOAC ≠ 2), ponderado con W_ANO"></p>
+      <p class="fuente" data-fuente="ech2024" data-detalle="no asiste a ningún centro educativo (variable e49) y no está ocupado (variable POBPCOAC), ponderado con W_ANO"></p>
     </div>
   </section>
 
@@ -193,7 +194,7 @@
     <div class="card">
       <div class="card-head"><h4>Desempleo de jóvenes de 18 a 29 años, según educación</h4></div>
       <div id="chart-desempleo-educ" class="chart"></div>
-      <p class="fuente" data-fuente="ech2024" data-detalle="desocupados / (ocupados + desocupados), POBPCOAC, ponderado con W_ANO"></p>
+      <p class="fuente" data-fuente="ech2024" data-detalle="desocupados / (ocupados + desocupados), según la variable de condición de actividad POBPCOAC, ponderado con W_ANO"></p>
     </div>
   </section>
 
@@ -299,6 +300,34 @@
   </section>
 </article>
 
+<!-- ============ 05 LO QUE SÍ FUNCIONA ============ -->
+<article id="fortalezas" class="chapter">
+  <header class="chapter-cover reveal">
+    <p class="chapter-num">05 · Lo que sí funciona</p>
+    <h2 class="chapter-title">No todo está perdido.</h2>
+    <p class="lede">Con la misma fuente y los mismos países, Uruguay queda primero en la región en la calidad de sus instituciones: menos corrupción, más respeto por las reglas, más libertades y más estabilidad política. También en energía limpia y en conexión a internet. No es poco: son justamente las herramientas para atacar lo que está en rojo. El problema no es que no se pueda, sino de qué se habla.</p>
+  </header>
+
+  <section class="reveal">
+    <h3 class="sec-title">Seis indicadores en los que Uruguay es primero</h3>
+    <p>Cada tarjeta muestra el último dato de los 7 países. Uruguay está resaltado; cuando hay dato, la línea punteada marca el promedio de la OCDE.</p>
+    <div class="fort-grid" id="fort-grid"></div>
+    <p class="fuente" data-fuente="bm_wgi,bm_wdi" data-detalle="instituciones: puntajes 2025; electricidad: 2021; internet: 2024"></p>
+  </section>
+
+  <section class="reveal">
+    <h3 class="sec-title">De 13% a 51% en nueve años</h3>
+    <p>En 2012, el 13% de la electricidad uruguaya salía del viento, el sol o la biomasa. En 2021 era el 51%, tres veces el promedio de la OCDE (17%). Ningún país de la comparación se le acerca. Es la prueba de que, cuando un tema entra en la agenda y se sostiene en el tiempo, el país puede cambiar rápido.</p>
+    <div class="card">
+      <div class="card-head"><h4>Electricidad generada con viento, sol y biomasa (% del total, sin contar las represas)</h4></div>
+      <ul class="legend" id="legend-ren"></ul>
+      <div id="chart-ren" class="chart"></div>
+      <p class="fuente" data-fuente="bm_wdi" data-detalle="código del indicador: EG.ELC.RNWX.ZS, 2012–2021"></p>
+    </div>
+    <p class="cierre">Un país con instituciones que funcionan, y que fue capaz de cambiar cómo produce su electricidad en menos de diez años, puede encarar la pobreza infantil, la educación media y la seguridad. Para eso, esos temas tienen que estar en el centro de la discusión, no en el margen.</p>
+  </section>
+</article>
+
 <!-- ============ METODOLOGÍA ============ -->
 <section class="method" id="metodologia">
   <p class="chapter-num">Metodología</p>
@@ -324,6 +353,7 @@
         <tr><td>Homicidios y cárceles</td><td>Ministerio del Interior, datos abiertos</td><td>Homicidios por año y motivo aparente (una fila por víctima); personas presas en diciembre de cada año</td><td>El Ministerio reclasifica casos, así que puede haber diferencias de pocas unidades con los informes anuales.</td><td><code>03_seguridad</code></td></tr>
         <tr><td>Educación: natalidad</td><td>MSP, informes de estadísticas vitales</td><td>Nacimientos por año, 2015–2024</td><td>No hay un dataset abierto actualizado: las cifras se transcribieron del informe oficial, con la fuente en cada fila. 2024 es preliminar.</td><td><code>04_demografia</code></td></tr>
         <tr><td>Región</td><td>Banco Mundial (WDI), con datos del FMI, la OIT, la UNODC y la UNESCO</td><td>9 indicadores comparables para 7 países, América Latina y la OCDE; semáforo según el puesto</td><td>El desempleo es la estimación modelada de la OIT. Para poder comparar países, la pobreza de este capítulo usa la línea internacional de US$ 8,30 por día; la del capítulo 01 usa la línea oficial del INE, por eso los porcentajes no coinciden.</td><td><code>05_comparacion_regional</code></td></tr>
+        <tr><td>Lo que sí funciona</td><td>Banco Mundial: WGI (instituciones) y WDI (energía e internet)</td><td>Último dato de 6 indicadores en los que Uruguay es primero entre los 7 países; evolución de la electricidad renovable sin hidro</td><td>Los puntajes del WGI combinan encuestas y evaluaciones de expertos: miden percepciones, no hechos contados uno por uno. El dato de energía llega hasta 2021.</td><td><code>06_fortalezas</code></td></tr>
       </tbody>
     </table>
   </div>
@@ -370,5 +400,7 @@
 <script src="assets/educacion.js"></script>
 <script src="assets/temas.js"></script>
 <script src="assets/comparador.js"></script>
+<script src="assets/fortalezas.js"></script>
+<script src="assets/siglas.js"></script>
 </body>
 </html>

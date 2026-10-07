@@ -1,6 +1,6 @@
 # Uruguay en datos · El relato de la estabilidad
 
-**Por qué estar "mejor que el resto" no es estar bien.** Investigación personal con datos públicos sobre pobreza infantil, educación, seguridad, natalidad y la comparación de Uruguay con la región. Los datos se procesan en Databricks y se muestran en una web interactiva.
+**Por qué estar "mejor que el resto" no es estar bien.** Investigación personal con datos públicos sobre pobreza infantil, educación, seguridad, natalidad, la comparación de Uruguay con la región y lo que sí funciona. Los datos se procesan en Databricks y se muestran en una web interactiva.
 
 🔗 **Sitio:** [datos-criticos-uy.vercel.app](https://datos-criticos-uy.vercel.app/)
 
@@ -18,6 +18,7 @@
 | Homicidios | Los homicidios por conflictos entre criminales pasaron de **77** (2013) a **215** (2025) | Ministerio del Interior |
 | Cárceles | La población presa pasó de **6.757** (2003) a **16.107** (2024) | Ministerio del Interior |
 | Natalidad | Los nacimientos cayeron **39%** entre 2015 y 2024 | MSP |
+| Lo que sí funciona | Uruguay es **1º de 7** en control de la corrupción, estado de derecho, libertades, estabilidad política, electricidad renovable sin hidro (**51%**, OCDE 17%) e internet fijo | Banco Mundial (WGI y WDI) |
 | Región | Uruguay tiene el desempleo juvenil más alto (**25,2%**) y la menor proporción de adultos con secundaria completa (**35%**) entre Argentina, Brasil, Chile, Paraguay, Costa Rica y México | Banco Mundial |
 
 ## Estructura del repositorio
@@ -33,7 +34,8 @@ uruguay-en-datos/
 │   ├── 02_educacion             # ECH: egreso, ni estudian ni trabajan, desempleo
 │   ├── 03_seguridad             # Ministerio del Interior: homicidios y cárceles
 │   ├── 04_demografia            # MSP: nacimientos
-│   └── 05_comparacion_regional  # Banco Mundial: 9 indicadores, 7 países
+│   ├── 05_comparacion_regional  # Banco Mundial: 9 indicadores, 7 países
+│   └── 06_fortalezas            # Banco Mundial: instituciones (WGI), energía e internet
 └── docs/                   # capturas
 ```
 
@@ -66,7 +68,7 @@ La web lee esos JSON y los dibuja con D3.js. Debajo de cada gráfico aparece su 
 - **Ministerio del Interior:** [Delitos denunciados / homicidios](https://catalogodatos.gub.uy/dataset/ministerio-del-interior-delitos_denunciados_en_el_uruguay) y [Sistema carcelario](https://catalogodatos.gub.uy/dataset/ministerio-del-interior-sistema-carcelario)
 - **MSP:** [Natalidad y mortalidad infantil 2023, informe preliminar](https://www.gub.uy/ministerio-salud-publica/sites/ministerio-salud-publica/files/documentos/publicaciones/Informe%20DIGESA_N%20y%20M%202023_final%20al%2020_03_2024_0.pdf)
 - **INEEd:** [Mirador Educativo](https://mirador.ineed.edu.uy/)
-- **Banco Mundial:** [World Development Indicators](https://data.worldbank.org/)
+- **Banco Mundial:** [World Development Indicators](https://data.worldbank.org/) y [Worldwide Governance Indicators](https://www.worldbank.org/en/publication/worldwide-governance-indicators)
 
 ## Cómo reproducirlo
 

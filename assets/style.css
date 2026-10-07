@@ -379,3 +379,34 @@ body.aviso-abierto { overflow: hidden; }
 .autor { max-width: 920px; margin: 0 auto; padding: 56px 16px 24px; }
 .autor p { max-width: 680px; line-height: 1.65; }
 .autor .contacto { margin-top: 18px; }
+
+/* ---------- siglas ---------- */
+abbr.sigla { text-decoration: underline dotted; text-decoration-color: var(--muted); text-underline-offset: 3px; cursor: help; }
+abbr.sigla sup { color: var(--s1); font-weight: 700; font-size: .7em; margin-left: 1px; }
+abbr.sigla:focus-visible { outline: 2px solid var(--s1); outline-radius: 3px; }
+.sigla-notas { display: block; margin: 6px 0 14px; padding-left: 10px; border-left: 2px solid var(--border); }
+.sigla-nota { display: block; font-size: 12.5px; line-height: 1.5; color: var(--muted); margin: 2px 0; font-weight: 400; letter-spacing: 0; text-transform: none; }
+.sigla-nota b { color: var(--ink-2); font-weight: 600; }
+.lede + .sigla-notas, p + .sigla-notas { max-width: 680px; }
+
+/* ---------- 05 lo que sí funciona ---------- */
+.fort-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; margin: 18px 0 8px; }
+.fort-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 18px 18px 14px; border-top: 3px solid var(--good); }
+.fort-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.fort-anio { font-size: 12px; color: var(--muted); }
+.fort-card h4 { margin: 0 0 4px; font-size: 16px; }
+.fort-big { font-size: 38px; font-weight: 800; letter-spacing: -0.02em; color: var(--good); line-height: 1.1; }
+.fort-big small { font-size: 15px; font-weight: 600; color: var(--muted); margin-left: 2px; letter-spacing: 0; }
+.fort-que { font-size: 13.5px; line-height: 1.5; color: var(--ink-2); margin: 6px 0 12px; min-height: 3em; }
+.fort-bars { display: grid; gap: 5px; }
+.fb-row { display: grid; grid-template-columns: 78px 1fr 30px; gap: 8px; align-items: center; font-size: 12.5px; color: var(--ink-2); }
+.fb-row.is-uy { color: var(--ink); font-weight: 700; }
+.fb-n { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fb-v { text-align: right; font-variant-numeric: tabular-nums; }
+.fb-track { position: relative; height: 10px; background: var(--grid); border-radius: 5px; }
+.fb-bar { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; background: var(--ref); }
+.is-uy .fb-bar { background: var(--good); }
+.fb-ref { position: absolute; top: -3px; bottom: -3px; width: 0; border-left: 2px dashed var(--ink-2); }
+.fort-oc { font-size: 12px; color: var(--muted); margin: 10px 0 0; display: flex; align-items: center; gap: 6px; }
+.fb-ref-key { display: inline-block; width: 0; height: 12px; border-left: 2px dashed var(--ink-2); }
+.cierre { font-size: 18px; line-height: 1.6; font-weight: 500; color: var(--ink); max-width: 720px; margin-top: 28px; padding-left: 14px; border-left: 3px solid var(--good); }
