@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Uruguay en datos</title>
+<title>El relato de la estabilidad · Uruguay en datos</title>
 <meta name="description" content="Lo que los datos oficiales muestran sobre los problemas de Uruguay: pobreza infantil, educación, homicidios, cárceles, natalidad y su comparación con la región.">
-<meta property="og:title" content="Uruguay en datos">
+<meta property="og:title" content="El relato de la estabilidad · Uruguay en datos">
 <meta property="og:description" content="Pobreza infantil, educación, seguridad y natalidad en Uruguay, con datos oficiales y código abierto.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,8 +22,7 @@
       <a href="#pobreza" data-ch="pobreza"><span>01</span> Pobreza infantil</a>
       <a href="#educacion" data-ch="educacion"><span>02</span> Educación</a>
       <a href="#seguridad" data-ch="seguridad"><span>03</span> Seguridad</a>
-      <a href="#natalidad" data-ch="natalidad"><span>04</span> Natalidad</a>
-      <a href="#region" data-ch="region"><span>05</span> Región</a>
+      <a href="#region" data-ch="region"><span>04</span> Región</a>
       <a href="#metodologia" data-ch="metodologia" class="nav-method">Metodología</a>
     </nav>
   </div>
@@ -33,9 +32,13 @@
 <!-- ============ PORTADA ============ -->
 <section class="hero" id="inicio">
   <div class="hero-in">
-    <p class="kicker">Uruguay en datos</p>
-    <h1 class="site-title">Lo que los números oficiales dicen de Uruguay</h1>
-    <p class="lede">Uruguay suele aparecer como uno de los países más estables de América Latina. Los datos del propio Estado muestran también otra cara. Todo lo que está en esta página sale de fuentes oficiales y se procesó con código abierto.</p>
+    <aside class="ai-note" role="note">
+      <span class="ai-badge">Sobre este proyecto</span>
+      <p>Este proyecto se hizo con ayuda de inteligencia artificial (Claude, de Anthropic) para el código de la web, los gráficos y el procesamiento de los datos. La elección de los temas, las ideas y el enfoque de cada texto son míos; la redacción la trabajé junto a la IA, y revisé cada dato contra su fuente oficial.</p>
+    </aside>
+    <h1 class="site-title">El relato de la estabilidad</h1>
+    <p class="site-sub">Por qué estar "mejor que el resto" no es estar bien.</p>
+    <p class="lede">Frente a la región, Uruguay casi siempre queda bien. Ese es justamente el problema: si la referencia son los vecinos, el techo queda bajo. Con datos oficiales y de forma simple, esta página muestra los indicadores que deberían preocuparnos más de lo que nos preocupan.</p>
     <div class="hero-stats">
       <a class="hstat reveal" href="#pobreza">
         <span class="hv"><span data-countup="32">32</span>%</span>
@@ -186,6 +189,18 @@
       <p class="fuente" data-fuente="ech2024" data-detalle="desocupados / (ocupados + desocupados), POBPCOAC, ponderado con W_ANO"></p>
     </div>
   </section>
+
+  <section class="reveal" id="natalidad">
+    <h3 class="sec-title">Cada vez menos jóvenes</h3>
+    <p>En 2015 nacieron 48.926 bebés en Uruguay y en 2024 nacieron 29.899: un 39% menos, la cifra más baja desde fines del siglo XIX. Con cada vez menos jóvenes, que casi la mitad no termine el liceo pesa todavía más.</p>
+    <div class="card">
+      <div class="card-head">
+        <h4>Nacimientos por año</h4>
+      </div>
+      <div id="chart-nac" class="chart"></div>
+      <p class="fuente" data-fuente="msp_nacimientos" data-detalle="2024: dato preliminar"></p>
+    </div>
+  </section>
 </article>
 
 <!-- ============ 03 SEGURIDAD ============ -->
@@ -227,36 +242,26 @@
   </section>
 </article>
 
-<!-- ============ 04 NATALIDAD ============ -->
-<article id="natalidad" class="chapter">
-  <header class="chapter-cover reveal">
-    <p class="chapter-num">04 · Natalidad</p>
-    <h2 class="chapter-title">En diez años, los nacimientos cayeron casi 40%.</h2>
-    <p class="lede">En 2015 nacieron 48.926 bebés en Uruguay y en 2024 nacieron 29.899, la cifra más baja desde fines del siglo XIX. Con menos jóvenes, que cada uno termine el liceo y consiga trabajo importa todavía más.</p>
-  </header>
-
-  <section class="reveal">
-    <div class="card">
-      <div class="card-head">
-        <h4>Nacimientos por año</h4>
-      </div>
-      <div id="chart-nac" class="chart"></div>
-      <p class="fuente" data-fuente="msp_nacimientos" data-detalle="2024: dato preliminar"></p>
-    </div>
-  </section>
-</article>
-
-<!-- ============ 05 COMPARACION REGIONAL ============ -->
+<!-- ============ 04 COMPARACION REGIONAL ============ -->
 <article id="region" class="chapter">
   <header class="chapter-cover reveal">
-    <p class="chapter-num">05 · Uruguay frente a la región</p>
-    <h2 class="chapter-title">Mejor que la región no es lo mismo que estar bien.</h2>
-    <p class="lede">Uruguay suele compararse con América Latina, y en varios indicadores sale primero. Pero al medir a todos los países con la misma fuente, aparecen indicadores donde Uruguay está último del grupo. Y en cuatro de los cinco indicadores que tienen dato de la OCDE, queda por detrás.</p>
+    <p class="chapter-num">04 · Uruguay frente a la región</p>
+    <h2 class="chapter-title">Primeros en la región, últimos en lo que viene.</h2>
+    <p class="lede">Medidos con la misma fuente, Uruguay lidera la región en ingreso por persona y en igualdad. Pero queda último en desempleo juvenil y en adultos con secundaria completa, dos indicadores que hablan del futuro. Y frente a la OCDE, queda por detrás en cuatro de los cinco indicadores con dato.</p>
   </header>
 
   <section class="semaforo-wrap reveal">
-    <h3 class="sec-title">El semáforo de Uruguay</h3>
-    <p>Cada tarjeta compara a Uruguay con 6 países de la región: Argentina, Brasil, Chile, Paraguay, Costa Rica y México. <span class="pill pill-good">● Verde</span> estamos entre los 2 mejores, <span class="pill pill-warn">● Amarillo</span> en el medio, <span class="pill pill-bad">● Rojo</span> entre los 2 peores. Tocá una tarjeta para ver el detalle.</p>
+    <div class="sema-head">
+      <div>
+        <h3 class="sec-title">El semáforo de Uruguay</h3>
+        <p>Cada tarjeta compara a Uruguay con 6 países de la región: Argentina, Brasil, Chile, Paraguay, Costa Rica y México. Tocá una tarjeta para ver el detalle.</p>
+      </div>
+      <ul class="sema-legend" aria-label="Qué significa cada color">
+        <li><span class="dot dot-good"></span><b>Verde</b><span>Entre los 2 mejores de 7</span></li>
+        <li><span class="dot dot-warn"></span><b>Amarillo</b><span>En el medio (3º a 5º)</span></li>
+        <li><span class="dot dot-bad"></span><b>Rojo</b><span>Entre los 2 peores de 7</span></li>
+      </ul>
+    </div>
     <p class="score" id="score"></p>
     <div class="semaforo" id="semaforo"></div>
     <p class="fuente" data-fuente="bm_wdi" data-detalle="último dato disponible de cada país"></p>
@@ -267,6 +272,7 @@
     <p>Elegí un indicador. A la izquierda está el último dato de cada país y a la derecha la evolución desde el año 2000. Elegí también un país para compararlo directo con Uruguay.</p>
     <div class="picker" id="ind-picker" role="radiogroup" aria-label="Indicador"></div>
     <p class="verdict" id="verdict"></p>
+    <div class="que-mide" id="que-mide"></div>
     <div class="cmp-grid">
       <div class="card">
         <div class="card-head"><h4 id="rank-title">Último dato</h4></div>
@@ -309,7 +315,7 @@
         <tr><td>Pobreza infantil</td><td>INE, ECH 2024 y 2025 (microdatos, ~55.000 personas por año)</td><td>% de personas en hogares bajo la línea de pobreza (<code>pobre17</code>), por edad y departamento, ponderado con <code>W_ANO</code></td><td>La ECH 2025 es de implantación: la comparación con 2024 es indicativa. Muestras chicas por departamento.</td><td><code>01_pobreza</code></td></tr>
         <tr><td>Educación</td><td>INE, ECH 2024</td><td>Egreso de media superior (bachillerato en liceo o UTU, o terciaria), jóvenes que no estudian ni trabajan, desempleo según educación</td><td>Validado contra el INEEd (51,6% en 2023; acá 53,2% en 2024). Departamentos con muestra chica.</td><td><code>02_educacion</code></td></tr>
         <tr><td>Homicidios y cárceles</td><td>Ministerio del Interior, datos abiertos</td><td>Homicidios por año y motivo aparente (una fila por víctima); personas presas en diciembre de cada año</td><td>El Ministerio reclasifica casos, así que puede haber diferencias de pocas unidades con los informes anuales.</td><td><code>03_seguridad</code></td></tr>
-        <tr><td>Natalidad</td><td>MSP, informes de estadísticas vitales</td><td>Nacimientos por año, 2015–2024</td><td>No hay un dataset abierto actualizado: las cifras se transcribieron del informe oficial, con la fuente en cada fila. 2024 es preliminar.</td><td><code>04_demografia</code></td></tr>
+        <tr><td>Educación: natalidad</td><td>MSP, informes de estadísticas vitales</td><td>Nacimientos por año, 2015–2024</td><td>No hay un dataset abierto actualizado: las cifras se transcribieron del informe oficial, con la fuente en cada fila. 2024 es preliminar.</td><td><code>04_demografia</code></td></tr>
         <tr><td>Región</td><td>Banco Mundial (WDI), con datos del FMI, la OIT, la UNODC y la UNESCO</td><td>9 indicadores comparables para 7 países, América Latina y la OCDE; semáforo según el puesto</td><td>El desempleo es la estimación modelada de la OIT. La pobreza usa la línea internacional de US$ 8,30, no la oficial uruguaya.</td><td><code>05_comparacion_regional</code></td></tr>
       </tbody>
     </table>
