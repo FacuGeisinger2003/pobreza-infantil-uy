@@ -84,7 +84,9 @@ Databricks (PySpark, Delta Lake, Unity Catalog) · D3.js · HTML/CSS · Vercel
 
 ## Uso de inteligencia artificial
 
-Este proyecto se hizo con ayuda de inteligencia artificial (**Claude, de Anthropic**) para el código de la web, los gráficos y el procesamiento de los datos. La elección de los temas, las ideas y el enfoque de cada texto son míos; la redacción la trabajé junto a la IA, y revisé cada dato contra su fuente oficial.
+- **Desarrollo:** el código de la web, los gráficos y el procesamiento de los datos se hicieron con **Claude (Anthropic)**.
+- **Revisión cruzada:** las decisiones de modelado, la selección de indicadores y el diseño se contrastaron con **ChatGPT (OpenAI)** y **Gemini (Google)**, comparando sus recomendaciones y críticas antes de definir cada criterio.
+- **Autoría y control:** la elección de los temas, el enfoque y las conclusiones son míos; la redacción la trabajé junto a la IA, y cada dato está verificado contra su fuente oficial.
 
 ## Autor
 
