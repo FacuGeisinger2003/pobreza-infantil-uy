@@ -1,6 +1,5 @@
-// Siglas: cada sigla se marca con un asterisco y, la primera vez que aparece en cada capítulo,
-// se agrega una nota debajo del párrafo con su significado y una frase que explica qué es.
-// Además, pasando el mouse (o tocando) cualquier sigla se ve la explicación.
+// Siglas: la primera vez que aparece en cada capítulo lleva un asterisco; pasando el mouse (o tocando)
+// cualquier sigla se ve su significado. La lista completa está en Metodología.
 (function () {
   const S = {
     "OCDE": ["Organización para la Cooperación y el Desarrollo Económicos", "Agrupa a 38 países, en su mayoría de ingresos altos (como Estados Unidos, España o Japón; en la región, Chile, México, Colombia y Costa Rica). En esta página su promedio se usa como referencia de país desarrollado."],
@@ -27,8 +26,8 @@
   window.SIGLAS = S;
   const keys = Object.keys(S).sort((a, b) => b.length - a.length).map((k) => k.replace(/\$/g, "\\$"));
   const RE = new RegExp(`(^|[^\\wÁÉÍÓÚáéíóúñ])(${keys.join("|")})(?![\\wÁÉÍÓÚáéíóúñ])`, "g");
-  const SKIP = "script,style,svg,abbr.sigla,.sigla-notas,.sigla-nota,#glosario-siglas,.print-meta,.print-note,.topbar,h1,h2,.chapter-num,.tip,button,.aviso-btn";
-  const SCOPES = "#inicio,article.chapter,#metodologia,#autor,.aviso";
+  const SKIP = "script,style,svg,abbr.sigla,.sigla-notas,.sigla-nota,#glosario-siglas,.print-meta,.print-note,.topbar,h1,h2,.chapter-num,.tip,button";
+  const SCOPES = "#inicio,article.chapter,#metodologia,#autor";
   const BLOCK = "p,li,dd,td,figcaption,.lede";
 
   function textNodes(root, skip) {
@@ -108,7 +107,7 @@
   }
 
   // contenedores que se redibujan al interactuar (comparador)
-  const DYN = [[".hero-stats", false], ["#que-mide", "inside"], ["#ind-source", "inside"], ["#verdict", false], ["#score", false], ["#semaforo", false]];
+  const DYN = [[".hero-stats", false], ["#que-mide", "link"], ["#ind-source", "link"], ["#verdict", false], ["#score", false], ["#semaforo", false]];
 
   function run() {
     glosario();
@@ -117,7 +116,7 @@
       // los contenedores dinámicos se manejan aparte
       const dyn = DYN.map(([s]) => sc.querySelector(s)).filter(Boolean);
       dyn.forEach((d) => d.setAttribute("data-sigla-skip", ""));
-      annotate(sc, seen, sc.id === "metodologia" ? "link" : "after");
+      annotate(sc, seen, "link");
     });
     DYN.forEach(([sel, mode]) => {
       const el = document.querySelector(sel);

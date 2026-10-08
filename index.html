@@ -36,16 +36,6 @@
   <div class="progress"><div class="progress-bar" id="progress"></div></div>
 </header>
 
-<!-- ============ AVISO AL ENTRAR ============ -->
-<div class="aviso-fondo" id="aviso" hidden>
-  <div class="aviso" role="dialog" aria-modal="true" aria-labelledby="aviso-t">
-    <span class="ai-badge">Antes de empezar</span>
-    <h2 id="aviso-t">Sobre este proyecto</h2>
-    <p>Este proyecto se hizo con ayuda de inteligencia artificial (Claude, de Anthropic) para el código de la web, los gráficos y el procesamiento de los datos. La elección de los temas, las ideas y el enfoque de cada texto son míos; la redacción la trabajé junto a la IA, y revisé cada dato contra su fuente oficial.</p>
-    <button type="button" class="aviso-btn" id="aviso-ok">Entendido</button>
-  </div>
-</div>
-
 <!-- ============ PORTADA ============ -->
 <section class="hero" id="inicio">
   <div class="hero-in">
@@ -78,6 +68,7 @@
       <a href="#pobreza" class="scroll-cue" aria-label="Empezar a leer">Empezar ↓</a>
       <a href="docs/informe.pdf" class="btn-pdf" download="El-relato-de-la-estabilidad-informe.pdf">Descargar informe en PDF</a>
     </div>
+    <p class="ai-line"><span class="ai-badge">Hecho con IA</span> El código, los gráficos y el procesamiento se hicieron con ayuda de inteligencia artificial (Claude, de Anthropic). Los temas, las ideas y el enfoque son míos, y cada dato está revisado contra su fuente oficial.</p>
     <p class="print-only print-meta">Informe de Facundo Geisinger · versión interactiva en datos-criticos-uy.vercel.app · Datos oficiales: INE, Ministerio del Interior, MSP y Banco Mundial.</p>
   </div>
 </section>
@@ -87,7 +78,7 @@
 <!-- ============ 01 POBREZA INFANTIL ============ -->
 <article id="pobreza" class="chapter">
   <header class="chapter-cover reveal">
-    <p class="chapter-num">01 · Pobreza infantil</p>
+    <p class="chapter-num">01 · Pobreza infantil y natalidad</p>
     <h2 class="chapter-title" id="pobreza-title">De 100 niños de <span id="hero-tramo">0 a 5 años</span>, <span class="hero-num" id="hero-num">32</span> viven en hogares pobres.</h2>
     <p class="lede">La pobreza en Uruguay está muy concentrada en los más chicos. Cuanto más joven sos, más probable es que vivas bajo la línea de pobreza.</p>
   </header>
@@ -109,15 +100,8 @@
   <section class="reveal">
     <h3 class="sec-title">Cinco veces más que un jubilado</h3>
     <p>Un niño de 0 a 5 años tiene unas <strong id="ratio">5</strong> veces más probabilidad de ser pobre que una persona de 65 años o más. Una explicación habitual es que casi todos los mayores tienen ingresos fijos por jubilaciones y pensiones, mientras que los ingresos de los hogares con niños dependen más del trabajo.</p>
-    <div class="card">
-      <div class="card-head">
-        <h4>% de personas en hogares pobres, por tramo de edad</h4>
-        <ul class="legend" id="legend-tramo"></ul>
-      </div>
-      <div id="chart-tramo" class="chart"></div>
-      <p class="fuente" data-fuente="ech2024,ech2025" data-detalle="variable pobre17 (pobreza según el método INE 2017), ponderada con W_ANO"></p>
-    </div>
-  </section>
+<p class="fuente" data-fuente="ech2024" data-detalle="variable pobre17 (pobreza según el método INE 2017), ponderada con W_ANO"></p>
+    </section>
 
   <section class="reveal">
     <h3 class="sec-title">La pobreza baja con cada año de vida</h3>
@@ -139,15 +123,26 @@
     <div class="card">
       <div class="card-head">
         <h4>% de niños y adolescentes (0–17) en hogares pobres</h4>
-        <div class="seg" id="anio-seg-mapa" role="radiogroup" aria-label="Año"></div>
+        <span class="card-tag">ECH 2024</span>
       </div>
       <div class="map-grid">
         <div id="map" class="chart"></div>
         <div id="ranking" class="ranking"></div>
       </div>
       <div id="map-legend" class="map-legend"></div>
-      <p class="note">Las muestras por departamento son chicas (entre 100 y 400 niños en la mayoría), así que los cambios de un año a otro dentro de un mismo departamento hay que leerlos con cuidado. Los marcados con <span class="warn">*</span> tienen menos de 250 casos.</p>
-      <p class="fuente" data-fuente="ech2024,ech2025" data-detalle="variable pobre17 (pobreza según el método INE 2017), ponderada con W_ANO"></p>
+      <p class="note">Las muestras por departamento son chicas (entre 100 y 400 niños en la mayoría), así que las diferencias chicas entre departamentos hay que leerlas con cuidado. Los marcados con <span class="warn">*</span> tienen menos de 250 casos. Se muestra 2024 porque la ECH 2025 cambió de diseño (año de implantación) y la comparación entre años es solo indicativa.</p>
+      <p class="fuente" data-fuente="ech2024" data-detalle="variable pobre17 (pobreza según el método INE 2017), ponderada con W_ANO"></p>
+    </div>
+  </section>
+  <section class="reveal" id="natalidad">
+    <h3 class="sec-title">Cada vez menos jóvenes</h3>
+    <p>En 2015 nacieron 48.926 bebés en Uruguay y en 2024 nacieron 29.899: un 39% menos, y la cifra más baja de toda la serie. Cada generación de niños y jóvenes es más chica que la anterior.</p>
+    <div class="card">
+      <div class="card-head">
+        <h4>Nacimientos por año</h4>
+      </div>
+      <div id="chart-nac" class="chart"></div>
+      <p class="fuente" data-fuente="msp_nacimientos" data-detalle="2024: dato preliminar"></p>
     </div>
   </section>
 </article>
@@ -181,13 +176,10 @@
 
   <section class="reveal">
     <h3 class="sec-title">Ni estudian ni trabajan</h3>
-    <p>Entre los jóvenes de 15 a 24 años, el 13% de los hombres y el 17% de las mujeres no estudian ni tienen trabajo. Hay diferencias grandes entre departamentos, aunque con muestras chicas.</p>
+    <p>Entre los jóvenes de 15 a 24 años, el 13% de los hombres y el 17% de las mujeres no estudian ni tienen trabajo.</p>
     <div class="card">
       <div class="card-head"><h4>% de jóvenes de 15 a 24 años que no estudian ni trabajan</h4></div>
       <div class="nini-top" id="nini-sexo"></div>
-      <h4 class="sub-h4">Por departamento</h4>
-      <div id="chart-nini-dpto" class="ranking nini-cols"></div>
-      <p class="note">Marcados con <span class="warn">*</span>: menos de 200 jóvenes encuestados. Son estimaciones con bastante margen de error.</p>
       <p class="fuente" data-fuente="ech2024" data-detalle="no asiste a ningún centro educativo (variable e49) y no está ocupado (variable POBPCOAC), ponderado con W_ANO"></p>
     </div>
   </section>
@@ -195,12 +187,7 @@
   <section class="reveal">
     <h3 class="sec-title">Terminar la educación media se asocia con menos desempleo</h3>
     <p>Entre los jóvenes de 18 a 29 años que buscan trabajo, el desempleo es de 22,8% para los que no terminaron la educación media y de 17,6% para los que sí. La diferencia muestra una asociación, no prueba que terminar sea la causa: también influyen el hogar, el barrio o la edad. Aun con la educación media completa, más de 1 de cada 6 jóvenes que buscan trabajo no lo encuentra.</p>
-    <div class="card">
-      <div class="card-head"><h4>Desempleo de jóvenes de 18 a 29 años, según educación</h4></div>
-      <div id="chart-desempleo-educ" class="chart"></div>
-      <p class="fuente" data-fuente="ech2024" data-detalle="desocupados / (ocupados + desocupados), según la variable de condición de actividad POBPCOAC, ponderado con W_ANO"></p>
-    </div>
-    <div class="card" id="card-actividad" hidden style="margin-top:16px">
+<div class="card" id="card-actividad" hidden>
       <div class="card-head"><h4>Qué hacen todos los jóvenes de 18 a 29 años (no solo los que buscan trabajo)</h4></div>
       <ul class="legend" id="legend-actividad"></ul>
       <div id="chart-actividad" class="chart"></div>
@@ -209,17 +196,6 @@
     </div>
   </section>
 
-  <section class="reveal" id="natalidad">
-    <h3 class="sec-title">Cada vez menos jóvenes</h3>
-    <p>En 2015 nacieron 48.926 bebés en Uruguay y en 2024 nacieron 29.899: un 39% menos, y la cifra más baja de toda la serie. Cada año nacen menos personas de las que nacían hace una década.</p>
-    <div class="card">
-      <div class="card-head">
-        <h4>Nacimientos por año</h4>
-      </div>
-      <div id="chart-nac" class="chart"></div>
-      <p class="fuente" data-fuente="msp_nacimientos" data-detalle="2024: dato preliminar"></p>
-    </div>
-  </section>
 </article>
 
 <!-- ============ 03 SEGURIDAD ============ -->
@@ -314,7 +290,7 @@
 
   <section class="reveal">
     <h3 class="sec-title">Seis indicadores en los que Uruguay es primero</h3>
-    <p>Cada tarjeta muestra el último dato de los 12 países comparados. Uruguay está resaltado; cuando hay dato, la línea punteada marca el promedio de la OCDE.</p>
+    <p>Cada tarjeta muestra el último dato de Uruguay, el del país que le sigue, el promedio simple de los 12 países comparados y, cuando hay dato, el promedio de la OCDE.</p>
     <div class="fort-grid" id="fort-grid"></div>
     <p class="fuente" data-fuente="bm_wgi,bm_wdi" data-detalle="instituciones: puntajes 2025; electricidad: 2021; internet: 2024"></p>
   </section>
@@ -322,12 +298,11 @@
   <section class="reveal">
     <h3 class="sec-title">Electricidad renovable no hidráulica: de 13% a 51% en nueve años</h3>
     <p>En 2012, el 13% de la electricidad uruguaya salía del viento, el sol o la biomasa. En 2021 era el 51%, tres veces el promedio de la OCDE (17%). Ningún país de la comparación se le acerca. Ojo: esto mide la <b>matriz eléctrica</b> (cómo se genera la electricidad), no la matriz energética total, que también incluye el combustible del transporte y la industria.</p>
-    <p>Detrás de ese cambio hubo una política de Estado: en 2008 el Poder Ejecutivo aprobó la Política Energética 2005–2030, y en 2010 los cuatro partidos con representación parlamentaria la respaldaron en un acuerdo multipartidario. Desde 2011 se licitaron parques eólicos, y la política se mantuvo con gobiernos de distinto signo.</p>
-    <p>El porcentaje cambia año a año según el clima: cuando las represas tienen más agua, la generación hidráulica pesa más. La serie del Banco Mundial, que permite comparar países, llega hasta 2021. El dato más reciente de Uruguay es del MIEM: en 2025 (preliminar), el viento generó el 34% de la electricidad, la biomasa el 14% y el sol el 4%, un 52% en total. Contando las represas, el 98% de la electricidad fue renovable.</p>
-    <div class="card">
+    <p>Detrás de ese cambio hubo una política de Estado: la Política Energética 2005–2030, aprobada en 2008 y respaldada en 2010 por los cuatro partidos con representación parlamentaria. Se mantuvo con gobiernos de distinto signo.</p>    <div class="card">
       <div class="card-head"><h4>Electricidad generada con viento, sol y biomasa (% del total, sin contar las represas)</h4></div>
       <ul class="legend" id="legend-ren"></ul>
       <div id="chart-ren" class="chart"></div>
+      <p class="note">El porcentaje varía según la lluvia: con represas llenas pesa más la generación hidráulica. La serie del Banco Mundial llega a 2021; según el MIEM, en 2025 (preliminar) viento, biomasa y sol generaron el 52% de la electricidad, y contando las represas el 98% fue renovable.</p>
       <p class="fuente" data-fuente="bm_wdi,miem_energia,miem_2025" data-detalle="código del indicador: EG.ELC.RNWX.ZS, 2012–2021"></p>
     </div>
   </section>
@@ -352,22 +327,25 @@
 
   <p class="note">Los indicadores se eligieron para mirar cuatro dimensiones concretas (pobreza infantil, educación, seguridad y comparación regional) y no pretenden describir todo el país. Por eso el capítulo 05 muestra también los indicadores en los que Uruguay está primero.</p>
 
-  <h3 class="sec-title">Fuentes y decisiones por capítulo</h3>
+  <details class="mdet">
+    <summary>Fuentes y decisiones por capítulo</summary>
   <div class="table-wrap">
     <table class="mtable">
       <thead><tr><th>Capítulo</th><th>Fuente</th><th>Qué se calculó</th><th>Limitaciones</th><th>Notebook</th></tr></thead>
       <tbody>
         <tr><td>Pobreza infantil</td><td>INE, ECH 2024 y 2025 (microdatos, ~55.000 personas por año)</td><td>% de personas en hogares bajo la línea de pobreza (<code>pobre17</code>), por edad y departamento, ponderado con <code>W_ANO</code></td><td>La ECH 2025 es de implantación: la comparación con 2024 es indicativa. Muestras chicas por departamento.</td><td><code>01_pobreza</code></td></tr>
-        <tr><td>Educación</td><td>INE, ECH 2024</td><td>Egreso de educación media superior (bachillerato en liceo o UTU, o terciaria), jóvenes que no estudian ni trabajan, desempleo según educación</td><td>Validado contra el INEEd (51,6% en 2023; acá 53,2% en 2024). Departamentos con muestra chica.</td><td><code>02_educacion</code></td></tr>
+        <tr><td>Educación</td><td>INE, ECH 2024</td><td>Egreso de educación media superior (bachillerato en liceo o UTU, o terciaria), jóvenes que no estudian ni trabajan, condición de actividad y desempleo según educación</td><td>Validado contra el INEEd (51,6% en 2023; acá 53,2% en 2024).</td><td><code>02_educacion</code></td></tr>
         <tr><td>Homicidios y cárceles</td><td>Ministerio del Interior, datos abiertos</td><td>Homicidios por año y motivo aparente (una fila por víctima); personas presas en diciembre de cada año</td><td>El Ministerio reclasifica casos, así que puede haber diferencias de pocas unidades con los informes anuales.</td><td><code>03_seguridad</code></td></tr>
-        <tr><td>Natalidad (dentro de Educación)</td><td>MSP, informes de estadísticas vitales</td><td>Nacimientos por año, 2015–2024</td><td>No hay un dataset abierto actualizado: las cifras se transcribieron del informe oficial, con la fuente en cada fila. 2024 es preliminar.</td><td><code>04_demografia</code></td></tr>
+        <tr><td>Natalidad (dentro de Pobreza infantil)</td><td>MSP, informes de estadísticas vitales</td><td>Nacimientos por año, 2015–2024</td><td>No hay un dataset abierto actualizado: las cifras se transcribieron del informe oficial, con la fuente en cada fila. 2024 es preliminar.</td><td><code>04_demografia</code></td></tr>
         <tr><td>Región</td><td>Banco Mundial (WDI), con datos del FMI, la OIT, la UNODC y la UNESCO</td><td>9 indicadores comparables para 12 países (10 de Sudamérica, Costa Rica y México; no entran Guyana ni Surinam), América Latina y la OCDE; semáforo según el puesto</td><td>El desempleo es la estimación modelada de la OIT. Para poder comparar países, la pobreza de este capítulo usa la línea internacional de US$ 8,30 por día; la del capítulo 01 usa la línea oficial del INE, por eso los porcentajes no coinciden.</td><td><code>05_comparacion_regional</code></td></tr>
         <tr><td>Lo que sí funciona</td><td>Banco Mundial: WGI (instituciones) y WDI (energía e internet)</td><td>Último dato de 6 indicadores en los que Uruguay es primero entre los 12 países; evolución de la electricidad renovable sin hidro</td><td>Los puntajes del WGI combinan encuestas y evaluaciones de expertos: miden percepciones, no hechos contados uno por uno. El dato de energía llega hasta 2021. Venezuela queda fuera del ranking de electricidad porque la fuente publica un valor negativo, que no es posible.</td><td><code>06_fortalezas</code></td></tr>
       </tbody>
     </table>
   </div>
 
-  <h3 class="sec-title">Glosario</h3>
+  </details>
+  <details class="mdet">
+    <summary>Glosario</summary>
   <dl class="glossary">
     <div><dt>Microdatos</dt><dd>La base completa de una encuesta, con una fila por persona. Permite calcular indicadores propios.</dd></div>
     <div><dt>Ponderador (W_ANO)</dt><dd>Cada persona encuestada representa a muchas otras. El ponderador dice a cuántas, para que los resultados valgan para todo el país.</dd></div>
@@ -376,10 +354,13 @@
     <div><dt>Ni estudian ni trabajan</dt><dd>Jóvenes que no asisten a ningún centro educativo y no tienen trabajo, aunque lo busquen.</dd></div>
   </dl>
 
-  <h3 class="sec-title">Siglas</h3>
-  <p>Todas las siglas que aparecen en la página, en un solo lugar. En el resto del sitio, cada una lleva un asterisco y su explicación la primera vez que aparece en cada capítulo.</p>
+  </details>
+  <details class="mdet">
+    <summary>Siglas</summary>
+  <p>Todas las siglas que aparecen en la página, en un solo lugar. En el resto del sitio, cada una lleva un asterisco: pasá el mouse (o tocala) para ver qué significa.</p>
   <dl class="glossary glossary-siglas" id="glosario-siglas"></dl>
 
+  </details>
   <h3 class="sec-title">Reproducirlo</h3>
   <p>El código está en <a href="https://github.com/FacuGeisinger2003/uruguay-en-datos">GitHub</a>. Los notebooks de Databricks descargan los datos de cada fuente, generan las tablas y exportan los JSON que usa esta página. Si encontrás un error, podés abrir un issue en el repositorio.</p>
 </section>

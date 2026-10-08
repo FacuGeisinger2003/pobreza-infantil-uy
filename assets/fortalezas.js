@@ -42,23 +42,30 @@
       const puesto = rows.indexOf(u) + 1;
       const oc = ultimo(ind.id, "OED");
       const pos = (v) => Math.max(0, Math.min(100, (v / ind.max) * 100));
-      const barras = rows.map((r) => `
-        <div class="fb-row${r.iso3 === "URY" ? " is-uy" : ""}" data-p="${r.pais}" data-v="${r.valor}" data-a="${r.anio}">
-          <span class="fb-n">${r.pais}</span>
-          <span class="fb-track"><span class="fb-bar" style="width:${pos(r.valor)}%"></span>${oc ? `<span class="fb-ref" style="left:${pos(oc.valor)}%"></span>` : ""}</span>
-          <span class="fb-v">${f1(r.valor)}</span>
-        </div>`).join("");
+      const segundo = rows.find((r) => r.iso3 !== "URY");
+      const prom = d3.mean(rows, (r) => r.valor);
+      const fila = (n, v, a, cls) => `
+        <div class="fb-row ${cls}" data-p="${n}" data-v="${v}" data-a="${a}">
+          <span class="fb-n">${n}</span>
+          <span class="fb-track"><span class="fb-bar" style="width:${pos(v)}%"></span></span>
+          <span class="fb-v">${f1(v)}</span>
+        </div>`;
+      const barras = [
+        fila("Uruguay", u.valor, u.anio, "is-uy"),
+        fila(segundo.pais + " (2º)", segundo.valor, segundo.anio, "is-2"),
+        fila("Promedio de los " + rows.length, prom, "último dato de cada país", "is-avg"),
+        oc ? fila("Promedio OCDE", oc.valor, oc.anio, "is-oc") : "",
+      ].join("");
       return `<div class="fort-card">
         <div class="fort-top"><span class="pill pill-good">${puesto}º de ${rows.length}</span><span class="fort-anio">${u.anio}</span></div>
         <h4>${ind.nombre}</h4>
         <div class="fort-big">${f1(u.valor)}<small>${ind.unidad}</small></div>
         <p class="fort-que">${ind.que}</p>
         <div class="fort-bars">${barras}</div>
-        ${oc ? `<p class="fort-oc"><span class="fb-ref-key"></span><span>Promedio OCDE: ${f1(oc.valor)} (${oc.anio})</span></p>` : ""}
       </div>`;
     }).join("");
     grid.querySelectorAll(".fb-row").forEach((el) => {
-      el.addEventListener("pointermove", (ev) => showTip(`<b>${el.dataset.p}</b><div class="row">Valor<strong>${(+el.dataset.v).toLocaleString("es-UY")}</strong></div><div class="row">Año<strong>${el.dataset.a}</strong></div>`, ev));
+      el.addEventListener("pointermove", (ev) => showTip(`<b>${el.dataset.p}</b><div class="row">Valor<strong>${(+el.dataset.v).toLocaleString("es-UY", { maximumFractionDigits: 1 })}</strong></div><div class="row">Año<strong>${el.dataset.a}</strong></div>`, ev));
       el.addEventListener("pointerleave", hideTip);
     });
   }

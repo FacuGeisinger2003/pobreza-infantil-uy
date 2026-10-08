@@ -74,48 +74,13 @@
   document.getElementById("ratio").textContent = Math.round(t24("0-5") / t24("65+"));
 
   // legends for year series
-  ["legend-tramo", "legend-edad"].forEach((id) => {
-    const isLine = id === "legend-edad";
+  ["legend-edad"].forEach((id) => {
+    const isLine = true;
     document.getElementById(id).innerHTML = ANIOS.map((a) =>
       `<li><span class="sw ${isLine ? "sw-line" : ""}" style="background:${yearColor(a)}"></span>${a}</li>`).join("");
   });
 
-  // ---------- 2. Bars by tramo ----------
-  function renderTramo() {
-    const host = document.getElementById("chart-tramo");
-    const W = host.clientWidth, H = 300, m = { t: 24, r: 8, b: 32, l: 36 };
-    const svg = d3.select(host).html("").append("svg").attr("viewBox", `0 0 ${W} ${H}`)
-      .attr("role", "img").attr("aria-label", "Gráfico de barras: % de pobreza por tramo de edad, 2024 y 2025");
-    const keys = Object.keys(TRAMO_LABEL);
-    const x0 = d3.scaleBand().domain(keys).range([m.l, W - m.r]).paddingInner(0.28).paddingOuter(0.1);
-    const x1 = d3.scaleBand().domain(ANIOS).range([0, x0.bandwidth()]).paddingInner(0.08);
-    const y = d3.scaleLinear().domain([0, 40]).range([H - m.b, m.t]);
 
-    svg.append("g").attr("class", "gridline").attr("transform", `translate(${m.l},0)`)
-      .call(d3.axisLeft(y).ticks(4).tickSize(-(W - m.l - m.r)).tickFormat(""));
-    svg.append("g").attr("class", "axis").attr("transform", `translate(${m.l},0)`)
-      .call(d3.axisLeft(y).ticks(4).tickFormat((d) => d + "%").tickSize(0)).call((g) => g.select(".domain").remove());
-    svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`)
-      .call(d3.axisBottom(x0).tickSize(0).tickPadding(10).tickFormat((d) => d === "65+" ? "65+" : d + " años"));
-
-    const rr = 4;
-    const g = svg.append("g").selectAll("g").data(tramos).join("g")
-      .attr("transform", (d) => `translate(${x0(d.tramo) + x1(d.anio)},0)`);
-    g.append("path")
-      .attr("fill", (d) => yearColor(d.anio))
-      .attr("d", (d) => {
-        const w = x1.bandwidth(), y0 = y(0), yt = y(d.pct_pobreza), r = Math.min(rr, w / 2, y0 - yt);
-        return `M0,${y0}V${yt + r}Q0,${yt} ${r},${yt}H${w - r}Q${w},${yt} ${w},${yt + r}V${y0}Z`;
-      });
-    g.append("text").attr("class", "val").attr("text-anchor", "middle")
-      .attr("x", x1.bandwidth() / 2).attr("y", (d) => y(d.pct_pobreza) - 6)
-      .text((d) => Math.round(d.pct_pobreza));
-    g.append("rect").attr("fill", "transparent").attr("x", -2).attr("width", x1.bandwidth() + 4)
-      .attr("y", m.t).attr("height", H - m.t - m.b)
-      .on("pointermove", (ev, d) => showTip(
-        `<b>${TRAMO_LABEL[d.tramo]} · ${d.anio}</b><div class="row"><span class="sw" style="background:${yearColor(d.anio)}"></span>En hogares pobres<strong>${fmt(d.pct_pobreza)}</strong></div><div class="row">Personas encuestadas<strong>${d.n_muestra.toLocaleString("es-UY")}</strong></div>`, ev))
-      .on("pointerleave", hideTip);
-  }
 
   // ---------- 3. Line by single age ----------
   function rolling(rows) {
@@ -278,15 +243,14 @@
     document.getElementById("map-legend").innerHTML = RAMP.map((c, i) =>
       `<div class="step"><div class="chip" style="background:${c}"></div><span>${i === 0 ? "<15%" : edges[i] + (i === RAMP.length - 1 ? "%+" : "")}</span></div>`).join("");
   }
-  seg("anio-seg-mapa", ANIOS.map((a) => [a, String(a)]), () => state.anioMapa, (v) => { state.anioMapa = v; renderMap(); });
 
   // ---------- render ----------
-  function renderAll() { renderHero(); renderTramo(); renderEdad(); renderMap(); }
+  function renderAll() { renderHero(); renderEdad(); renderMap(); }
   renderAll();
   geo = await loadGeo();
   if (geo) renderMap();
 
   let raf;
-  addEventListener("resize", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { renderTramo(); renderEdad(); renderMap(); }); });
+  addEventListener("resize", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { renderEdad(); renderMap(); }); });
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderAll);
 })();

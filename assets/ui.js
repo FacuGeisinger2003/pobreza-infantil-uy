@@ -65,23 +65,3 @@
     window.FUENTES = F;
   });
 })();
-
-// ---------- aviso al entrar (se cierra con el botón, Esc o clic afuera; una vez por sesión) ----------
-(function () {
-  const fondo = document.getElementById("aviso");
-  if (!fondo) return;
-  let visto = false;
-  try { visto = sessionStorage.getItem("aviso-visto") === "1"; } catch (e) {}
-  if (visto) return;
-  const btn = document.getElementById("aviso-ok");
-  const cerrar = () => {
-    fondo.hidden = true; document.body.classList.remove("aviso-abierto");
-    try { sessionStorage.setItem("aviso-visto", "1"); } catch (e) {}
-    removeEventListener("keydown", esc);
-  };
-  const esc = (e) => { if (e.key === "Escape") cerrar(); };
-  fondo.hidden = false; document.body.classList.add("aviso-abierto"); btn.focus();
-  btn.addEventListener("click", cerrar);
-  fondo.addEventListener("click", (e) => { if (e.target === fondo) cerrar(); });
-  addEventListener("keydown", esc);
-})();
